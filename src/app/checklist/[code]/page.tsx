@@ -89,7 +89,7 @@ export default function ChecklistPage({params}: {params:Promise<{code: string}>}
 
 	return (
 		<div className="flex flex-col items-center min-h-screen gap-8 bg-yellow-900 py-6 px-8">
-			{checklist ? (
+			{checklist && (
 				<>
 				<div className="">
 					<h1 contentEditable="true" dangerouslySetInnerHTML={{ __html: checklist.title }} onBlur={handleChangeTitle} className="text-6xl px-4"/>
@@ -104,10 +104,6 @@ export default function ChecklistPage({params}: {params:Promise<{code: string}>}
 					<AddTask code={checklist.code} refreshTasks={refreshTasks} />
 				</div>
 				</>
-				) : (
-				<div className="flex justify-center items-center min-h-screen">
-					<h1 className="text-3xl">Loading...</h1>
-				</div>
 				)}
 			
 		</div>

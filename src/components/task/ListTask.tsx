@@ -1,6 +1,7 @@
 import {useState,useEffect} from "react"
 import Task from "@/types/Task"
-import PutTask from "@/services/task/PutTask"
+import {PutTask, handleDeleteTask} from "@/services/task/QueryTask"
+import {Trash2} from "lucide-react"
 
 const apikey = process.env.NEXT_PUBLIC_API_KEY
 
@@ -51,6 +52,13 @@ export default function ListTask({code, tasks, setTasks, refreshTasks}: {code:st
 				{tasks && tasks.map(task => (
 					<div key={task.id} className="flex justify-between gap-8">
 						<div className="flex gap-4">
+							<button type="button" onClick={() => {
+								if(window.confirm("Wanna break this task?")) {
+									handleDeleteTask(task.id, setTasks, code)
+								}
+							}}>
+								<Trash2 size={20} />
+							</button>
 							<input type="checkbox" name="status" checked={task.status === "done"} onChange={() => handleChange(task.id)} />
 							<li data-key={task.id} className="text-2xl" contentEditable dangerouslySetInnerHTML={{ __html: task.title }} onBlur={handleBlur} />
 						</div>
