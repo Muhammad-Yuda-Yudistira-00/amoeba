@@ -29,7 +29,7 @@ export function PutTask(name: string, data: string, setTasks: () => void, code: 
 	.catch(err => console.error("Failed to update task: ", err))
 }
 
-export async function handleDeleteTask(taskId, setTasks, code) {
+export async function handleDeleteTask(taskId: number, setTasks: () => void, code: string) {
 	try {
 		const res = await fetch(`https://checklist.titik.my.id/api/checklist/${code}/task/${taskId}`,{
 			method: 'DELETE',
