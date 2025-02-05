@@ -47,7 +47,7 @@ const ItemTask = ({
 						touchAction: "none"
 					}}
 				>
-					<li data-key={task.id} className="text-2xl" contentEditable dangerouslySetInnerHTML={{ __html: task.title }} onBlur={handleBlur} />
+					<li data-key={task.id} className="text-2xl px-4" contentEditable dangerouslySetInnerHTML={{ __html: task.title }} onBlur={handleBlur} />
 				</div>
 			</div>
 			{task.status == "done" && (<span className="text-green-500">✔</span>)}						
