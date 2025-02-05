@@ -6,11 +6,11 @@ const apikey = process.env.NEXT_PUBLIC_API_KEY
 export default function AddTask({code, refreshTasks}: {code: string, refreshTasks: () => void}) {
 	const [task, setTask] = useState<string>("")
 
-	const handleChange = (e) => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setTask(e.currentTarget.value)
 	}
 
-	const handleSubmit = (e) => {
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		const formData = new URLSearchParams()
 		formData.append('title', task)
@@ -19,12 +19,12 @@ export default function AddTask({code, refreshTasks}: {code: string, refreshTask
 			method: "POST",
 			headers: {
 				"Content-Type": "application/x-www-form-urlencoded",
-				"x-api-key": apikey
+				"x-api-key": apikey!
 			},
 			body: formData
 		})
 		.then(res => res.json())
-		.then(data => {
+		.then(() => {
 			console.info("Success add new task.")
 			setTask("")
 			refreshTasks()

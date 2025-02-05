@@ -1,11 +1,15 @@
 import Image from "next/image"
 import Link from "next/link"
 
-export default function HomeSidebar({children}) {
+interface ChecklistSidebarProps {
+	children: React.ReactNode
+}
+
+export default function HomeSidebar({children}: ChecklistSidebarProps) {
 	return(
 		<div className="min-h-screen flex flex-row-reverse">
 			<div className="w-2/12 bg-lime-600 flex flex-col-reverse justify-between">
-				<div className="bg-yellow-500 px-2 py-4 text-center">
+				<div className="bg-yellow-500 px-2 py-4 text-center rounded-t-2xl">
 					<h2 className="text-stone-800 uppercase font-bold cursor-crosshair">Amoeba</h2>
 				</div>
 				<Link href="/">

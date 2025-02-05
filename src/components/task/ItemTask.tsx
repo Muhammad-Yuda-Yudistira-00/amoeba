@@ -14,7 +14,7 @@ const ItemTask = ({
 	}:{
 		task: Task,
 		code: string, 
-		setTasks: React.Dispatch<React.setStateAction<Task[]>>,
+		setTasks: React.Dispatch<React.SetStateAction<Task[]>>,
 		handleChange: (taskId: number) => void,
 		handleBlur: (e: React.FocusEvent) => void
 	}) => {
@@ -37,7 +37,7 @@ const ItemTask = ({
 				}}>
 					<Trash2 size={20} />
 				</button>
-				<input type="checkbox" name="status" checked={task.status === "done"} onChange={() => handleChange(task.id)} />
+				<input type="checkbox" name="status" checked={task.status === "done"} onChange={() => handleChange(task.id)} className="accent-lime-600" />
 				<div
 					ref={setNodeRef}
 					{...attributes}
@@ -47,10 +47,9 @@ const ItemTask = ({
 						touchAction: "none"
 					}}
 				>
-					<li data-key={task.id} className="text-2xl px-4" contentEditable dangerouslySetInnerHTML={{ __html: task.title }} onBlur={handleBlur} />
+					<li data-key={task.id} className={`text-2xl px-4 ${task.status === "done" ? "line-through" : ""}`} contentEditable dangerouslySetInnerHTML={{ __html: task.title }} onBlur={handleBlur} />
 				</div>
-			</div>
-			{task.status == "done" && (<span className="text-green-500">✔</span>)}						
+			</div>					
 		</div>
 	)
 }

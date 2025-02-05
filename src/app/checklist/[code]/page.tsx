@@ -5,7 +5,7 @@ import{useRouter} from "next/navigation"
 import ListTask from "@/components/task/ListTask"
 import AddTask from "@/components/task/AddTask"
 import Checklist from "@/types/Checklist"
-import Checklist from "@/types/Task"
+import Task from "@/types/Task"
 import {updateChecklist, deleteChecklist} from "@/services/checklist/QueryChecklist"
 import {DndContext, closestCorners, PointerSensor, TouchSensor, KeyboardSensor, useSensors, useSensor} from "@dnd-kit/core"
 import {sortableKeyboardCoordinates} from "@dnd-kit/sortable"
@@ -15,9 +15,9 @@ const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY
 
 export default function ChecklistPage({params}: {params:Promise<{code: string}>}){
-	const [checklist, setChecklist] = useState<Checklist>(null)
+	const [checklist, setChecklist] = useState<Checklist | null>(null)
 	const [tasks, setTasks] = useState<Task[]>([])
-	const [code, setCode] = useState<string>(null)
+	const [code, setCode] = useState<string>("")
 	const {push} = useRouter()
 
 	useEffect(() => {
@@ -27,13 +27,13 @@ export default function ChecklistPage({params}: {params:Promise<{code: string}>}
 				method: 'GET',
 				headers: {
 					"Content-Type": "application/json",
-					"x-api-key": apikey
+					"x-api-key": apikey!
 				}
 			})
 			.then(res => {
 				return res.json()
 			})
-			.then((data : {data: ChecklistData}) => {
+			.then((data : {data: Checklist}) => {
 				setChecklist(data.data)
 			})
 			.catch(err => {
@@ -48,7 +48,7 @@ export default function ChecklistPage({params}: {params:Promise<{code: string}>}
 		fetch(`${apiweb}/checklist/${code}/task`, {
 			headers: {
 				"Content-Type": "application/json",
-				"x-api-key": apikey
+				"x-api-key": apikey!
 			}
 		})
 	.then(res => res.json())
@@ -65,7 +65,7 @@ export default function ChecklistPage({params}: {params:Promise<{code: string}>}
 		setChecklist(prev => prev ? { ...prev, title: updatedTitle } : null)
 	}
 
-	const handleChangeDescription = (e: React.FormEvent<HTMLHeadingElement>) => {
+	const handleChangeDescription = (e: React.FocusEvent<HTMLElement>) => {
 		const target = e.currentTarget as HTMLElement
 		const updatedDescription = target.innerText
 
@@ -74,7 +74,7 @@ export default function ChecklistPage({params}: {params:Promise<{code: string}>}
 		setChecklist(prev => prev ? {...prev, description: updatedDescription} : null)
 	}
 
-	const handleDeleteCheklistClick = async (checklistCode) => {
+	const handleDeleteCheklistClick = async (checklistCode: string) => {
 		if(window.confirm("Are you sure???")) {
 			await deleteChecklist(checklistCode, push)
 		}
@@ -94,7 +94,7 @@ export default function ChecklistPage({params}: {params:Promise<{code: string}>}
 				<>
 					<div className="">
 						<h1 contentEditable="true" dangerouslySetInnerHTML={{ __html: checklist.title }} onBlur={handleChangeTitle} className="text-6xl px-4"/>
-						<div className="bg-yellow-400 text-center">
+						<div className="bg-yellow-400 text-center rounded-es-full rounded-se-full">
 							<small contentEditable="true" dangerouslySetInnerHTML={{ __html: checklist.description }} onBlur={handleChangeDescription} className="text-lg px-4 py-2 text-stone-800" />
 						</div>
 					</div>

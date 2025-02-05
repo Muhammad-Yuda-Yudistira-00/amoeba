@@ -2,7 +2,6 @@ import {useState,useEffect} from "react"
 import Task from "@/types/Task"
 import {PutTask} from "@/services/task/QueryTask"
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable"
-import {CSS} from '@dnd-kit/utilities'
 import ItemTask from '@/components/task/ItemTask'
 
 const apiweb = process.env.NEXT_PUBLIC_API_WEB
@@ -15,7 +14,7 @@ export default function ListTask({code, tasks, setTasks, refreshTasks}: {code:st
 		fetch(`${apiweb}/checklist/${code}/task`,{
 			headers: {
 				"Content-Type": "application/json",
-				"x-api-key": apikey
+				"x-api-key": apikey ?? ""
 			}	
 		})
 		.then(res => res.json())
@@ -26,14 +25,14 @@ export default function ListTask({code, tasks, setTasks, refreshTasks}: {code:st
 		.catch(err => console.error("Failed to get all task: ", err))
 	}, [code])
 
-	const handleBlur = (e) => {
-		const taskId = e.currentTarget.getAttribute("data-key")
-		const title = e.currentTarget.innerText
+	const handleBlur = (e: React.FocusEvent<Element>) => {
+		const taskId = Number(e.currentTarget.getAttribute("data-key"))
+		const title = (e.currentTarget as HTMLElement).innerText
 
 		PutTask('title', title, setTasks, code, taskId, refreshTasks)
 	}
 
-	const handleChange = (taskId) => {
+	const handleChange = (taskId: number) => {
 		const task = tasks.find(t => t.id === taskId)
 		if(!task) return
 		const newStatus = task.status === "done" ? "in_progress" : "done"

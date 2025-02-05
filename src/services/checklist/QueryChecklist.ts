@@ -8,21 +8,21 @@ export function updateChecklist(name: string, data: string, code: string): void 
 		method: "PATCH",
 		headers: {
 			"Content-Type": "application/x-www-form-urlencoded",
-			"x-api-key": apikey
+			"x-api-key": apikey ?? ""
 		},
 		body: formData
 	})
 	.then(res => res.json())
-	.then(data => console.info(`Success updated ${name}.`))
+	.then(() => console.info(`Success updated ${name}.`))
 	.catch(err => console.error('Failed to updated title: ', err))
 }
 
-export async function deleteChecklist(checklistId: number, push: (url: string) => void): void {
+export async function deleteChecklist(checklistCode: string, push: (url: string) => void): Promise<void> {
 	try{
-		const res = await fetch(`${apiweb}/checklist/${checklistId}`, {
+		const res = await fetch(`${apiweb}/checklist/${checklistCode}`, {
 			method: "DELETE",
 			headers: {
-				"x-api-key": apikey
+				"x-api-key": apikey ?? ""
 			}
 		})
 

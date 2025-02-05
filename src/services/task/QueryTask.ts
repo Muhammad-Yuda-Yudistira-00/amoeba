@@ -1,10 +1,12 @@
+import Task from "@/types/Task"
+
 const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY
 
 export function PutTask(
 	name: string, 
 	data: string, 
-	setTasks: () => void, 
+	setTasks: React.Dispatch<React.SetStateAction<Task[]>>, 
 	code: string, 
 	taskId: number, 
 	refreshTasks: () => void
@@ -20,7 +22,7 @@ export function PutTask(
 		method: "PATCH",
 		headers: {
 			"Content-Type": "application/x-www-form-urlencoded",
-			"x-api-key": apikey
+			"x-api-key": apikey ?? ""
 		},
 		body: formData
 	})
@@ -37,13 +39,13 @@ export function PutTask(
 	.catch(err => console.error("Failed to update task: ", err))
 }
 
-export async function handleDeleteTask(taskId: number, setTasks: () => void, code: string) {
+export async function handleDeleteTask(taskId: number, setTasks: React.Dispatch<React.SetStateAction<Task[]>>, code: string) {
 	try {
 		const res = await fetch(`${apiweb}/checklist/${code}/task/${taskId}`,{
 			method: 'DELETE',
 			headers: {
 				"Content-Type": "application/json",
-				"x-api-key": apikey
+				"x-api-key": apikey ?? ""
 			}
 		})
 		if(!res.ok) throw new Error("Failed to delete task!")
