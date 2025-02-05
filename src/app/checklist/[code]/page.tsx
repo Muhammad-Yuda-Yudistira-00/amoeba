@@ -7,7 +7,11 @@ import AddTask from "@/components/task/AddTask"
 import Checklist from "@/types/Checklist"
 import Checklist from "@/types/Task"
 import {updateChecklist, deleteChecklist} from "@/services/checklist/QueryChecklist"
+import {DndContext, closestCorners, PointerSensor, TouchSensor, KeyboardSensor, useSensors, useSensor} from "@dnd-kit/core"
+import {sortableKeyboardCoordinates} from "@dnd-kit/sortable"
+import handleDragEnd from "@/libs/@dnd-kit/handleDragEnd"
 
+const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY
 
 export default function ChecklistPage({params}: {params:Promise<{code: string}>}){
@@ -19,7 +23,7 @@ export default function ChecklistPage({params}: {params:Promise<{code: string}>}
 	useEffect(() => {
 		params.then((resolvedParams) => {
 			setCode(resolvedParams.code)
-			fetch('https://checklist.titik.my.id/api/checklist/' + resolvedParams.code, {
+			fetch(`${apiweb}/checklist/${resolvedParams.code}`, {
 				method: 'GET',
 				headers: {
 					"Content-Type": "application/json",
@@ -41,7 +45,7 @@ export default function ChecklistPage({params}: {params:Promise<{code: string}>}
 
 	const refreshTasks = () => {
 		if(!code) return
-		fetch(`https://checklist.titik.my.id/api/checklist/${code}/task`, {
+		fetch(`${apiweb}/checklist/${code}/task`, {
 			headers: {
 				"Content-Type": "application/json",
 				"x-api-key": apikey
@@ -76,6 +80,14 @@ export default function ChecklistPage({params}: {params:Promise<{code: string}>}
 		}
 	}
 
+	const sensors = useSensors(
+		useSensor(PointerSensor),
+		useSensor(TouchSensor),
+		useSensor(KeyboardSensor, {
+			coordinateGetter: sortableKeyboardCoordinates
+		})
+	)
+
 	return (
 		<div className="flex flex-col items-center min-h-screen gap-8 bg-yellow-900 py-6 px-8">
 			{checklist ? (
@@ -87,13 +99,15 @@ export default function ChecklistPage({params}: {params:Promise<{code: string}>}
 						</div>
 					</div>
 					<div>
-						<ListTask code={checklist.code} tasks={tasks} setTasks={setTasks} refreshTasks={refreshTasks} />
+						<DndContext collisionDetection={closestCorners} onDragEnd={(e) => handleDragEnd(e, tasks, setTasks, code)} sensors={sensors} >
+							<ListTask code={checklist.code} tasks={tasks} setTasks={setTasks} refreshTasks={refreshTasks} />
+						</DndContext>
 					</div>
 					<div>
 						<AddTask code={checklist.code} refreshTasks={refreshTasks} />
 					</div>
 					<div>
-						<small>👊🏻💥 Break this task ??? <button type="button" onClick={() => handleDeleteCheklistClick(checklist.code)} className="">Click Here</button></small>
+						<small>👊🏻💥 Break this task ??? <button type="button" onClick={() => handleDeleteCheklistClick(checklist.code)} className="hover:text-sky-400 underline font-bold">Click Here!!</button></small>
 					</div>
 				</>
 				) : (

@@ -1,9 +1,10 @@
+const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY
 
 export function updateChecklist(name: string, data: string, code: string): void {
 	const formData = new URLSearchParams()
 	formData.append(name, data)
-	fetch('https://checklist.titik.my.id/api/checklist/' + code, {
+	fetch(`${apiweb}/checklist/${code}`, {
 		method: "PATCH",
 		headers: {
 			"Content-Type": "application/x-www-form-urlencoded",
@@ -18,7 +19,7 @@ export function updateChecklist(name: string, data: string, code: string): void 
 
 export async function deleteChecklist(checklistId: number, push: (url: string) => void): void {
 	try{
-		const res = await fetch(`https://checklist.titik.my.id/api/checklist/${checklistId}`, {
+		const res = await fetch(`${apiweb}/checklist/${checklistId}`, {
 			method: "DELETE",
 			headers: {
 				"x-api-key": apikey

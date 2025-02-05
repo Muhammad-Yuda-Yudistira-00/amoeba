@@ -1,5 +1,6 @@
 import {useState} from "react"
 
+const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY
 
 export default function AddTask({code, refreshTasks}: {code: string, refreshTasks: () => void}) {
@@ -14,7 +15,7 @@ export default function AddTask({code, refreshTasks}: {code: string, refreshTask
 		const formData = new URLSearchParams()
 		formData.append('title', task)
 		setTask(e.currentTarget.value)
-		fetch(`https://checklist.titik.my.id/api/checklist/${code}/task`, {
+		fetch(`${apiweb}/checklist/${code}/task`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/x-www-form-urlencoded",
@@ -34,7 +35,7 @@ export default function AddTask({code, refreshTasks}: {code: string, refreshTask
 	return (
 			<form onSubmit={handleSubmit}>
 				<input type="text" name="task" value={task} onChange={handleChange} placeholder="write your ide.." className="text-stone-900 px-2" />
-				<button className="px-4 py-2 bg-stone-400 border-4 rounded-2xl">Add</button>
+				<button className="px-4 py-2 ml-2 bg-transparent font-bold hover:bg-lime-700 border-4 rounded-2xl uppercase">Add</button>
 			</form>
 		)
 }

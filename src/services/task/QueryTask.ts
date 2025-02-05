@@ -1,6 +1,14 @@
+const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY
 
-export function PutTask(name: string, data: string, setTasks: () => void, code: string, taskId: number, refreshTasks: () => void) {
+export function PutTask(
+	name: string, 
+	data: string, 
+	setTasks: () => void, 
+	code: string, 
+	taskId: number, 
+	refreshTasks: () => void
+) {
 	const formData = new URLSearchParams()
 	if(name === 'title') {
 		formData.append('title', data)
@@ -8,7 +16,7 @@ export function PutTask(name: string, data: string, setTasks: () => void, code: 
 		formData.append('status', data)
 	}
 
-	fetch(`https://checklist.titik.my.id/api/checklist/${code}/task/${taskId}`, {
+	fetch(`${apiweb}/checklist/${code}/task/${taskId}`, {
 		method: "PATCH",
 		headers: {
 			"Content-Type": "application/x-www-form-urlencoded",
@@ -31,7 +39,7 @@ export function PutTask(name: string, data: string, setTasks: () => void, code: 
 
 export async function handleDeleteTask(taskId: number, setTasks: () => void, code: string) {
 	try {
-		const res = await fetch(`https://checklist.titik.my.id/api/checklist/${code}/task/${taskId}`,{
+		const res = await fetch(`${apiweb}/checklist/${code}/task/${taskId}`,{
 			method: 'DELETE',
 			headers: {
 				"Content-Type": "application/json",
