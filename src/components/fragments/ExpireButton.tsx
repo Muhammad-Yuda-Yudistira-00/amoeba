@@ -1,6 +1,6 @@
 "use client"
 
-const ExpireButton = ({expiredAt, onExpireClick}: {expiredAt: string, onExpireClick: () => void}) => {
+const ExpireButton = ({onExpireClick}: {onExpireClick: () => void}) => {
 	return (
 		<div className="flex justify-center gap-4 py-2">
 			<small>Reset expired date???</small>

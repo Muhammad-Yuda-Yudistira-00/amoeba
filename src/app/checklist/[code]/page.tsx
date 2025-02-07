@@ -10,7 +10,8 @@ import {updateChecklist, deleteChecklist} from "@/services/checklist/QueryCheckl
 import {DndContext, closestCorners, PointerSensor, TouchSensor, KeyboardSensor, useSensors, useSensor} from "@dnd-kit/core"
 import {sortableKeyboardCoordinates} from "@dnd-kit/sortable"
 import handleDragEnd from "@/libs/@dnd-kit/handleDragEnd"
-import Footer from"@/components/elements/Footer"
+import Footer from "@/components/elements/Footer"
+import Donation from "@/components/elements/Donation"
 
 const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY
@@ -122,7 +123,8 @@ export default function ChecklistPage({params}: {params:Promise<{code: string}>}
 							<AddTask code={checklist.code} refreshTasks={refreshTasks} />
 						</div>
 						<div>
-							<small>👊🏻💥 Break this task ??? <button type="button" onClick={() => handleDeleteCheklistClick(checklist.code)} className="hover:text-sky-400 underline font-bold">Click Here!!</button></small>
+							<small>👊🏻💥 Break this task ??? <button type="button" onClick={() => handleDeleteCheklistClick(checklist.code)} className="hover:text-yellow-400 font-bold">Click Here!!</button></small>
+							<Donation />
 						</div>
 					</div>
 					<div className="h-2/12 text-center w-full bg-yellow-800 rounded-2xl">

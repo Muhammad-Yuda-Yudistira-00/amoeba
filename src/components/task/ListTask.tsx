@@ -23,7 +23,7 @@ export default function ListTask({code, tasks, setTasks, refreshTasks}: {code:st
 			setTotalItems(data.pagination.totalItems)
 		})
 		.catch(err => console.error("Failed to get all task: ", err))
-	}, [code])
+	}, [code,setTasks])
 
 	const handleBlur = (e: React.FocusEvent<Element>) => {
 		const taskId = Number(e.currentTarget.getAttribute("data-key"))

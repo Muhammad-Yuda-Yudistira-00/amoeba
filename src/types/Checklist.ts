@@ -4,6 +4,7 @@ type Checklist = {
 	code: string;
 	description: string;
 	createdAt: string;
+	expiredAt: string
 }
 
 export default Checklist
