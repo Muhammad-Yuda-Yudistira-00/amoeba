@@ -92,15 +92,16 @@ export default function ChecklistPage({params}: {params:Promise<{code: string}>}
 
 	const handleExpireClick = async () => {
 		const expiredAt = new Date()
-		const updatedExpiredAt = expiredAt.setMonth(expiredAt.getMonth() + 1)
 
-		setChecklist(prev => prev ? {...prev, updatedExpiredAt} : null)
+		const updatedExpiredAt = new Date(expiredAt)
+		updatedExpiredAt.setMonth(expiredAt.getMonth() + 1)
+
+		setChecklist(prev => prev ? {...prev, expiredAt: updatedExpiredAt.toISOString()} : null)
 		try{
 			await updateChecklist('expiredAt', updatedExpiredAt, code)
 		} catch(error) {
 			console.error("Error: ", error)
 		}
-
 	}
 
 	return (

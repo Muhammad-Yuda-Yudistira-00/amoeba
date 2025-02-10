@@ -1,9 +1,12 @@
 const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY
 
-export function updateChecklist(name: string, data: string | number, code: string): void {
+export function updateChecklist(name: string, data: string | number | Date, code: string): void {
 	const formData = new URLSearchParams()
-	formData.append(name, data.toString())
+
+	const value = data instanceof Date ? data.toISOString() : data.toString()
+	formData.append(name, value)
+
 	fetch(`${apiweb}/checklist/${code}`, {
 		method: "PATCH",
 		headers: {
