@@ -4,9 +4,18 @@ import ChecklistClient from '@/components/elements/ChecklistClient'
 const apiweb = process.env.API_WEB
 const apikey = process.env.API_KEY
 
-export default async function ChecklistPage({params}: {params: {code: string}}) {
+interface PageProps {
+	params: Promise<{code: string}>
+}
+
+export default async function ChecklistPage({params}: PageProps) {
+	const resolvedParams = await params
+	if(!resolvedParams?.code) {
+		notFound()
+	}
+
 	try {
-		const res = await fetch(`${apiweb}/checklist/${params.code}`,{
+		const res = await fetch(`${apiweb}/checklist/${resolvedParams.code}`,{
 			cache: "no-store",
 			headers: {
 				'Content-Type': 'application/json',
@@ -18,11 +27,10 @@ export default async function ChecklistPage({params}: {params: {code: string}}) 
 			return notFound()
 		}
 
-		const data = await res.json()
-		console.log({data})
+		const result = await res.json()
 
 		return(
-			<ChecklistClient initialData={data} code={params.code} />
+			<ChecklistClient initialData={result.data} code={resolvedParams.code} />
 		)
 	} catch(error) {
 		console.error("Error: ", error)

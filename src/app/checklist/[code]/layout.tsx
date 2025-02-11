@@ -13,7 +13,7 @@ export default function HomeSidebar({children}: ChecklistSidebarProps) {
 					<h2 className="text-stone-800 uppercase font-bold cursor-crosshair">Amoeba</h2>
 				</div>
 				<Link href="/">
-					<Image src="/logo/amoeba-1.png" alt="logo" width={200} height={200} title="Back to home" priority />
+					<Image src="/alt-logo/amoeba-1.png" alt="logo" width={200} height={200} title="Back to home" priority />
 				</Link>
 			</div>
 			<div className="w-10/12">

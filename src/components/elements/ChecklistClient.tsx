@@ -1,6 +1,6 @@
 "use client"
 
-import {useEffect, useState} from "react"
+import {useState} from "react"
 import{useRouter} from "next/navigation"
 import ListTask from "@/components/task/ListTask"
 import AddTask from "@/components/task/AddTask"
@@ -12,13 +12,12 @@ import {sortableKeyboardCoordinates} from "@dnd-kit/sortable"
 import handleDragEnd from "@/libs/@dnd-kit/handleDragEnd"
 import Footer from "@/components/elements/Footer"
 import Donation from "@/components/elements/Donation"
-import {notFound} from "next/navigation"
 
 const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY
 
 export default function ChecklistClient({initialData, code}: {initialData: Checklist, code: string}){
-	const [checklist, setChecklist] = useState<Checklist | null>(initialData.data)
+	const [checklist, setChecklist] = useState<Checklist | null>(initialData)
 	const [tasks, setTasks] = useState<Task[]>([])
 	// const [code, setCode] = useState<string>("")
 	const {push} = useRouter()

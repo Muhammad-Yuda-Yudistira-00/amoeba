@@ -16,7 +16,7 @@ export default function Home() {
       method: "POST",
       headers: {
         "Conten-Type": "application/json",
-        "x-api-key": apikey
+        "x-api-key": apikey!
       }
     }).then(res => res.json())
     .then(data => {
