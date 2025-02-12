@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Script from "next/script"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,18 +26,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-30774F78SL"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-30774F78SL"></Script>
+        <Script>
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
 
-          gtag('config', 'G-30774F78SL');
-        </script>
-
+            gtag('config', 'G-30774F78SL');
+          `}
+        </Script>
         <meta name="apple-mobile-web-app-title" content="Amoeba List" />
-        
+
         <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
       </head>
       <body
