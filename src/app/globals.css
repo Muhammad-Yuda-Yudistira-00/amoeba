@@ -19,3 +19,7 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+body, a, button, select, checkbox [contenteditable="true"] {
+  cursor: url(/themes/house-fly.cur), auto !important;
+}

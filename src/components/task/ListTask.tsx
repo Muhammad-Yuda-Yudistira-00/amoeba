@@ -7,11 +7,11 @@ import ItemTask from '@/components/task/ItemTask'
 const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY
 
-export default function ListTask({code, tasks, setTasks, refreshTasks}: {code:string, tasks: Task[], setTasks: React.Dispatch<React.SetStateAction<Task[]>>, refreshTasks: () => void}) {
+export default function ListTask({code, tasks, setTasks, refreshTasks, activePage}: {code:string, tasks: Task[], setTasks: React.Dispatch<React.SetStateAction<Task[]>>, refreshTasks: () => void, activePage: number}) {
 	const [totalItems, setTotalItems] = useState<number>(0)
 
 	useEffect(() => {
-		fetch(`${apiweb}/checklist/${code}/task`,{
+		fetch(`${apiweb}/checklist/${code}/task?page=${activePage}`,{
 			headers: {
 				"Content-Type": "application/json",
 				"x-api-key": apikey ?? ""
@@ -23,7 +23,7 @@ export default function ListTask({code, tasks, setTasks, refreshTasks}: {code:st
 			setTotalItems(data.pagination.totalItems)
 		})
 		.catch(err => console.error("Failed to get all task: ", err))
-	}, [code,setTasks])
+	}, [code,setTasks,activePage])
 
 	const handleBlur = (e: React.FocusEvent<Element>) => {
 		const taskId = Number(e.currentTarget.getAttribute("data-key"))

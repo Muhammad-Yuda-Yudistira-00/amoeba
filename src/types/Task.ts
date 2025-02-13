@@ -5,4 +5,11 @@ type Task = {
 	status: string;
 }
 
+export type PaginationProps = {
+	currentPage: number;
+	perPage: number;
+	totalPages: number;
+	totalItems: number;
+}
+
 export default Task

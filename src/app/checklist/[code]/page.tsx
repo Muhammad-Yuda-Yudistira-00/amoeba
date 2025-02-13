@@ -6,10 +6,12 @@ const apikey = process.env.API_KEY
 
 interface PageProps {
 	params: Promise<{code: string}>
+	searchParams: Promise<{page?: number}>
 }
 
-export default async function ChecklistPage({params}: PageProps) {
+export default async function ChecklistPage({params, searchParams}: PageProps) {
 	const resolvedParams = await params
+	const activePage = await searchParams
 	if(!resolvedParams?.code) {
 		notFound()
 	}
@@ -30,7 +32,7 @@ export default async function ChecklistPage({params}: PageProps) {
 		const result = await res.json()
 
 		return(
-			<ChecklistClient initialData={result.data} code={resolvedParams.code} />
+			<ChecklistClient initialData={result.data} code={resolvedParams.code} activePage={activePage.page} />
 		)
 	} catch(error) {
 		console.error("Error: ", error)
