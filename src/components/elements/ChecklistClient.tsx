@@ -36,7 +36,7 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 		})
 		.then(res => res.json())
 		.then(data => {
-			setTasks(data.data)
+			setTasks([...data.data])
 			setPagination(data.pagination)
 		})
 		.catch(err => console.error("Failed to get all task: ", err))
@@ -105,7 +105,7 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 						<ChecklistHeader checklist={checklist} onChangeTitle={handleChangeTitle} onChangeDescription={handleChangeDescription} />
 						<div>
 							<DndContext collisionDetection={closestCorners} onDragEnd={(e) => handleDragEnd(e, tasks, setTasks, code)} sensors={sensors} >
-								<ListTask code={code} tasks={tasks} setTasks={setTasks} refreshTasks={refreshTasks} activePage={activePage} />
+								<ListTask code={code} tasks={tasks} setTasks={setTasks} refreshTasks={refreshTasks} />
 							</DndContext>
 						</div>
 						<div>

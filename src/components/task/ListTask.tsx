@@ -4,26 +4,12 @@ import {PutTask} from "@/services/task/QueryTask"
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable"
 import ItemTask from '@/components/task/ItemTask'
 
-const apiweb = process.env.NEXT_PUBLIC_API_WEB
-const apikey = process.env.NEXT_PUBLIC_API_KEY
-
-export default function ListTask({code, tasks, setTasks, refreshTasks, activePage}: {code:string, tasks: Task[], setTasks: React.Dispatch<React.SetStateAction<Task[]>>, refreshTasks: () => void, activePage: number}) {
+export default function ListTask({code, tasks, setTasks, refreshTasks}: {code:string, tasks: Task[], setTasks: React.Dispatch<React.SetStateAction<Task[]>>, refreshTasks: () => void}) {
 	const [totalItems, setTotalItems] = useState<number>(0)
 
 	useEffect(() => {
-		fetch(`${apiweb}/checklist/${code}/task?page=${activePage}`,{
-			headers: {
-				"Content-Type": "application/json",
-				"x-api-key": apikey ?? ""
-			}	
-		})
-		.then(res => res.json())
-		.then(data => {
-			setTasks(data.data)
-			setTotalItems(data.pagination.totalItems)
-		})
-		.catch(err => console.error("Failed to get all task: ", err))
-	}, [code,setTasks,activePage,totalItems])
+		setTotalItems(tasks.length)
+	}, [tasks])
 
 	const handleBlur = (e: React.FocusEvent<Element>) => {
 		const taskId = Number(e.currentTarget.getAttribute("data-key"))
