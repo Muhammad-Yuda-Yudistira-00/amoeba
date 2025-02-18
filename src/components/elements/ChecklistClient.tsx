@@ -57,14 +57,14 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 		.catch((err) => console.error("Failed to get all tasks: ", err));
 	}
 
-	const handleChangeTitle = (e: React.FocusEvent<HTMLHeadingElement>) => {
-		const target = e.currentTarget as HTMLElement
-		const updatedTitle = target.innerText
+	// const handleChangeTitle = (e: React.FocusEvent<HTMLHeadingElement>) => {
+	// 	const target = e.currentTarget as HTMLElement
+	// 	const updatedTitle = target.innerText
 
-		updateChecklist('title', updatedTitle, code)
+	// 	updateChecklist('title', updatedTitle, code)
 
-		setChecklist(prev => prev ? { ...prev, title: updatedTitle } : null)
-	}
+	// 	setChecklist(prev => prev ? { ...prev, title: updatedTitle } : null)
+	// }
 
 	const handleChangeDescription = (e: React.FocusEvent<HTMLElement>) => {
 		const target = e.currentTarget as HTMLElement
@@ -102,7 +102,7 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 			<div className="flex flex-col items-center h-screen gap-8 bg-yellow-900 py-2 px-8 w-4/5">
 				<div className="flex flex-col justify-between h-full">
 					<div className="flex flex-col items-center gap-3">
-						<ChecklistHeader checklist={checklist} onChangeTitle={handleChangeTitle} onChangeDescription={handleChangeDescription} />
+						<ChecklistHeader checklist={checklist} onChangeDescription={handleChangeDescription} code={code} setChecklist={setChecklist} />
 						<div>
 							<DndContext collisionDetection={closestCorners} onDragEnd={(e) => handleDragEnd(e, tasks, setTasks, code)} sensors={sensors} >
 								<ListTask code={code} tasks={tasks} setTasks={setTasks} refreshTasks={refreshTasks} />

@@ -31,7 +31,7 @@ const ItemTask = ({
 		>
 			<div className="flex gap-4">
 				<button type="button" onClick={() => {
-					if(window.confirm("Wanna break this task?")) {
+					if(confirm("Wanna break this task?")) {
 						handleDeleteTask(task.id, setTasks, code)
 					}
 				}}>

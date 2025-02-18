@@ -22,6 +22,15 @@ export function updateChecklist(name: string, data: string | number | Date, code
 	.catch(err => console.error('Failed to updated title: ', err))
 }
 
+export function handleChangeTitle (e: React.FocusEvent<HTMLHeadingElement>, code: string, setChecklist: React.Dispatch<React.SetStateAction<Checklist | null>>) {
+	const target = e.currentTarget as HTMLElement
+	const updatedTitle = target.innerText
+
+	updateChecklist('title', updatedTitle, code)
+
+	setChecklist(prev => prev ? { ...prev, title: updatedTitle } : null)
+}
+
 export async function resetExpiredChecklist(code: string, setChecklist: React.Dispatch<React.SetStateAction<Checklist | null>>) {
 	const expiredAt = new Date()
 
