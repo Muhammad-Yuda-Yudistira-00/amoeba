@@ -1,20 +1,22 @@
 import timeToHuman from "@/utils/timeToHuman"
 import ExpireButton from "@/components/fragments/ExpireButton"
+import Checklist from "@/types/Checklist"
 
 type FooterProps = {
-	expiredAt: string
-	onExpireClick: () => void
+	expiredAt: string | undefined
+	code: string
+	setChecklist: React.Dispatch<React.SetStateAction<Checklist | null>>
 }
 
-const Footer: React.FC<FooterProps> = ({expiredAt, onExpireClick}) => {
-	const expire = timeToHuman(expiredAt)
+const Footer: React.FC<FooterProps> = ({expiredAt, code, setChecklist}) => {
+	const expire: number | undefined = timeToHuman(expiredAt ?? "")
 	return(
 		<footer>
 			<div>
 				<p className="text-stone-300">Your checklist active still in <span className="text-yellow-400 font-bold text-lg">{expire} / 30</span> days.</p>
 			</div>
 			<div>
-				<ExpireButton onExpireClick={onExpireClick} />
+				<ExpireButton code={code} setChecklist={setChecklist} />
 			</div>
 		</footer>
 	)

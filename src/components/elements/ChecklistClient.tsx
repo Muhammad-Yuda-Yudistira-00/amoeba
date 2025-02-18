@@ -5,7 +5,7 @@ import{useRouter} from "next/navigation"
 import ListTask from "@/components/task/ListTask"
 import AddTask from "@/components/task/AddTask"
 import Task, {PaginationProps} from "@/types/Task"
-import {deleteChecklist} from "@/services/checklist/QueryChecklist"
+import {deleteChecklist, updateChecklist} from "@/services/checklist/QueryChecklist"
 import {DndContext, closestCorners, PointerSensor, TouchSensor, KeyboardSensor, useSensors, useSensor} from "@dnd-kit/core"
 import {sortableKeyboardCoordinates} from "@dnd-kit/sortable"
 import handleDragEnd from "@/libs/@dnd-kit/handleDragEnd"
@@ -13,6 +13,7 @@ import Footer from "@/components/elements/Footer"
 import Donation from "@/components/elements/Donation"
 import Pagination from "@/components/elements/Pagination"
 import ChecklistHeader from "@/components/elements/ChecklistHeader"
+import Checklist from "@/types/Checklist"
 
 const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY
@@ -20,6 +21,8 @@ const apikey = process.env.NEXT_PUBLIC_API_KEY
 export default function ChecklistClient({initialData, code, activePage}: {initialData: Checklist, code: string, activePage?: number}){
 	const [tasks, setTasks] = useState<Task[]>([])
 	const [pagination, setPagination] = useState<PaginationProps | null>(null)
+	const [checklist, setChecklist] = useState<Checklist | null>(initialData)
+
 	activePage = activePage ? activePage : 1
 
 	const {push} = useRouter()
@@ -37,7 +40,7 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 			setPagination(data.pagination)
 		})
 		.catch(err => console.error("Failed to get all task: ", err))
-	}, [code,setTasks,activePage])
+	}, [code,activePage])
 
 	const refreshTasks = () => {
 		if(!code) return
@@ -54,6 +57,24 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 		.catch((err) => console.error("Failed to get all tasks: ", err));
 	}
 
+	const handleChangeTitle = (e: React.FocusEvent<HTMLHeadingElement>) => {
+		const target = e.currentTarget as HTMLElement
+		const updatedTitle = target.innerText
+
+		updateChecklist('title', updatedTitle, code)
+
+		setChecklist(prev => prev ? { ...prev, title: updatedTitle } : null)
+	}
+
+	const handleChangeDescription = (e: React.FocusEvent<HTMLElement>) => {
+		const target = e.currentTarget as HTMLElement
+		const updatedDescription = target.innerText
+
+		updateChecklist('description', updatedDescription, code)
+		
+		setChecklist(prev => prev ? {...prev, description: updatedDescription} : null)
+	}
+
 	const handleDeleteCheklistClick = async (checklistCode: string) => {
 		if(window.confirm("Are you sure???")) {
 			await deleteChecklist(checklistCode, push)
@@ -68,20 +89,6 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 		})
 	)
 
-	const handleExpireClick = async () => {
-		const expiredAt = new Date()
-
-		const updatedExpiredAt = new Date(expiredAt)
-		updatedExpiredAt.setMonth(expiredAt.getMonth() + 1)
-
-		setChecklist(prev => prev ? {...prev, expiredAt: updatedExpiredAt.toISOString()} : null)
-		try{
-			await updateChecklist('expiredAt', updatedExpiredAt, code)
-		} catch(error) {
-			console.error("Error: ", error)
-		}
-	}
-
 	return (
 		<div className="flex flex-row-reverse w-screen justify-end">
 			<div className="text-center py-4 flex flex-col items-center">
@@ -95,7 +102,7 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 			<div className="flex flex-col items-center h-screen gap-8 bg-yellow-900 py-2 px-8 w-4/5">
 				<div className="flex flex-col justify-between h-full">
 					<div className="flex flex-col items-center gap-3">
-						<ChecklistHeader code={code} initialData={initialData} />
+						<ChecklistHeader checklist={checklist} onChangeTitle={handleChangeTitle} onChangeDescription={handleChangeDescription} />
 						<div>
 							<DndContext collisionDetection={closestCorners} onDragEnd={(e) => handleDragEnd(e, tasks, setTasks, code)} sensors={sensors} >
 								<ListTask code={code} tasks={tasks} setTasks={setTasks} refreshTasks={refreshTasks} activePage={activePage} />
@@ -110,7 +117,7 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 						</div>
 					</div>
 					<div className="h-2/12 text-center w-full bg-yellow-800 rounded-2xl">
-						<Footer expiredAt={initialData.expiredAt} onExpireClick={handleExpireClick} />
+						<Footer expiredAt={checklist?.expiredAt} code={code} setChecklist={setChecklist} />
 					</div>
 				</div>
 			</div>

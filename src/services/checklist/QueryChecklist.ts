@@ -1,3 +1,5 @@
+import Checklist from "@/types/Checklist"
+
 const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY
 
@@ -18,6 +20,20 @@ export function updateChecklist(name: string, data: string | number | Date, code
 	.then(res => res.json())
 	.then(() => console.info(`Success updated ${name}.`))
 	.catch(err => console.error('Failed to updated title: ', err))
+}
+
+export async function resetExpiredChecklist(code: string, setChecklist: React.Dispatch<React.SetStateAction<Checklist | null>>) {
+	const expiredAt = new Date()
+
+	const updatedExpiredAt = new Date(expiredAt)
+	updatedExpiredAt.setMonth(expiredAt.getMonth() + 1)
+
+	setChecklist(prev => prev ? {...prev, expiredAt: updatedExpiredAt.toISOString()} : null)
+	try{
+		await updateChecklist('expiredAt', updatedExpiredAt, code)
+	} catch(error) {
+		console.error("Error: ", error)
+	}
 }
 
 export async function deleteChecklist(checklistCode: string, push: (url: string) => void): Promise<void> {
