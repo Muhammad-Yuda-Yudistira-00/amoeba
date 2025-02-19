@@ -55,7 +55,7 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 					<h3 className="text-lg">Pagination</h3>
 				</span>
 				<div>
-					{pagination && (<Pagination pagination={pagination} code={code} pagination={pagination} />)}
+					{pagination && (<Pagination pagination={pagination} code={code} />)}
 				</div>
 			</div>
 			<div className="flex flex-col items-center h-screen gap-8 bg-yellow-900 py-2 px-8 w-4/5">
@@ -64,11 +64,11 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 						<ChecklistHeader checklist={checklist} code={code} setChecklist={setChecklist} />
 						<div>
 							<DndContext collisionDetection={closestCorners} onDragEnd={(e) => handleDragEnd(e, tasks, setTasks, code)} sensors={sensors} >
-								<ListTask code={code} tasks={tasks} setTasks={setTasks} pagination={pagination} />
+								<ListTask code={code} tasks={tasks} setTasks={setTasks} pagination={pagination} setPagination={setPagination} />
 							</DndContext>
 						</div>
 						<div>
-							<AddTask code={code} pagination={pagination} setTasks={setTasks} />
+							<AddTask code={code} pagination={pagination} setTasks={setTasks} setPagination={setPagination} />
 						</div>
 						<div>
 							<ChecklistDelete code={code} />

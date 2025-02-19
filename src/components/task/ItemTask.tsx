@@ -11,14 +11,16 @@ const ItemTask = ({
 	setTasks,
 	handleChange,
 	handleBlur,
-	pagination
+	pagination,
+	setPagination
 	}:{
 		task: Task,
 		code: string, 
 		setTasks: React.Dispatch<React.SetStateAction<Task[]>>,
 		handleChange: (taskId: number) => void,
 		handleBlur: (e: React.FocusEvent) => void,
-		pagination: PaginationProps
+		pagination: PaginationProps,
+		setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>
 	}) => {
 	const {attributes, listeners, setNodeRef, transform, transition} = useSortable({id: task.id})
 
@@ -34,7 +36,7 @@ const ItemTask = ({
 			<div className="flex gap-4">
 				<button type="button" onClick={() => {
 					if(confirm("Wanna break this task?")) {
-						handleDeleteTask(task.id, setTasks, code, pagination)
+						handleDeleteTask(task.id, setTasks, code, pagination, setPagination)
 					}
 				}}>
 					<Trash2 size={20} />

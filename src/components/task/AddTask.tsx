@@ -1,11 +1,11 @@
 import {useState} from "react"
 import Task, {PaginationProps} from '@/types/Task'
-import {refreshTasks} from '@/services/task/QueryTask'
+import {CreateTask} from '@/services/task/QueryTask'
 
 const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY
 
-export default function AddTask({code, pagination, setTasks}: {code: string, pagination: PaginationProps, setTasks: React.Dispatch<React.SetStateAction<Task[]>>}) {
+export default function AddTask({code, pagination, setTasks, setPagination}: {code: string, pagination: PaginationProps, setTasks: React.Dispatch<React.SetStateAction<Task[]>>, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>}) {
 	const [task, setTask] = useState<string>("")
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -14,24 +14,10 @@ export default function AddTask({code, pagination, setTasks}: {code: string, pag
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-		const formData = new URLSearchParams()
-		formData.append('title', task)
+
 		setTask(e.currentTarget.value)
-		fetch(`${apiweb}/checklist/${code}/task`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/x-www-form-urlencoded",
-				"x-api-key": apikey!
-			},
-			body: formData
-		})
-		.then(res => res.json())
-		.then(() => {
-			console.info("Success add new task.")
-			setTask("")
-			refreshTasks(code, pagination, setTasks)
-		})
-		.catch(err => console.error("Failed to add new task: ", err))
+		
+		CreateTask(code, task, pagination, setTask, setTasks, setPagination)
 	}
 
 	return (

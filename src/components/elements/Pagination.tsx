@@ -3,10 +3,7 @@ import Link from 'next/link'
 import {useEffect} from 'react'
 import {refreshTasks} from '@/services/task/QueryTask'
 
-export default function Pagination({pagination, code, setTasks}: {pagination: PaginationProps, code: string, setTasks: React.Dispatch<React.SetStateAction<Task[]>>}) {
-	useEffect(() => {
-		refreshTasks(code, pagination, setTasks)
-	}, [pagination])
+export default function Pagination({pagination, code}: {pagination: PaginationProps, code: string}) {
 
 	return (
 		<ul className="pt-4">
