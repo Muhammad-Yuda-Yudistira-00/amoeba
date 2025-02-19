@@ -1,4 +1,4 @@
-import Task from "@/types/Task"
+import Task, {PaginationProps} from "@/types/Task"
 
 const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY
@@ -8,8 +8,8 @@ export function PutTask(
 	data: string, 
 	setTasks: React.Dispatch<React.SetStateAction<Task[]>>, 
 	code: string, 
-	taskId: number, 
-	refreshTasks: () => void
+	taskId: number,
+	pagination: PaginationProps
 ) {
 	const formData = new URLSearchParams()
 	if(name === 'title') {
@@ -34,7 +34,7 @@ export function PutTask(
 				task.id === taskId ? { ...task, data } : task 
 				)
 			)
-		refreshTasks()
+		refreshTasks(code, pagination, setTasks)
 	})
 	.catch(err => console.error("Failed to update task: ", err))
 }
@@ -54,4 +54,20 @@ export async function handleDeleteTask(taskId: number, setTasks: React.Dispatch<
 	} catch(err) {
 		console.error("Error: ", err)
 	}
+}
+
+const refreshTasks = (code: string, pagination: PaginationProps, setTasks: React.Dispatch<React.SetStateAction<Tasks | null>>) => {
+	if(!code) return
+		console.log('refresh: ', pagination.currentPage)
+	fetch(`${apiweb}/checklist/${code}/task?page=${pagination.currentPage}`, {
+		headers: {
+			"Content-Type": "application/json",
+			"x-api-key": apikey!
+		}
+	})
+	.then(res => res.json())
+	.then(data => {
+		setTasks(data.data)
+	})
+	.catch((err) => console.error("Failed to get all tasks: ", err));
 }

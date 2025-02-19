@@ -1,9 +1,10 @@
 import {useState} from "react"
+import Task, {PaginationProps} from '@/types/Task'
 
 const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY
 
-export default function AddTask({code, refreshTasks}: {code: string, refreshTasks: () => void}) {
+export default function AddTask({code, pagination, setTasks}: {code: string, pagination: PaginationProps, setTasks: React.Dispatch<React.SetStateAction<Task[]>>}) {
 	const [task, setTask] = useState<string>("")
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +28,7 @@ export default function AddTask({code, refreshTasks}: {code: string, refreshTask
 		.then(() => {
 			console.info("Success add new task.")
 			setTask("")
-			refreshTasks()
+			refreshTasks(code, pagination, setTasks)
 		})
 		.catch(err => console.error("Failed to add new task: ", err))
 	}

@@ -40,20 +40,21 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 		.catch(err => console.error("Failed to get all task: ", err))
 	}, [code,activePage])
 
-	const refreshTasks = () => {
-		if(!code) return
-		fetch(`${apiweb}/checklist/${code}/task?page=${activePage}`, {
-			headers: {
-				"Content-Type": "application/json",
-				"x-api-key": apikey!
-			}
-		})
-		.then(res => res.json())
-		.then(data => {
-			setTasks(data.data)
-		})
-		.catch((err) => console.error("Failed to get all tasks: ", err));
-	}
+	// const refreshTasks = () => {
+	// 	if(!code) return
+	// 		console.log('refresh: ', pagination.currentPage)
+	// 	fetch(`${apiweb}/checklist/${code}/task?page=${activePage}`, {
+	// 		headers: {
+	// 			"Content-Type": "application/json",
+	// 			"x-api-key": apikey!
+	// 		}
+	// 	})
+	// 	.then(res => res.json())
+	// 	.then(data => {
+	// 		setTasks(data.data)
+	// 	})
+	// 	.catch((err) => console.error("Failed to get all tasks: ", err));
+	// }
 
 	const sensors = useSensors(
 		useSensor(PointerSensor),
@@ -79,11 +80,11 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 						<ChecklistHeader checklist={checklist} code={code} setChecklist={setChecklist} />
 						<div>
 							<DndContext collisionDetection={closestCorners} onDragEnd={(e) => handleDragEnd(e, tasks, setTasks, code)} sensors={sensors} >
-								<ListTask code={code} tasks={tasks} setTasks={setTasks} refreshTasks={refreshTasks} />
+								<ListTask code={code} tasks={tasks} setTasks={setTasks} pagination={pagination} />
 							</DndContext>
 						</div>
 						<div>
-							<AddTask code={code} refreshTasks={refreshTasks} />
+							<AddTask code={code} pagination={pagination} setTasks={setTasks} />
 						</div>
 						<div>
 							<ChecklistDelete code={code} />

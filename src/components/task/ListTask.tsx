@@ -1,10 +1,10 @@
 import {useState,useEffect} from "react"
-import Task from "@/types/Task"
+import Task, {PaginationProps} from "@/types/Task"
 import {PutTask} from "@/services/task/QueryTask"
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable"
 import ItemTask from '@/components/task/ItemTask'
 
-export default function ListTask({code, tasks, setTasks, refreshTasks}: {code:string, tasks: Task[], setTasks: React.Dispatch<React.SetStateAction<Task[]>>, refreshTasks: () => void}) {
+export default function ListTask({code, tasks, setTasks, pagination}: {code:string, tasks: Task[], setTasks: React.Dispatch<React.SetStateAction<Task[]>>, pagination: PaginationProps}) {
 	const [totalItems, setTotalItems] = useState<number>(0)
 
 	useEffect(() => {
@@ -15,7 +15,7 @@ export default function ListTask({code, tasks, setTasks, refreshTasks}: {code:st
 		const taskId = Number(e.currentTarget.getAttribute("data-key"))
 		const title = (e.currentTarget as HTMLElement).innerText
 
-		PutTask('title', title, setTasks, code, taskId, refreshTasks)
+		PutTask('title', title, setTasks, code, taskId, pagination)
 	}
 
 	const handleChange = (taskId: number) => {
@@ -27,7 +27,7 @@ export default function ListTask({code, tasks, setTasks, refreshTasks}: {code:st
 				task.id === taskId ? {...task, status: newStatus} : task
 			)
 		})
-		PutTask('status', newStatus, setTasks, code, taskId, refreshTasks)
+		PutTask('status', newStatus, setTasks, code, taskId, pagination)
 	}
 
 	if(totalItems == 0) {
