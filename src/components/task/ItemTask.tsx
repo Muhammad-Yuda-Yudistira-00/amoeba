@@ -1,4 +1,4 @@
-import Task from '@/types/Task'
+import Task, {PagiinationProps} from '@/types/Task'
 import {handleDeleteTask} from '@/services/task/QueryTask'
 import {Trash2} from "lucide-react"
 import {useSortable} from "@dnd-kit/sortable"
@@ -10,13 +10,15 @@ const ItemTask = ({
 	code,
 	setTasks,
 	handleChange,
-	handleBlur
+	handleBlur,
+	pagination
 	}:{
 		task: Task,
 		code: string, 
 		setTasks: React.Dispatch<React.SetStateAction<Task[]>>,
 		handleChange: (taskId: number) => void,
-		handleBlur: (e: React.FocusEvent) => void
+		handleBlur: (e: React.FocusEvent) => void,
+		pagination: PaginationProps
 	}) => {
 	const {attributes, listeners, setNodeRef, transform, transition} = useSortable({id: task.id})
 
@@ -32,7 +34,7 @@ const ItemTask = ({
 			<div className="flex gap-4">
 				<button type="button" onClick={() => {
 					if(confirm("Wanna break this task?")) {
-						handleDeleteTask(task.id, setTasks, code)
+						handleDeleteTask(task.id, setTasks, code, pagination)
 					}
 				}}>
 					<Trash2 size={20} />

@@ -39,7 +39,7 @@ export function PutTask(
 	.catch(err => console.error("Failed to update task: ", err))
 }
 
-export async function handleDeleteTask(taskId: number, setTasks: React.Dispatch<React.SetStateAction<Task[]>>, code: string) {
+export async function handleDeleteTask(taskId: number, setTasks: React.Dispatch<React.SetStateAction<Task[]>>, code: string, pagination: PaginationProps) {
 	try {
 		const res = await fetch(`${apiweb}/checklist/${code}/task/${taskId}`,{
 			method: 'DELETE',
@@ -50,13 +50,14 @@ export async function handleDeleteTask(taskId: number, setTasks: React.Dispatch<
 		})
 		if(!res.ok) throw new Error("Failed to delete task!")
 		setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId))
+		refreshTasks(code, pagination, setTasks)
 		console.info("Success to delete task by id.")
 	} catch(err) {
 		console.error("Error: ", err)
 	}
 }
 
-const refreshTasks = (code: string, pagination: PaginationProps, setTasks: React.Dispatch<React.SetStateAction<Tasks | null>>) => {
+export function refreshTasks (code: string, pagination: PaginationProps, setTasks: React.Dispatch<React.SetStateAction<Tasks[]>>) {
 	if(!code) return
 		console.log('refresh: ', pagination.currentPage)
 	fetch(`${apiweb}/checklist/${code}/task?page=${pagination.currentPage}`, {

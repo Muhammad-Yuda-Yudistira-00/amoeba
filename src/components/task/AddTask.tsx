@@ -1,5 +1,6 @@
 import {useState} from "react"
 import Task, {PaginationProps} from '@/types/Task'
+import {refreshTasks} from '@/services/task/QueryTask'
 
 const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY

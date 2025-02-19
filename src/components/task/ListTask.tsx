@@ -39,7 +39,7 @@ export default function ListTask({code, tasks, setTasks, pagination}: {code:stri
 			<ul className="">
 				<SortableContext items={tasks} strategy={verticalListSortingStrategy} >
 					{tasks && tasks.map(task => (
-						<ItemTask key={task.id} task={task} code={code} setTasks={setTasks} handleChange={handleChange} handleBlur={handleBlur} />	
+						<ItemTask key={task.id} task={task} code={code} setTasks={setTasks} handleChange={handleChange} handleBlur={handleBlur} pagination={pagination} />	
 					))}
 				</SortableContext>
 			</ul>

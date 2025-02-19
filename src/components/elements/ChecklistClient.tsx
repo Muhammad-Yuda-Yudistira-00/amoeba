@@ -40,22 +40,6 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 		.catch(err => console.error("Failed to get all task: ", err))
 	}, [code,activePage])
 
-	// const refreshTasks = () => {
-	// 	if(!code) return
-	// 		console.log('refresh: ', pagination.currentPage)
-	// 	fetch(`${apiweb}/checklist/${code}/task?page=${activePage}`, {
-	// 		headers: {
-	// 			"Content-Type": "application/json",
-	// 			"x-api-key": apikey!
-	// 		}
-	// 	})
-	// 	.then(res => res.json())
-	// 	.then(data => {
-	// 		setTasks(data.data)
-	// 	})
-	// 	.catch((err) => console.error("Failed to get all tasks: ", err));
-	// }
-
 	const sensors = useSensors(
 		useSensor(PointerSensor),
 		useSensor(TouchSensor),
@@ -71,7 +55,7 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 					<h3 className="text-lg">Pagination</h3>
 				</span>
 				<div>
-					{pagination && (<Pagination pagination={pagination} code={code} />)}
+					{pagination && (<Pagination pagination={pagination} code={code} pagination={pagination} />)}
 				</div>
 			</div>
 			<div className="flex flex-col items-center h-screen gap-8 bg-yellow-900 py-2 px-8 w-4/5">
