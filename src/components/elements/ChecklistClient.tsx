@@ -1,11 +1,10 @@
 "use client"
 
 import {useState, useEffect} from "react"
-import{useRouter} from "next/navigation"
 import ListTask from "@/components/task/ListTask"
 import AddTask from "@/components/task/AddTask"
 import Task, {PaginationProps} from "@/types/Task"
-import {deleteChecklist, updateChecklist} from "@/services/checklist/QueryChecklist"
+import {updateChecklist} from "@/services/checklist/QueryChecklist"
 import {DndContext, closestCorners, PointerSensor, TouchSensor, KeyboardSensor, useSensors, useSensor} from "@dnd-kit/core"
 import {sortableKeyboardCoordinates} from "@dnd-kit/sortable"
 import handleDragEnd from "@/libs/@dnd-kit/handleDragEnd"
@@ -14,6 +13,7 @@ import Donation from "@/components/elements/Donation"
 import Pagination from "@/components/elements/Pagination"
 import ChecklistHeader from "@/components/elements/ChecklistHeader"
 import Checklist from "@/types/Checklist"
+import ChecklistDelete from "@/components/elements/checklist/ChecklistDelete"
 
 const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY
@@ -24,8 +24,6 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 	const [checklist, setChecklist] = useState<Checklist | null>(initialData)
 
 	activePage = activePage ? activePage : 1
-
-	const {push} = useRouter()
 
 	useEffect(() => {
 		fetch(`${apiweb}/checklist/${code}/task?page=${activePage}`,{
@@ -55,12 +53,6 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 			setTasks(data.data)
 		})
 		.catch((err) => console.error("Failed to get all tasks: ", err));
-	}
-
-	const handleDeleteCheklistClick = async (checklistCode: string) => {
-		if(window.confirm("Are you sure???")) {
-			await deleteChecklist(checklistCode, push)
-		}
 	}
 
 	const sensors = useSensors(
@@ -94,7 +86,7 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 							<AddTask code={code} refreshTasks={refreshTasks} />
 						</div>
 						<div>
-							<small>👊🏻💥 Break this task ??? <button type="button" onClick={() => handleDeleteCheklistClick(code)} className="hover:text-yellow-400 font-bold">Click Here!!</button></small>
+							<ChecklistDelete code={code} />
 							<Donation />
 						</div>
 					</div>
