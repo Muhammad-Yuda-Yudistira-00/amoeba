@@ -4,7 +4,6 @@ import {useState, useEffect} from "react"
 import ListTask from "@/components/task/ListTask"
 import AddTask from "@/components/task/AddTask"
 import Task, {PaginationProps} from "@/types/Task"
-import {updateChecklist} from "@/services/checklist/QueryChecklist"
 import {DndContext, closestCorners, PointerSensor, TouchSensor, KeyboardSensor, useSensors, useSensor} from "@dnd-kit/core"
 import {sortableKeyboardCoordinates} from "@dnd-kit/sortable"
 import handleDragEnd from "@/libs/@dnd-kit/handleDragEnd"
@@ -20,7 +19,12 @@ const apikey = process.env.NEXT_PUBLIC_API_KEY
 
 export default function ChecklistClient({initialData, code, activePage}: {initialData: Checklist, code: string, activePage?: number}){
 	const [tasks, setTasks] = useState<Task[]>([])
-	const [pagination, setPagination] = useState<PaginationProps | null>(null)
+	const [pagination, setPagination] = useState<PaginationProps>({
+		currentPage: activePage || 1,
+	    perPage: 10,
+	    totalPages: 1,
+	    totalItems: tasks.length || 0
+	})
 	const [checklist, setChecklist] = useState<Checklist | null>(initialData)
 
 	activePage = activePage ? activePage : 1

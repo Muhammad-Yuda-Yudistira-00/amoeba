@@ -3,7 +3,7 @@ import Task, {PaginationProps} from "@/types/Task"
 const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY
 
-export function CreateTask(code: string, task: string, pagination: PaginationProps, setTask: React.Dispatch<React.SetStateAction<{task: string}>>, setTasks: React.Dispatch<React.SetStateAction<Tasks[]>>, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>) {
+export function CreateTask(code: string, task: string, pagination: PaginationProps, setTask: React.Dispatch<React.SetStateAction<string>>, setTasks: React.Dispatch<React.SetStateAction<Task[]>>, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>) {
 	const formData = new URLSearchParams()
 	formData.append('title', task)
 
@@ -79,7 +79,7 @@ export async function handleDeleteTask(taskId: number, setTasks: React.Dispatch<
 	}
 }
 
-export function refreshTasks (code: string, pagination: PaginationProps, setTasks: React.Dispatch<React.SetStateAction<Tasks[]>>, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>) {
+export function refreshTasks (code: string, pagination: PaginationProps, setTasks: React.Dispatch<React.SetStateAction<Task[]>>, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>) {
 	if(!code) return
 		console.log('refresh: ', pagination.currentPage)
 	fetch(`${apiweb}/checklist/${code}/task?page=${pagination.currentPage}`, {

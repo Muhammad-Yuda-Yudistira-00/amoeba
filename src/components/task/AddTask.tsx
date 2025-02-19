@@ -2,9 +2,6 @@ import {useState} from "react"
 import Task, {PaginationProps} from '@/types/Task'
 import {CreateTask} from '@/services/task/QueryTask'
 
-const apiweb = process.env.NEXT_PUBLIC_API_WEB
-const apikey = process.env.NEXT_PUBLIC_API_KEY
-
 export default function AddTask({code, pagination, setTasks, setPagination}: {code: string, pagination: PaginationProps, setTasks: React.Dispatch<React.SetStateAction<Task[]>>, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>}) {
 	const [task, setTask] = useState<string>("")
 

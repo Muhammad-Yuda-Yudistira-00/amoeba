@@ -3,7 +3,7 @@
 import Checklist from "@/types/Checklist"
 import {handleChangeTitle, handleChangeDescription} from '@/services/checklist/QueryChecklist'
 
-export default function ChecklistHeader({checklist, onChangeDescription, code, setChecklist}: {checklist: Checklist | null, onChangeDescription: (e: React.FocusEvent<HTMLElement>) => void, code: string, setChecklist: React.Dispatch<React.SetStateAction<Checklist | null>>}) {
+export default function ChecklistHeader({checklist, code, setChecklist}: {checklist: Checklist | null, code: string, setChecklist: React.Dispatch<React.SetStateAction<Checklist | null>>}) {
 	return(
 		<div className="">
 			<h1 contentEditable="true" dangerouslySetInnerHTML={{ __html: checklist?.title ?? "" }} onBlur={(e) => handleChangeTitle(e, code, setChecklist)} className="text-6xl px-4"/>

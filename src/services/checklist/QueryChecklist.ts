@@ -31,7 +31,7 @@ export function handleChangeTitle (e: React.FocusEvent<HTMLHeadingElement>, code
 	setChecklist(prev => prev ? { ...prev, title: updatedTitle } : null)
 }
 
-export function handleChangeDescription (e: React.FocusEvent<HTMLElement>, code: string, setChecklist: React.Dispath<React.SetStateAction<Checklist | null>>) {
+export function handleChangeDescription (e: React.FocusEvent<HTMLElement>, code: string, setChecklist: React.Dispatch<React.SetStateAction<Checklist | null>>) {
 	const target = e.currentTarget as HTMLElement
 	const updatedDescription = target.innerText
 

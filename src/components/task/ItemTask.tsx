@@ -1,4 +1,4 @@
-import Task, {PagiinationProps} from '@/types/Task'
+import Task, {PaginationProps} from '@/types/Task'
 import {handleDeleteTask} from '@/services/task/QueryTask'
 import {Trash2} from "lucide-react"
 import {useSortable} from "@dnd-kit/sortable"

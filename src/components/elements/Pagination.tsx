@@ -1,7 +1,5 @@
-import Task, {PaginationProps} from '@/types/Task'
+import {PaginationProps} from '@/types/Task'
 import Link from 'next/link'
-import {useEffect} from 'react'
-import {refreshTasks} from '@/services/task/QueryTask'
 
 export default function Pagination({pagination, code}: {pagination: PaginationProps, code: string}) {
 
