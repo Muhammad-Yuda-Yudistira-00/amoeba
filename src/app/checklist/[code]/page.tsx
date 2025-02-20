@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation"
 import ChecklistClient from '@/components/elements/ChecklistClient'
+import {fetchChecklist} from '@/services/checklist/QueryChecklist'
 
 const apiweb = process.env.API_WEB
 const apikey = process.env.API_KEY
@@ -12,24 +13,15 @@ interface PageProps {
 export default async function ChecklistPage({params, searchParams}: PageProps) {
 	const resolvedParams = await params
 	const activePage = await searchParams
-	if(!resolvedParams?.code) {
+
+	const code = resolvedParams?.code
+
+	if(!code) {
 		notFound()
 	}
 
 	try {
-		const res = await fetch(`${apiweb}/checklist/${resolvedParams.code}`,{
-			cache: "no-store",
-			headers: {
-				'Content-Type': 'application/json',
-				'x-api-key': apikey!
-			}
-		})
-
-		if(!res.ok) {
-			return notFound()
-		}
-
-		const result = await res.json()
+		const result = await fetchChecklist(code)
 
 		return(
 			<ChecklistClient initialData={result.data} code={resolvedParams.code} activePage={activePage.page} />

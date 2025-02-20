@@ -3,6 +3,45 @@ import Checklist from "@/types/Checklist"
 const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY
 
+export async function fetchChecklist(code, method = 'GET', contentType = 'application/json', name?, value?) {
+	let response
+
+	try{
+		if(method !== 'PATCH') {
+			response = await fetch(`${apiweb}/checklist/${code}`, {
+				method: method,
+				headers: {
+					'Content-Type': contentType,
+					'x-api-key': apikey
+				}
+			})
+		} else {
+			const newData = new URLSearchParams()
+			newData.append(name, value)
+
+			response = await fetch(`${apiweb}/checklist/${code}`, {
+				method: method,
+				headers: {
+					'Content-Type': contentType,
+					'x-api-key': apikey
+				},
+				body: newData
+			})
+		}
+
+		if(!response.ok) {
+			throw new Error(`Failed fetching checklist ${name}.`)
+		}
+
+		const result = await response.json()
+		return result
+
+	} catch(error) {
+		console.error(error)
+		return null
+	}
+}
+
 export function updateChecklist(name: string, data: string | number | Date, code: string): void {
 	const formData = new URLSearchParams()
 
