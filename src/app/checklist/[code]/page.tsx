@@ -21,7 +21,11 @@ export default async function ChecklistPage({params, searchParams}: PageProps) {
 	}
 
 	try {
-		const result = await fetchChecklist(code)
+		const result = await fetchChecklist({code: code})
+
+		if(!result || result === false) {
+			return notFound()
+		}
 
 		return(
 			<ChecklistClient initialData={result.data} code={resolvedParams.code} activePage={activePage.page} />
