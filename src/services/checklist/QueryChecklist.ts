@@ -70,11 +70,12 @@ export function handleChangeTitle (e: React.FocusEvent<HTMLHeadingElement>, code
 	setChecklist(prev => prev ? { ...prev, title: updatedTitle } : null)
 }
 
-export function handleChangeDescription (e: React.FocusEvent<HTMLElement>, code: string, setChecklist: React.Dispatch<React.SetStateAction<Checklist | null>>) {
+export async function handleChangeDescription (e: React.FocusEvent<HTMLElement>, code: string, setChecklist: React.Dispatch<React.SetStateAction<Checklist | null>>) {
 	const target = e.currentTarget as HTMLElement
 	const updatedDescription = target.innerText
 
-	updateChecklist('description', updatedDescription, code)
+	// updateChecklist('description', updatedDescription, code)
+	await fetchChecklist(code, 'PATCH', 'application/x-www-form-urlencoded', 'description', updatedDescription)
 	
 	setChecklist(prev => prev ? {...prev, description: updatedDescription} : null)
 }
