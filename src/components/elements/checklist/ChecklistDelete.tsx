@@ -1,5 +1,6 @@
 import {fetchChecklist} from "@/services/checklist/QueryChecklist"
 import {useRouter} from 'next/navigation'
+import {HttpMethod} from '@/services/checklist/QueryChecklist'
 
 export default function ChecklistDelete({code}: {code: string}) {
 	const {push} = useRouter()
@@ -7,7 +8,7 @@ export default function ChecklistDelete({code}: {code: string}) {
 	const handleDeleteChecklist = async (code: string) => {
 		if(confirm("Are you sure???")) {
 			// await deleteChecklist(checklistCode, push)
-			const result = await fetchChecklist({code: code, method: 'DELETE', contentType: 'application/json'})
+			const result = await fetchChecklist({code: code, method: HttpMethod.DELETE, contentType: 'application/json'})
 			if(result) {
 				push('/')
 			} else {

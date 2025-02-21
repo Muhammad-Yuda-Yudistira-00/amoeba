@@ -2,9 +2,6 @@ import { notFound } from "next/navigation"
 import ChecklistClient from '@/components/elements/ChecklistClient'
 import {fetchChecklist} from '@/services/checklist/QueryChecklist'
 
-const apiweb = process.env.API_WEB
-const apikey = process.env.API_KEY
-
 interface PageProps {
 	params: Promise<{code: string}>
 	searchParams: Promise<{page?: number}>
@@ -21,14 +18,14 @@ export default async function ChecklistPage({params, searchParams}: PageProps) {
 	}
 
 	try {
-		const result = await fetchChecklist({code: code})
+		const result = await fetchChecklist({code})
 
-		if(!result || result === false) {
+		if(!result || typeof result === "boolean") {
 			return notFound()
 		}
 
 		return(
-			<ChecklistClient initialData={result.data} code={resolvedParams.code} activePage={activePage.page} />
+			<ChecklistClient initialData={result} code={resolvedParams.code} activePage={activePage.page} />
 		)
 	} catch(error) {
 		console.error("Error: ", error)
