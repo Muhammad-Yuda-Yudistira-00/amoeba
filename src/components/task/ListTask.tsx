@@ -34,11 +34,11 @@ export default function ListTask({code, tasks, setTasks, pagination, setPaginati
 
 	if(totalItems == 0) {
 		return (
-			<h1 className="capitalize">task empty</h1>
+			<h1 className="capitalize text-center w-full">task empty</h1>
 			)
 	} else {
 		return (
-			<ul className="">
+			<ul className="px-10">
 				<SortableContext items={tasks} strategy={verticalListSortingStrategy} >
 					{tasks && tasks.map(task => (
 						<ItemTask key={task.id} task={task} code={code} setTasks={setTasks} handleChange={handleChange} handleBlur={handleBlur} pagination={pagination} setPagination={setPagination} />	

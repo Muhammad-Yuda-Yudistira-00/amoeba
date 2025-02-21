@@ -31,9 +31,9 @@ const ItemTask = ({
 
 	return(
 		<div 
-			className="flex justify-between gap-8"
+			className="flex justify-between w-full"
 		>
-			<div className="flex gap-4">
+			<div className="flex gap-4 px-28">
 				<button type="button" onClick={() => {
 					if(confirm("Wanna break this task?")) {
 						handleDeleteTask(task.id, setTasks, code, pagination, setPagination)
@@ -50,8 +50,9 @@ const ItemTask = ({
 						...style,
 						touchAction: "none"
 					}}
+					className="w-full"
 				>
-					<li data-key={task.id} className={`text-2xl px-4 decoration-white ${task.status === "done" ? "line-through" : ""}`} contentEditable dangerouslySetInnerHTML={{ __html: task.title }} onBlur={handleBlur} />
+					<li data-key={task.id} className={`text-stone-400 border-b-2 border-yellow-800 text-lg pt-2 px-4 decoration-white w-full ${task.status === "done" ? "line-through" : ""}`} contentEditable dangerouslySetInnerHTML={{ __html: task.title }} onBlur={handleBlur} />
 				</div>
 			</div>					
 		</div>

@@ -53,20 +53,20 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 	)
 
 	return (
-		<div className="flex flex-row-reverse w-screen justify-end">
-			<div className="text-center py-4 flex flex-col items-center">
+		<div className="flex flex-row-reverse w-screen justify-end bg-yellow-900">
+			<div className="text-center py-4 flex flex-col items-center border-x-2">
 				<span className="[writing-mode:vertical-rl] border-b-2 pb-8">
-					<h3 className="text-lg">Pagination</h3>
+					<h3 className="text-lg text-stone-300">Pagination</h3>
 				</span>
 				<div>
 					{pagination && (<Pagination pagination={pagination} code={code} />)}
 				</div>
 			</div>
-			<div className="flex flex-col items-center h-screen gap-8 bg-yellow-900 py-2 px-8 w-4/5">
-				<div className="flex flex-col justify-between h-full">
+			<div className="flex flex-col items-center min-h-screen bg-yellow-900 py-2 pt-4 px-8 w-4/5">
+				<div className="flex flex-col justify-between items-center h-full bg-yellow-900">
 					<div className="flex flex-col items-center gap-3">
 						<ChecklistHeader checklist={checklist} code={code} setChecklist={setChecklist} />
-						<div>
+						<div className="w-full">
 							<DndContext collisionDetection={closestCorners} onDragEnd={(e) => handleDragEnd(e, tasks, setTasks, code)} sensors={sensors} >
 								<ListTask code={code} tasks={tasks} setTasks={setTasks} pagination={pagination} setPagination={setPagination} />
 							</DndContext>
@@ -79,7 +79,7 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 							<Donation />
 						</div>
 					</div>
-					<div className="h-2/12 text-center w-full bg-yellow-800 rounded-2xl">
+					<div className="h-2/12 text-center w-2/3 bg-yellow-800 rounded-2xl mt-8 mb-4">
 						<Footer expiredAt={checklist?.expiredAt} code={code} setChecklist={setChecklist} />
 					</div>
 				</div>

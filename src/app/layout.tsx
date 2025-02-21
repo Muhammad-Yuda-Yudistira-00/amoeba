@@ -42,7 +42,7 @@ export default function RootLayout({
         <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-yellow-900`}
       >
         <Music />
         {children}

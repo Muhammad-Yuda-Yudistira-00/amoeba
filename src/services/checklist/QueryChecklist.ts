@@ -62,25 +62,6 @@ export async function fetchChecklist({code, method = HttpMethod.GET, contentType
 	}
 }
 
-// export function updateChecklist(name: string, data: string | number | Date, code: string): void {
-// 	const formData = new URLSearchParams()
-
-// 	const value = data instanceof Date ? data.toISOString() : data.toString()
-// 	formData.append(name, value)
-
-// 	fetch(`${apiweb}/checklist/${code}`, {
-// 		method: "PATCH",
-// 		headers: {
-// 			"Content-Type": "application/x-www-form-urlencoded",
-// 			"x-api-key": apikey ?? ""
-// 		},
-// 		body: formData
-// 	})
-// 	.then(res => res.json())
-// 	.then(() => console.info(`Success updated ${name}.`))
-// 	.catch(err => console.error('Failed to updated title: ', err))
-// }
-
 export async function handleChangeTitle (e: React.FocusEvent<HTMLHeadingElement>, code: string, setChecklist: React.Dispatch<React.SetStateAction<Checklist | null>>) {
 	const target = e.currentTarget as HTMLElement
 	const updatedTitle = target.innerText
