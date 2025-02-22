@@ -1,6 +1,6 @@
 import {fetchChecklist} from "@/services/checklist/QueryChecklist"
 import {useRouter} from 'next/navigation'
-import {HttpMethod} from '@/services/checklist/QueryChecklist'
+import {HttpMethod} from '@/types/HttpMethod'
 
 export default function ChecklistDelete({code}: {code: string}) {
 	const {push} = useRouter()

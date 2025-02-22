@@ -1,7 +1,67 @@
 import Task, {PaginationProps} from "@/types/Task"
+import {HttpMethod} from '@/types/HttpMethod'
 
 const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY
+
+export interface FetchTaskProps {
+	code: string
+	currentPage?: number
+	id?: number
+	name?: string
+	value?: string
+	method?: HttpMethod
+	contentType?: string
+}
+
+export default async function fetchTask({code, currentPage, id, name, value, method = HttpMethod.GET, contentType = 'application/json'}: FetchTaskProps): Promise<Task | null> {
+	let response
+
+	try {
+		if(method === 'GET') {
+			response = await fetch(`${apiweb}/checklist/${code}/task?page=${currentPage}`, {
+				method: method,
+				headers: {
+					'Content-type': contentType,
+					'x-api-key': apikey ?? ""
+				}
+			})
+		} else if(method === 'PATCH') {
+			const newData = new URLSearchParams()
+			if(name && value) {
+				newData.append(name, value)
+			}
+
+			response = await fetch(`${apiweb}/checklist/${code}/task/${id}`, {
+				method: method,
+				headers: {
+					'Content-Type': contentType,
+					'x-api-key': apikey ?? ""
+				},
+				body: newData
+			})
+		} else {
+			response = await fetch(`${apiweb}/checklist/${code}/task/${id}`, {
+				method: method,
+				headers: {
+					'Content-Type': contentType,
+					'x-api-key': apikey ?? ""
+				}
+			})
+		}
+
+		if(!response.ok) {
+			throw new Error(`Failed fetching task: ${response.status}: ${serponse.statusText}`)
+		}
+
+		const result = await response.json()
+		return result
+
+	} catch(error) {
+		console.error(error)
+		return null
+	}
+}
 
 export function CreateTask(code: string, task: string, pagination: PaginationProps, setTask: React.Dispatch<React.SetStateAction<string>>, setTasks: React.Dispatch<React.SetStateAction<Task[]>>, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>) {
 	const formData = new URLSearchParams()

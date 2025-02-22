@@ -13,6 +13,7 @@ import Pagination from "@/components/elements/Pagination"
 import ChecklistHeader from "@/components/elements/ChecklistHeader"
 import Checklist from "@/types/Checklist"
 import ChecklistDelete from "@/components/elements/checklist/ChecklistDelete"
+import fetchTask from "@/services/task/QueryTask"
 
 const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY
@@ -30,18 +31,17 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 	activePage = activePage ? activePage : 1
 
 	useEffect(() => {
-		fetch(`${apiweb}/checklist/${code}/task?page=${activePage}`,{
-			headers: {
-				"Content-Type": "application/json",
-				"x-api-key": apikey ?? ""
-			}	
-		})
-		.then(res => res.json())
-		.then(data => {
-			setTasks([...data.data])
-			setPagination(data.pagination)
-		})
-		.catch(err => console.error("Failed to get all task: ", err))
+		const fetchData = async () => {
+			try {
+				const result = await fetchTask({code, activePage})
+				setTasks([...result.data])
+				setPagination(result.pagination)
+			} catch(error) {
+				console.error('Failed get tasks: ' + error)
+			}
+		}
+
+		fetchData()
 	}, [code,activePage])
 
 	const sensors = useSensors(

@@ -1,14 +1,8 @@
 import Checklist from "@/types/Checklist"
+import {HttpMethod} from '@/types/HttpMethod'
 
 const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY
-
-export enum HttpMethod {
-	GET = "GET",
-	POST = "POST",
-	PATCH = "PATCH",
-	DELETE = "DELETE"
-}
 
 export interface FetchChecklistParams {
 	code: string
