@@ -1,20 +1,29 @@
 import {useState} from "react"
 import Task, {PaginationProps} from '@/types/Task'
-import {CreateTask} from '@/services/task/QueryTask'
+import fetchTask, {CreateTask} from '@/services/task/QueryTask'
+import {HttpMethod} from '@/types/HttpMethod'
 
-export default function AddTask({code, pagination, setTasks, setPagination}: {code: string, pagination: PaginationProps, setTasks: React.Dispatch<React.SetStateAction<Task[]>>, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>}) {
+export default function AddTask({code, pagination, setTasks, setPagination, activePage}: {code: string, pagination: PaginationProps, setTasks: React.Dispatch<React.SetStateAction<Task[]>>, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>, activePage: number}) {
 	const [task, setTask] = useState<string>("")
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setTask(e.currentTarget.value)
 	}
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
-		setTask(e.currentTarget.value)
+		if(!task.trim()) return
 		
 		CreateTask(code, task, pagination, setTask, setTasks, setPagination)
+
+		// untuk fungsi baru pada post task belum bekerja dengan baik. sementara gunakan function lama
+		// const result = await fetchTask({code, method: HttpMethod.POST, contentType: 'application/x-www-form-urlencoded', name: 'title', value: task, currentPage: pagination.currentPage})
+
+		// if(result) {
+		// 	setTasks(result.data)
+		// 	setPagination(result.pagination)
+		// }
 	}
 
 	return (

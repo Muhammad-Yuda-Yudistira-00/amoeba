@@ -14,7 +14,7 @@ export interface FetchTaskProps {
 	contentType?: string
 }
 
-export default async function fetchTask({code, currentPage, id, name, value, method = HttpMethod.GET, contentType = 'application/json'}: FetchTaskProps): Promise<Task | null> {
+export default async function fetchTask({code, method = HttpMethod.GET, contentType = 'application/json', currentPage, id, name, value}: FetchTaskProps): Promise<{data: Task[]; pagination: PaginationProps} | null> {
 	let response
 
 	try {
@@ -40,7 +40,20 @@ export default async function fetchTask({code, currentPage, id, name, value, met
 				},
 				body: newData
 			})
-		} else {
+		} else if(method === 'POST') {
+			const newData = new URLSearchParams()
+			if(name && value) {
+				newData.append(name, value)
+			}
+			response = await fetch(`${apiweb}/checklist/${code}/task`, {
+				method: method,
+				headers: {
+					'Content-Type': contentType,
+					'x-api-key': apikey ?? ""
+				},
+				body: newData
+			})
+		} else if(method === 'DELETE') {
 			response = await fetch(`${apiweb}/checklist/${code}/task/${id}`, {
 				method: method,
 				headers: {
@@ -51,7 +64,7 @@ export default async function fetchTask({code, currentPage, id, name, value, met
 		}
 
 		if(!response.ok) {
-			throw new Error(`Failed fetching task: ${response.status}: ${serponse.statusText}`)
+			throw new Error(`Failed fetching task: ${response.status}: ${response.statusText}`)
 		}
 
 		const result = await response.json()

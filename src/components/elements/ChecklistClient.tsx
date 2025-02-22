@@ -20,12 +20,7 @@ const apikey = process.env.NEXT_PUBLIC_API_KEY
 
 export default function ChecklistClient({initialData, code, activePage}: {initialData: Checklist, code: string, activePage?: number}){
 	const [tasks, setTasks] = useState<Task[]>([])
-	const [pagination, setPagination] = useState<PaginationProps>({
-		currentPage: activePage || 1,
-	    perPage: 10,
-	    totalPages: 1,
-	    totalItems: tasks.length || 0
-	})
+	const [pagination, setPagination] = useState<PaginationProps>({})
 	const [checklist, setChecklist] = useState<Checklist | null>(initialData)
 
 	activePage = activePage ? activePage : 1
@@ -33,7 +28,7 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const result = await fetchTask({code, activePage})
+				const result = await fetchTask({code, currentPage: activePage})
 				setTasks([...result.data])
 				setPagination(result.pagination)
 			} catch(error) {
@@ -72,7 +67,7 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 							</DndContext>
 						</div>
 						<div>
-							<AddTask code={code} pagination={pagination} setTasks={setTasks} setPagination={setPagination} />
+							<AddTask code={code} pagination={pagination} setTasks={setTasks} setPagination={setPagination} activePage={activePage} />
 						</div>
 						<div>
 							<ChecklistDelete code={code} />
