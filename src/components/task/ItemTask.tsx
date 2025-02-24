@@ -38,10 +38,20 @@ const ItemTask = ({
 				console.info("succes deleted task")
 				const result = await fetchTask({code, currentPage: pagination.currentPage})
 				if(result) {
-					setTasks(result.data)
+					setTasks(result.data) 
 					setPagination(result.pagination)
 				}
 			}
+		}
+	}
+
+	const handleStatus = async () => {
+		const newStatus = task.status === 'done' ? 'in_progress' : 'done'
+		console.log({newStatus})
+		const result = await fetchTask({code, method: HttpMethod.PATCH, contentType: 'application/x-www-form-urlencoded', taskId: task.id, name: 'status', value: newStatus})
+		// console.log({result})
+		if(result.status && result.statusCode === 200) {
+			setTasks(prevTasks => prevTasks.map(prevTask => prevTask.id === task.id ? result.data : prevTask))
 		}
 	}
 
@@ -55,7 +65,7 @@ const ItemTask = ({
 				}}>
 					<Trash2 size={20} />
 				</button>
-				<input type="checkbox" name="status" checked={task.status === "done"} onChange={() => handleChange(task.id)} className="accent-lime-600" />
+				<input type="checkbox" name="status" checked={task.status === "done"} onChange={async () => await handleStatus()} className="accent-lime-600" />
 				<div
 					ref={setNodeRef}
 					{...attributes}

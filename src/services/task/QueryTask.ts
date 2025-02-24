@@ -32,7 +32,7 @@ export default async function fetchTask({code, method = HttpMethod.GET, contentT
 				newData.append(name, value)
 			}
 
-			response = await fetch(`${apiweb}/checklist/${code}/task/${id}`, {
+			response = await fetch(`${apiweb}/checklist/${code}/task/${taskId}`, {
 				method: method,
 				headers: {
 					'Content-Type': contentType,
