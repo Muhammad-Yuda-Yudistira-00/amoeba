@@ -39,9 +39,9 @@ const ItemTask = ({
 
 	const handleStatus = async () => {
 		const newStatus = task.status === 'done' ? 'in_progress' : 'done'
-		console.log({newStatus})
+
 		const result = await fetchTask({code, method: HttpMethod.PATCH, contentType: 'application/x-www-form-urlencoded', taskId: task.id, name: 'status', value: newStatus})
-		// console.log({result})
+		
 		if(result.status && result.statusCode === 200) {
 			setTasks(prevTasks => prevTasks.map(prevTask => prevTask.id === task.id ? result.data : prevTask))
 		}
