@@ -2,8 +2,6 @@ import Task, {PaginationProps} from '@/types/Task'
 import fetchTask, {handleDeleteTask} from '@/services/task/QueryTask'
 import {HttpMethod} from '@/types/HttpMethod'
 import {Trash2} from "lucide-react"
-import {useSortable} from "@dnd-kit/sortable"
-import {CSS} from "@dnd-kit/utilities"
 
 
 const ItemTask = ({
@@ -23,12 +21,6 @@ const ItemTask = ({
 		pagination: PaginationProps,
 		setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>
 	}) => {
-	const {attributes, listeners, setNodeRef, transform, transition} = useSortable({id: task.id})
-
-	const style = {
-		transition,
-		transform: CSS.Transform.toString(transform)
-	}
 
 	const handleDelete = async () => {
 		if(confirm("Wanna break this task?")) {
@@ -67,13 +59,6 @@ const ItemTask = ({
 				</button>
 				<input type="checkbox" name="status" checked={task.status === "done"} onChange={async () => await handleStatus()} className="accent-lime-600" />
 				<div
-					ref={setNodeRef}
-					{...attributes}
-					{...listeners}
-					style={{
-						...style,
-						touchAction: "none"
-					}}
 					className="w-full"
 				>
 					<li data-key={task.id} className={`text-stone-400 border-b-2 border-yellow-800 text-lg pt-2 px-4 decoration-white w-full ${task.status === "done" ? "line-through" : ""}`} contentEditable dangerouslySetInnerHTML={{ __html: task.title }} onBlur={handleBlur} />

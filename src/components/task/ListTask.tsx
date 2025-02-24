@@ -1,7 +1,6 @@
 import {useState,useEffect} from "react"
 import Task, {PaginationProps} from "@/types/Task"
 import {PutTask} from "@/services/task/QueryTask"
-import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable"
 import ItemTask from '@/components/task/ItemTask'
 
 export default function ListTask({code, tasks, setTasks, pagination, setPagination}: {code:string, tasks: Task[], setTasks: React.Dispatch<React.SetStateAction<Task[]>>, pagination: PaginationProps, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>}) {
@@ -39,11 +38,9 @@ export default function ListTask({code, tasks, setTasks, pagination, setPaginati
 	} else {
 		return (
 			<ul className="px-10">
-				<SortableContext items={tasks} strategy={verticalListSortingStrategy} >
-					{tasks && tasks.map(task => (
-						<ItemTask key={task.id} task={task} code={code} setTasks={setTasks} handleChange={handleChange} handleBlur={handleBlur} pagination={pagination} setPagination={setPagination} />	
-					))}
-				</SortableContext>
+				{tasks && tasks.map(task => (
+					<ItemTask key={task.id} task={task} code={code} setTasks={setTasks} handleChange={handleChange} handleBlur={handleBlur} pagination={pagination} setPagination={setPagination} />	
+				))}
 			</ul>
 			)
 	}

@@ -4,8 +4,6 @@ import {useState, useEffect} from "react"
 import ListTask from "@/components/task/ListTask"
 import AddTask from "@/components/task/AddTask"
 import Task, {PaginationProps} from "@/types/Task"
-import {DndContext, closestCorners, PointerSensor, TouchSensor, KeyboardSensor, useSensors, useSensor} from "@dnd-kit/core"
-import {sortableKeyboardCoordinates} from "@dnd-kit/sortable"
 import handleDragEnd from "@/libs/@dnd-kit/handleDragEnd"
 import Footer from "@/components/elements/Footer"
 import Donation from "@/components/elements/Donation"
@@ -39,14 +37,6 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 		fetchData()
 	}, [code,activePage])
 
-	const sensors = useSensors(
-		useSensor(PointerSensor),
-		useSensor(TouchSensor),
-		useSensor(KeyboardSensor, {
-			coordinateGetter: sortableKeyboardCoordinates
-		})
-	)
-
 	return (
 		<div className="flex flex-row-reverse w-screen justify-end bg-yellow-900">
 			<div className="text-center py-4 flex flex-col items-center border-x-2">
@@ -62,9 +52,7 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 					<div className="flex flex-col items-center gap-3">
 						<ChecklistHeader checklist={checklist} code={code} setChecklist={setChecklist} />
 						<div className="w-full">
-							<DndContext collisionDetection={closestCorners} onDragEnd={(e) => handleDragEnd(e, tasks, setTasks, code)} sensors={sensors} >
-								<ListTask code={code} tasks={tasks} setTasks={setTasks} pagination={pagination} setPagination={setPagination} />
-							</DndContext>
+							<ListTask code={code} tasks={tasks} setTasks={setTasks} pagination={pagination} setPagination={setPagination} />
 						</div>
 						<div>
 							<AddTask code={code} pagination={pagination} setTasks={setTasks} setPagination={setPagination} activePage={activePage} />
