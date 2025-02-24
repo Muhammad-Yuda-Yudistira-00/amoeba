@@ -1,5 +1,5 @@
 import Task, {PaginationProps} from '@/types/Task'
-import fetchTask, {handleDeleteTask} from '@/services/task/QueryTask'
+import fetchTask from '@/services/task/QueryTask'
 import {HttpMethod} from '@/types/HttpMethod'
 import {Trash2} from "lucide-react"
 
@@ -8,15 +8,13 @@ const ItemTask = ({
 	task, 
 	code,
 	setTasks,
-	handleChange,
 	handleBlur,
 	pagination,
 	setPagination
 	}:{
 		task: Task,
 		code: string, 
-		setTasks: React.Dispatch<React.SetStateAction<Task[]>>,
-		handleChange: (taskId: number) => void,
+		setTasks: React.Dispatch<React.SetStateAction<Task[]>>
 		handleBlur: (e: React.FocusEvent) => void,
 		pagination: PaginationProps,
 		setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>
@@ -30,8 +28,12 @@ const ItemTask = ({
 				console.info("succes deleted task")
 				const result = await fetchTask({code, currentPage: pagination.currentPage})
 				if(result) {
-					setTasks(result.data) 
-					setPagination(result.pagination)
+					if(Array.isArray(result.data)) {
+						setTasks(result.data) 
+					}
+					if('pagination' in result) {
+						setPagination(result.pagination)
+					}
 				}
 			}
 		}
@@ -41,9 +43,8 @@ const ItemTask = ({
 		const newStatus = task.status === 'done' ? 'in_progress' : 'done'
 
 		const result = await fetchTask({code, method: HttpMethod.PATCH, contentType: 'application/x-www-form-urlencoded', taskId: task.id, name: 'status', value: newStatus})
-		
-		if(result.status && result.statusCode === 200) {
-			setTasks(prevTasks => prevTasks.map(prevTask => prevTask.id === task.id ? result.data : prevTask))
+		if(result) {
+			setTasks(prevTasks => prevTasks.map(prevTask => prevTask.id === task.id ? (Array.isArray(result.data) ? result.data[0] : result.data) : prevTask))
 		}
 	}
 

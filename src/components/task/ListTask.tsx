@@ -19,22 +19,8 @@ export default function ListTask({code, tasks, setTasks, pagination, setPaginati
 
 		const result = await fetchTask({code, method: HttpMethod.PATCH, contentType: 'application/x-www-form-urlencoded', name: 'title', value: title, taskId})
 		if(result) {
-			setTasks(prevTasks => prevTasks.map(prevTask => prevTask.id === taskId ? result.data : prevTask))
+			setTasks(prevTasks => prevTasks.map(prevTask => prevTask.id === taskId ? (Array.isArray(result.data) ? result.data[0] : result.data) : prevTask))
 		}
-	}
-
-	const handleChange = (taskId: number) => {
-		const task = tasks.find(t => t.id === taskId)
-		if(!task) return
-		const newStatus = task.status === "done" ? "in_progress" : "done"
-
-		setTasks(prevTasks => {
-			return prevTasks.map(task => 
-				task.id === taskId ? {...task, status: newStatus} : task
-			)
-		})
-		
-		PutTask('status', newStatus, setTasks, code, taskId, pagination, setPagination)
 	}
 
 	if(totalItems == 0) {
@@ -45,7 +31,7 @@ export default function ListTask({code, tasks, setTasks, pagination, setPaginati
 		return (
 			<ul className="px-10">
 				{tasks && tasks.map(task => (
-					<ItemTask key={task.id} task={task} code={code} setTasks={setTasks} handleChange={handleChange} handleBlur={handleBlur} pagination={pagination} setPagination={setPagination} />	
+					<ItemTask key={task.id} task={task} code={code} setTasks={setTasks} handleBlur={handleBlur} pagination={pagination} setPagination={setPagination} />	
 				))}
 			</ul>
 			)

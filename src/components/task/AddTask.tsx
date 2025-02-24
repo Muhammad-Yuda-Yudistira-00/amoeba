@@ -3,7 +3,7 @@ import Task, {PaginationProps} from '@/types/Task'
 import fetchTask from '@/services/task/QueryTask'
 import {HttpMethod} from '@/types/HttpMethod'
 
-export default function AddTask({code, pagination, setTasks, setPagination, activePage}: {code: string, pagination: PaginationProps, setTasks: React.Dispatch<React.SetStateAction<Task[]>>, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>, activePage: number}) {
+export default function AddTask({code, pagination, setTasks, setPagination}: {code: string, pagination: PaginationProps, setTasks: React.Dispatch<React.SetStateAction<Task[]>>, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>}) {
 	const [task, setTask] = useState<string>("")
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,8 +19,10 @@ export default function AddTask({code, pagination, setTasks, setPagination, acti
 		if(result) {
 			const tasks = await fetchTask({code, currentPage: pagination.currentPage})
 			if(tasks) {
-				setTasks(tasks.data)
-				setPagination(tasks.pagination)
+				setTasks(Array.isArray(tasks.data) ? tasks.data : [tasks.data])
+				if("pagination" in tasks) {
+					setPagination(tasks.pagination)
+				}
 				setTask('')
 			}
 		}

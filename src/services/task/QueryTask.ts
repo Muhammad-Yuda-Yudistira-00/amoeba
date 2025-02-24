@@ -14,7 +14,7 @@ export interface FetchTaskProps {
 	contentType?: string
 }
 
-export default async function fetchTask({code, method = HttpMethod.GET, contentType = 'application/json', currentPage, taskId, name, value}: FetchTaskProps): Promise<{data: Task[]; pagination: PaginationProps} | null> {
+export default async function fetchTask({code, method = HttpMethod.GET, contentType = 'application/json', currentPage, taskId, name, value}: FetchTaskProps): Promise<{data: Task[]; pagination: PaginationProps} | null | {data: Task}> {
 	let response
 
 	try {
@@ -61,6 +61,8 @@ export default async function fetchTask({code, method = HttpMethod.GET, contentT
 					'x-api-key': apikey ?? ""
 				}
 			})
+		} else {
+			throw new Error('Invalid method' + method)
 		}
 
 		if(!response.ok) {

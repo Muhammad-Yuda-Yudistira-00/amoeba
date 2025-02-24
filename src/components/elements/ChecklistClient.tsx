@@ -4,7 +4,6 @@ import {useState, useEffect} from "react"
 import ListTask from "@/components/task/ListTask"
 import AddTask from "@/components/task/AddTask"
 import Task, {PaginationProps} from "@/types/Task"
-import handleDragEnd from "@/libs/@dnd-kit/handleDragEnd"
 import Footer from "@/components/elements/Footer"
 import Donation from "@/components/elements/Donation"
 import Pagination from "@/components/elements/Pagination"
@@ -13,12 +12,14 @@ import Checklist from "@/types/Checklist"
 import ChecklistDelete from "@/components/elements/checklist/ChecklistDelete"
 import fetchTask from "@/services/task/QueryTask"
 
-const apiweb = process.env.NEXT_PUBLIC_API_WEB
-const apikey = process.env.NEXT_PUBLIC_API_KEY
-
 export default function ChecklistClient({initialData, code, activePage}: {initialData: Checklist, code: string, activePage?: number}){
 	const [tasks, setTasks] = useState<Task[]>([])
-	const [pagination, setPagination] = useState<PaginationProps>({})
+	const [pagination, setPagination] = useState<PaginationProps>({
+		currentPage: 1,
+		perPage: 10,
+		totalPages: 1,
+		totalItems: 10
+	})
 	const [checklist, setChecklist] = useState<Checklist | null>(initialData)
 
 	activePage = activePage ? activePage : 1
@@ -27,8 +28,12 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 		const fetchData = async () => {
 			try {
 				const result = await fetchTask({code, currentPage: activePage})
-				setTasks([...result.data])
-				setPagination(result.pagination)
+				if(result) {
+					setTasks(Array.isArray(result.data) ? [...result.data] : [result.data])
+					if("pagination" in result) {
+						setPagination(result.pagination)
+					}
+				} 
 			} catch(error) {
 				console.error('Failed get tasks: ' + error)
 			}
@@ -55,7 +60,7 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 							<ListTask code={code} tasks={tasks} setTasks={setTasks} pagination={pagination} setPagination={setPagination} />
 						</div>
 						<div>
-							<AddTask code={code} pagination={pagination} setTasks={setTasks} setPagination={setPagination} activePage={activePage} />
+							<AddTask code={code} pagination={pagination} setTasks={setTasks} setPagination={setPagination} />
 						</div>
 						<div>
 							<ChecklistDelete code={code} />
