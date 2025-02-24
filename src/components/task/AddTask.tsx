@@ -1,7 +1,7 @@
 import {useState} from "react"
 import Task, {PaginationProps} from '@/types/Task'
-import fetchTask, {CreateTask} from '@/services/task/QueryTask'
-import {HttpMethod} from '@/types/HttpMethod'
+import {CreateTask} from '@/services/task/QueryTask'
+// import {HttpMethod} from '@/types/HttpMethod'
 
 export default function AddTask({code, pagination, setTasks, setPagination, activePage}: {code: string, pagination: PaginationProps, setTasks: React.Dispatch<React.SetStateAction<Task[]>>, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>, activePage: number}) {
 	const [task, setTask] = useState<string>("")

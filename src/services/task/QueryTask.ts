@@ -7,14 +7,14 @@ const apikey = process.env.NEXT_PUBLIC_API_KEY
 export interface FetchTaskProps {
 	code: string
 	currentPage?: number
-	id?: number
+	taskId?: number
 	name?: string
 	value?: string
 	method?: HttpMethod
 	contentType?: string
 }
 
-export default async function fetchTask({code, method = HttpMethod.GET, contentType = 'application/json', currentPage, id, name, value}: FetchTaskProps): Promise<{data: Task[]; pagination: PaginationProps} | null> {
+export default async function fetchTask({code, method = HttpMethod.GET, contentType = 'application/json', currentPage, taskId, name, value}: FetchTaskProps): Promise<{data: Task[]; pagination: PaginationProps} | null> {
 	let response
 
 	try {
@@ -54,7 +54,7 @@ export default async function fetchTask({code, method = HttpMethod.GET, contentT
 				body: newData
 			})
 		} else if(method === 'DELETE') {
-			response = await fetch(`${apiweb}/checklist/${code}/task/${id}`, {
+			response = await fetch(`${apiweb}/checklist/${code}/task/${taskId}`, {
 				method: method,
 				headers: {
 					'Content-Type': contentType,
