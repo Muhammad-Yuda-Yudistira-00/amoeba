@@ -76,27 +76,6 @@ export default async function fetchTask({code, method = HttpMethod.GET, contentT
 	}
 }
 
-export function CreateTask(code: string, task: string, pagination: PaginationProps, setTask: React.Dispatch<React.SetStateAction<string>>, setTasks: React.Dispatch<React.SetStateAction<Task[]>>, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>) {
-	const formData = new URLSearchParams()
-	formData.append('title', task)
-
-	fetch(`${apiweb}/checklist/${code}/task`, {
-			method: "POST",
-		headers: {
-			"Content-Type": "application/x-www-form-urlencoded",
-			"x-api-key": apikey!
-		},
-		body: formData
-	})
-	.then(res => res.json())
-	.then(() => {
-		console.info("Success add new task.")
-		setTask("")
-		refreshTasks(code, pagination, setTasks, setPagination)
-	})
-	.catch(err => console.error("Failed to add new task: ", err))
-}
-
 export function PutTask(
 	name: string, 
 	data: string, 
@@ -132,24 +111,6 @@ export function PutTask(
 		refreshTasks(code, pagination, setTasks, setPagination)
 	})
 	.catch(err => console.error("Failed to update task: ", err))
-}
-
-export async function handleDeleteTask(taskId: number, setTasks: React.Dispatch<React.SetStateAction<Task[]>>, code: string, pagination: PaginationProps, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>) {
-	try {
-		const res = await fetch(`${apiweb}/checklist/${code}/task/${taskId}`,{
-			method: 'DELETE',
-			headers: {
-				"Content-Type": "application/json",
-				"x-api-key": apikey ?? ""
-			}
-		})
-		if(!res.ok) throw new Error("Failed to delete task!")
-		setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId))
-		refreshTasks(code, pagination, setTasks, setPagination)
-		console.info("Success to delete task by id.")
-	} catch(err) {
-		console.error("Error: ", err)
-	}
 }
 
 export function refreshTasks (code: string, pagination: PaginationProps, setTasks: React.Dispatch<React.SetStateAction<Task[]>>, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>) {
