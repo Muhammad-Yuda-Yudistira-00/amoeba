@@ -52,7 +52,7 @@ const ItemTask = ({
 		<div 
 			className="flex justify-between w-full"
 		>
-			<div className="flex gap-4 px-28">
+			<div className="flex gap-4 px-4 md:px-28">
 				<button type="button" onClick={async () => {
 					await handleDelete()
 				}}>

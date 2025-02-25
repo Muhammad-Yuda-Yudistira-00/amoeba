@@ -46,6 +46,12 @@ export default function RootLayout({
       >
         <Music />
         {children}
+        <div className="md:hidden relative w-full bg-yellow-400 h-36 m-auto rounded-lg text-center">
+          <div className="flex justify-center items-center h-full">
+            <p className="text-7xl font-extrabold text-yellow-700">for music</p>
+          </div>
+          <Music forMobile="absolute" />
+        </div>
       </body>
     </html>
   );
