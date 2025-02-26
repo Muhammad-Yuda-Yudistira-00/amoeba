@@ -44,13 +44,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-yellow-900`}
       >
-        <Music />
         {children}
-        <div className="md:hidden relative w-full bg-yellow-400 h-36 m-auto rounded-lg text-center">
+        <div className="relative w-full bg-yellow-600 h-[150px] m-auto rounded-xl text-center z-30">
           <div className="flex justify-center items-center h-full">
             <p className="text-7xl font-extrabold text-yellow-700">for music</p>
           </div>
-          <Music forMobile="absolute" />
+          <Music />
         </div>
       </body>
     </html>
