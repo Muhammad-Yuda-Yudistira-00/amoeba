@@ -6,9 +6,9 @@ import {handleChangeTitle, handleChangeDescription} from '@/services/checklist/Q
 export default function ChecklistHeader({checklist, code, setChecklist}: {checklist: Checklist | null, code: string, setChecklist: React.Dispatch<React.SetStateAction<Checklist | null>>}) {
 	return(
 		<div className="pb-4 md:pb-8 px-4">
-			<h1 contentEditable="true" dangerouslySetInnerHTML={{ __html: checklist?.title ?? "" }} onBlur={(e) => handleChangeTitle(e, code, setChecklist)} className="text-4xl md:text-6xl px-4 text-stone-400 text-center pb-2"/>
-			<div className="bg-yellow-600 text-center rounded-sm md:rounded-es-full md:rounded-se-full px-2 md:px-8">
-				<small contentEditable="true" dangerouslySetInnerHTML={{ __html: checklist?.description ? checklist.description : 'Descript..' }} onBlur={(e) => handleChangeDescription(e, code, setChecklist)} className="text-sm md:text-base px-4 py-2 text-stone-800" />
+			<h1 contentEditable="true" dangerouslySetInnerHTML={{ __html: checklist?.title ?? "" }} onBlur={(e) => handleChangeTitle(e, code, setChecklist)} className="text-4xl md:text-8xl px-4 text-stone-200 text-center pb-2 font-mutlu" />
+			<div className="bg-gradient-to-r from-white/10 via-stone-800 to-white text-center rounded-sm md:rounded-es-full md:rounded-se-full px-2 md:px-8 border-b-2 border-r-2 opacity-75">
+				<small contentEditable="true" dangerouslySetInnerHTML={{ __html: checklist?.description ? checklist.description : 'Descript..' }} onBlur={(e) => handleChangeDescription(e, code, setChecklist)} className="text-sm md:text-xl px-4 py-2 text-white" />
 			</div>
 		</div>
 	)

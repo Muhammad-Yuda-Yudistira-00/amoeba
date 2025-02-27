@@ -7,7 +7,7 @@ const ExpireButton = ({code, setChecklist}: {code: string, setChecklist: React.D
 	return (
 		<div className="flex justify-center gap-4 py-1">
 			<small>Reset expired date???</small>
-			<button className="bg-red-700 rounded-full px-2 text-white border-white border-2 text-xs hover:bg-red-600" onClick={() => resetExpiredChecklist(code, setChecklist)} >Reset</button>
+			<button className="bg-black hover:bg-white hover:text-black rounded-3xl rounded-l-none rounded-tr-2xl px-2 pr-4 text-white border-white border-2 text-xs" onClick={() => resetExpiredChecklist(code, setChecklist)} >reset</button>
 		</div>
 	)
 }

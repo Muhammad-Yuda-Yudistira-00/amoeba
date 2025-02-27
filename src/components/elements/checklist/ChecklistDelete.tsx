@@ -18,6 +18,6 @@ export default function ChecklistDelete({code}: {code: string}) {
 	}
 
 	return(
-		<small>👊🏻💥 Break this task ??? <button type="button" onClick={() => handleDeleteChecklist(code)} className="hover:text-yellow-400 font-bold">Click Here!!</button></small>
+		<small>👊🏻💥 Break this task ??? <button type="button" onClick={() => handleDeleteChecklist(code)} className="hover:text-yellow-600 font-bold">Click Here!!</button></small>
 	)
 }

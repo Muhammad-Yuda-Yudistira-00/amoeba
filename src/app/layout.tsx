@@ -42,13 +42,11 @@ export default function RootLayout({
         <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-yellow-900`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
       >
         {children}
-        <div className="relative w-full bg-yellow-600 h-[150px] m-auto rounded-xl text-center z-30">
-          <div className="flex justify-center items-center h-full">
-            <p className="text-7xl font-extrabold text-yellow-700">for music</p>
-          </div>
+        <div className="relative w-full m-auto rounded-xl text-center z-30 bg-[url('/themes/patterns/geometric-leaves.webp')] py-24">
+        ini apa sih
           <Music />
         </div>
       </body>

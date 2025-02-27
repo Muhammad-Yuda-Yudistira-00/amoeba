@@ -12,6 +12,29 @@
   }
 }
 
+@font-face {
+  font-family: 'LoversQuarrel';
+  src: url('/themes/fonts/lovers-quarrel/LoversQuarrel-Regular.otf') format('opentype');
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'KingthingsXstitch';
+  src: url('/themes/fonts/Kingthings-Xstitch-fontfacekit/web fonts/kingthingsxstitch_regular_macroman/Kingthings_Xstitch-webfont.woff') format('woff');
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Mutlu';
+  src: url('/themes/fonts/Mutlu-fontfacekit/web fonts/mutlu_ornamental_macroman/Mutlu__Ornamental-webfont.woff') format('truetype');
+}
+
+@font-face {
+  font-family: 'HorsePuke';
+  src: url('/themes/fonts/HorsePuke/HorsePuke/Truetype/HORSEPUKE.TTF');
+}
+
 body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
