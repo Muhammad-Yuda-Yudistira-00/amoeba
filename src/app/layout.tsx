@@ -45,8 +45,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
       >
         {children}
-        <div className="relative w-full m-auto rounded-xl text-center z-30 bg-[url('/themes/patterns/geometric-leaves.webp')] py-24">
-        ini apa sih
+        <div className="relative w-full h-80 m-auto text-center z-30 bg-[url('/themes/patterns/geometric-leaves.webp')] py-24 bg-blend-color-burn bg-orange-700">
           <Music />
         </div>
       </body>

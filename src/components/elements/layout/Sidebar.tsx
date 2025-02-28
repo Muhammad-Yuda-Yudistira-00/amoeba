@@ -11,7 +11,7 @@ export default function Sidebar() {
 				
 			</Link>
 			<div className="h-[180px] md:h-full w-full md:flex md:justify-center">
-				<Image src="/alt-logo/amoeba-1.webp" alt="logo" width={180} height={180} title="Touch Me !!" priority className="fixed md:block left-0 md:left-auto hover:animate-spin hover:bg-blue-400 bg-white transition-all" />
+				<Image src="/alt-logo/amoeba-1.webp" alt="logo" width={180} height={180} title="Touch Me !!" priority className="fixed md:block left-0 md:left-auto hover:animate-spin hover:bg-orange-700 bg-white transition-all" />
 			</div>
 		</div>
 	)
