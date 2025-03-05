@@ -3,10 +3,10 @@ import Image from 'next/image'
 
 export default function Sidebar() {
 	return(
-		<div className="w-screen md:w-1/6 bg-blue-700 flex flex-col-reverse justify-end items-center relative md:z-20 bg-[url('/themes/patterns/5-dots.webp')] bg-blend-luminosity">
+		<div className="w-screen md:w-1/6 bg-lime-100 flex flex-col-reverse justify-end items-center relative md:z-20 bg-[url('/themes/patterns/cork-board.webp')] bg-blend-luminosity">
 			<Link href="/">
-				<div className="hover:brightness-75 border-2 border-b-0 bg-yellow-600 px-1 md:px-1 py-2 md:py-4 text-center rounded-t-2xl text-sm md:text-lg fixed top-[145px] right-0 md:top-auto md:bottom-0 md:right-1 w-32 md:w-52 bg-[url('/themes/patterns/cork-board.webp')] group">
-					<h2 className="text-stone-700 group-hover:text-stone-500 uppercase font-light md:font-bold group-hover:shadow-2xl">Amoeba List</h2>
+				<div className="hover:brightness-75 brightness-95 border-2 border-b-0 bg-yellow-600 px-1 md:px-1 py-2 md:py-4 text-center rounded-t-2xl text-sm md:text-lg fixed top-[145px] right-0 md:top-auto md:bottom-0 md:right-1 w-32 md:w-52 bg-[url('/themes/patterns/cork-board.webp')] group">
+					<h2 className="text-stone-700 uppercase font-light md:font-bold group-hover:shadow-2xl">Amoeba List</h2>
 				</div>
 				
 			</Link>

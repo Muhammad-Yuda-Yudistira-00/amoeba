@@ -7,14 +7,14 @@ const urlWa = "https://wa.me/62895335059382?text=Hello,%20I%20will%20donate%20vi
 
 const Donation = () => {
 	return(
-		<div className="text-center">
+		<div className="text-center text-black bg-stone-400 opacity-90 text-base mt-4">
 			<small>
-				<Link target="_blank" href={urlWa} className="underline text-lime-400 hover:text-lime-500">
+				<Link target="_blank" href={urlWa} className="underline hover:text-yellow-800 text-black">
 					Give me a coffee ☕!!
 				</Link>
 			</small>
 			<small>
-				{" "}or to <Link target="_blank" href={urlSaweria} className="hover:text-purple-400 font-bold">Saweria</Link>.
+				{" "}or to <Link target="_blank" href={urlSaweria} className="text-black hover:text-yellow-800 font-bold">Saweria</Link>.
 			</small>
 		</div>
 	)
