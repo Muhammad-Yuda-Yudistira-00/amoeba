@@ -29,7 +29,7 @@ export default function ListTask({code, tasks, setTasks, pagination, setPaginati
 			)
 	} else {
 		return (
-			<ul className="px-0 md:px-10">
+			<ul className="px-0">
 				{tasks && tasks.map(task => (
 					<ItemTask key={task.id} task={task} code={code} setTasks={setTasks} handleBlur={handleBlur} pagination={pagination} setPagination={setPagination} />	
 				))}
