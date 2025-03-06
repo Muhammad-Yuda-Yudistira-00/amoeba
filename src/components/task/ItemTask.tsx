@@ -62,7 +62,7 @@ const ItemTask = ({
 				<div
 					className="w-full"
 				>
-					<li data-key={task.id} className={`text-black border-b-2 border-amber-200 text-5xl pt-2 px-4 decoration-white decoration-2 decoration-wavy w-full ${task.status === "done" ? "line-through" : ""} font-loversQuarrel`} contentEditable dangerouslySetInnerHTML={{ __html: task.title }} onBlur={handleBlur} />
+					<li data-key={task.id} className={`text-black border-b-2 border-amber-200 text-3xl md:text-5xl pt-2 px-4 decoration-white decoration-2 decoration-wavy w-full ${task.status === "done" ? "line-through" : ""} font-loversQuarrel`} contentEditable dangerouslySetInnerHTML={{ __html: task.title }} onBlur={handleBlur} />
 				</div>
 			</div>					
 		</div>

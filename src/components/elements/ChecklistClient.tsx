@@ -67,7 +67,7 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 							<Donation />
 						</div>
 					</div>
-					<div className="h-2/12 text-center w-2/3 bg-gradient-to-r from-white/10 via-lime-300 to-stone-900 mt-4 mb-8 border-2">
+					<div className="h-2/12 text-center w-[90%] md:w-2/3 bg-gradient-to-r from-white/10 via-lime-300 to-stone-900 mt-4 mb-8 border-2">
 						<Footer expiredAt={checklist?.expiredAt} code={code} setChecklist={setChecklist} />
 					</div>
 				</div>
