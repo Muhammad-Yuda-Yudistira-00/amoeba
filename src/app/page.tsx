@@ -25,10 +25,10 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col justify-center bg-yellow-900 items-center min-h-screen gap-6">
+    <div className="flex flex-col justify-center items-center min-h-screen gap-6 bg-[url('/themes/background/city-1.jpg')] bg-cover">
       <div className="text-center">
-        <h1 className="text-6xl uppercase">awasome checklist</h1>
-        <small className="font-extralight">Simple, easy to use, beautiful looks and fun...</small>
+        <h1 className="text-6xl uppercase font-mutlu pb-4">awasome checklist</h1>
+        <small className="font-extralight bg-stone-400 px-2 text-xl">Simple, easy to use, beautiful looks and fun...</small>
       </div>
       <div>
         <button onClick={handleClick} disabled={loading} className="bg-stone-400 px-4 py-2 border-8 hover:scale-110 hover:px-8 hover:rotate-12 hover:-translate-x-2 uppercase transition-all duration-500">

@@ -43,7 +43,7 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 	}, [code,activePage])
 
 	return (
-		<div className="flex flex-row-reverse w-screen h-full justify-between md:justify-end bg-yellow-900 mb-12">
+		<div className="flex flex-row-reverse w-screen h-full justify-between md:justify-end mb-12">
 			<div className="text-center py-4 flex flex-col items-center border-x-2 bg-[url('/themes/patterns/circle-blues.webp')] bg-stone-100 bg-blend-color-burn">
 				<span className="[writing-mode:vertical-rl] border-b-2 pb-8">
 					<h3 className="text-lg text-stone-300">Pagination</h3>

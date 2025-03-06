@@ -25,7 +25,7 @@ export default function ListTask({code, tasks, setTasks, pagination, setPaginati
 
 	if(totalItems == 0) {
 		return (
-			<h1 className="capitalize text-center w-full">task empty</h1>
+			<h1 className="capitalize text-center w-full font-loversQuarrel text-black text-5xl">task empty</h1>
 			)
 	} else {
 		return (
