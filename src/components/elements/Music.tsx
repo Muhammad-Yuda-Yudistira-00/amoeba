@@ -1,6 +1,6 @@
 export default function Music () {
 	return (
-		<div className={`absolute opacity-75 w-screen left-0 top-0 md:px-8 md:pr-80`}>
+		<div className={`absolute opacity-75 w-full left-0 top-0 md:px-8 md:pr-72`}>
 			<div className="flex justify-center items-center h-full py-8">
 	            <p className="text-7xl font-extrabold text-white font-horsePuke">play music</p>
 	          </div>
