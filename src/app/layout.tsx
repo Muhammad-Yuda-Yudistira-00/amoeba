@@ -42,10 +42,10 @@ export default function RootLayout({
         <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white scrollbar-thin scrollbar-thumb-red-500 scrollbar-track-gray-200`}
       >
         {children}
-        <div className="relative w-full h-80 m-auto text-center z-30 bg-[url('/themes/patterns/geometric-leaves.webp')] py-24 bg-blend-color-burn bg-orange-700">
+        <div className="relative w-full h-80 m-auto text-center z-30 bg-[url('/themes/patterns/metallic-holographic.jpg')] py-24 bg-cover bg-red-700 bg-blend-color-burn">
           <Music />
         </div>
       </body>

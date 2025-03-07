@@ -53,16 +53,16 @@ const ItemTask = ({
 			className="flex justify-between w-full"
 		>
 			<div className="flex gap-4 px-4 md:px-0 items-center">
-				<button type="button" className="hover:bg-orange-300 h-full" onClick={async () => {
+				<button type="button" className="hover:bg-black group h-full" onClick={async () => {
 					await handleDelete()
 				}}>
-					<Trash2 size={20} />
+					<Trash2 size={20} className="stroke-stone-700 group-hover:stroke-stone-500" />
 				</button>
-				<input type="checkbox" name="status" checked={task.status === "done"} onChange={async () => await handleStatus()} className="accent-amber-500 min-w-4 min-h-4 border-amber-500 border-2" />
+				<input type="checkbox" name="status" checked={task.status === "done"} onChange={async () => await handleStatus()} className="accent-stone-700 min-w-4 min-h-4" />
 				<div
 					className="w-full"
 				>
-					<li data-key={task.id} className={`text-black border-b-2 border-amber-200 text-3xl md:text-5xl pt-2 px-4 decoration-white decoration-2 decoration-wavy w-full ${task.status === "done" ? "line-through" : ""} font-loversQuarrel`} contentEditable dangerouslySetInnerHTML={{ __html: task.title }} onBlur={handleBlur} />
+					<li data-key={task.id} className={`text-black border-b-2 border-stone-700 text-3xl md:text-5xl pt-2 px-4 decoration-amber-600 decoration-4 decoration-wavy w-full ${task.status === "done" ? "line-through" : ""} font-loversQuarrel`} contentEditable dangerouslySetInnerHTML={{ __html: task.title }} onBlur={handleBlur} />
 				</div>
 			</div>					
 		</div>

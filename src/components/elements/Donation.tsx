@@ -7,7 +7,7 @@ const urlWa = "https://wa.me/62895335059382?text=Hello,%20I%20will%20donate%20vi
 
 const Donation = () => {
 	return(
-		<div className="text-center text-black bg-stone-400 opacity-90 text-base mt-4">
+		<div className="text-center text-black bg-amber-300 opacity-90 text-base mt-4">
 			<small>
 				<Link target="_blank" href={urlWa} className="underline hover:text-yellow-800 text-black">
 					Give me a coffee ☕!!
