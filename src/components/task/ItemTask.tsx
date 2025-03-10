@@ -2,6 +2,7 @@ import Task, {PaginationProps} from '@/types/Task'
 import fetchTask from '@/services/task/QueryTask'
 import {HttpMethod} from '@/types/HttpMethod'
 import {Trash2} from "lucide-react"
+import {showAlert} from "@/libs/showAlert"
 
 
 const ItemTask = ({
@@ -21,7 +22,8 @@ const ItemTask = ({
 	}) => {
 
 	const handleDelete = async () => {
-		if(confirm("Wanna break this task?")) {
+		const confirmed = await showAlert()
+		if(confirmed) {
 			// handleDeleteTask(task.id, setTasks, code, pagination, setPagination)
 			const result = await fetchTask({code, method: HttpMethod.DELETE, taskId: task.id})
 			if(result) {
