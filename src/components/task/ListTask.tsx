@@ -1,15 +1,9 @@
-import {useState,useEffect} from "react"
 import Task, {PaginationProps} from "@/types/Task"
 import fetchTask from "@/services/task/QueryTask"
 import {HttpMethod} from "@/types/HttpMethod"
 import ItemTask from '@/components/task/ItemTask'
 
 export default function ListTask({code, tasks, setTasks, pagination, setPagination}: {code:string, tasks: Task[], setTasks: React.Dispatch<React.SetStateAction<Task[]>>, pagination: PaginationProps, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>}) {
-	const [totalItems, setTotalItems] = useState<number>(pagination.totalItems)
-
-	useEffect(() => {
-		setTotalItems(tasks.length)
-	}, [tasks])
 
 	const handleBlur = async (e: React.FocusEvent<Element>) => {
 		const taskId = Number(e.currentTarget.getAttribute("data-key"))
