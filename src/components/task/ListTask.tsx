@@ -5,7 +5,7 @@ import {HttpMethod} from "@/types/HttpMethod"
 import ItemTask from '@/components/task/ItemTask'
 
 export default function ListTask({code, tasks, setTasks, pagination, setPagination}: {code:string, tasks: Task[], setTasks: React.Dispatch<React.SetStateAction<Task[]>>, pagination: PaginationProps, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>}) {
-	const [totalItems, setTotalItems] = useState<number>(0)
+	const [totalItems, setTotalItems] = useState<number>(pagination.totalItems)
 
 	useEffect(() => {
 		setTotalItems(tasks.length)
@@ -15,25 +15,23 @@ export default function ListTask({code, tasks, setTasks, pagination, setPaginati
 		const taskId = Number(e.currentTarget.getAttribute("data-key"))
 		const title = (e.currentTarget as HTMLElement).innerText
 
-		// PutTask('title', title, setTasks, code, taskId, pagination, setPagination)
-
 		const result = await fetchTask({code, method: HttpMethod.PATCH, contentType: 'application/x-www-form-urlencoded', name: 'title', value: title, taskId})
 		if(result) {
 			setTasks(prevTasks => prevTasks.map(prevTask => prevTask.id === taskId ? (Array.isArray(result.data) ? result.data[0] : result.data) : prevTask))
 		}
 	}
 
-	if(totalItems == 0) {
-		return (
-			<h1 className="capitalize text-center w-full font-loversQuarrel text-black text-5xl">task empty</h1>
-			)
-	} else {
+	if(pagination.totalItems > 0) {
 		return (
 			<ul className="px-0">
 				{tasks && tasks.map(task => (
 					<ItemTask key={task.id} task={task} code={code} setTasks={setTasks} handleBlur={handleBlur} pagination={pagination} setPagination={setPagination} />	
 				))}
 			</ul>
+			)
+	} else {
+		return (
+			<h1 className="capitalize text-center w-full font-loversQuarrel text-black text-5xl">task empty</h1>
 			)
 	}
 }
