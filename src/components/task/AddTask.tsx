@@ -36,9 +36,9 @@ export default function AddTask({code, pagination, setTasks, setPagination}: {co
 	return (
 			<form onSubmit={handleSubmit} className="flex items-center">
 				<div className="mr-4 w-full">
-					<input type="text" name="task" value={task} onChange={handleChange} placeholder="write your ide.." className="text-amber-700 px-2 rounded-l-2xl pl-4 text-stone-700 focus:outline-amber-700 h-6 w-full" />
+					<input type="text" name="task" value={task} onChange={handleChange} placeholder="write your ide.." className="text-amber-700 px-2 rounded-l-2xl pl-4 text-stone-700 focus:outline-amber-400 h-6 w-full" />
 				</div>
-				<button className="px-4 py-2 ml-2 text-white bg-amber-700 text-sm hover:text-amber-300 rounded-2xl uppercase">{isLoading ? 'loading..' : 'add'}</button>
+				<button className="px-4 py-2 ml-2 text-white bg-amber-700 text-sm hover:text-amber-300 rounded-2xl uppercase disabled:opacity-50 disabled:pointer-events-none" disabled={isLoading}>{isLoading ? 'loading..' : 'add'}</button>
 			</form>
 		)
 }

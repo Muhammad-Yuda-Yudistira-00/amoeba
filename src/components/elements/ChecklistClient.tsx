@@ -1,6 +1,7 @@
 "use client"
 
 import {useState, useEffect} from "react"
+import {useRouter} from "next/navigation"
 import ListTask from "@/components/task/ListTask"
 import AddTask from "@/components/task/AddTask"
 import Task, {PaginationProps} from "@/types/Task"
@@ -15,14 +16,20 @@ import fetchTask from "@/services/task/QueryTask"
 export default function ChecklistClient({initialData, code, activePage}: {initialData: Checklist, code: string, activePage?: number}){
 	const [tasks, setTasks] = useState<Task[]>([])
 	const [pagination, setPagination] = useState<PaginationProps>({
-		currentPage: 1,
+		currentPage: activePage ?? 1,
 		perPage: 10,
 		totalPages: 1,
 		totalItems: 10
 	})
 	const [checklist, setChecklist] = useState<Checklist | null>(initialData)
+	const {push} = useRouter()
 
-	activePage = activePage ? activePage : 1
+	useEffect(() => {
+		if(pagination.currentPage > 1 && tasks.length === 0) {
+			setPagination({...pagination, currentPage: pagination.currentPage - 1})
+			push(`/checklist/${code}?page=${pagination.currentPage - 1}`)
+		}
+	}, [tasks.length])
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -40,7 +47,7 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 		}
 
 		fetchData()
-	}, [code,activePage])
+	}, [code, activePage])
 
 	return (
 		<div className="flex flex-row-reverse w-screen h-full justify-between md:justify-end mb-12">
