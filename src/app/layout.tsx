@@ -35,7 +35,10 @@ export const metadata: Metadata = {
     ],
     type: "website"
   },
-  robots: "index, follow"
+  robots: "index, follow",
+  alternates: {
+    canonical: appUrl
+  }
 };
 
 export default function RootLayout({
@@ -44,7 +47,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="id">
       <head>
 
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-30774F78SL"></Script>

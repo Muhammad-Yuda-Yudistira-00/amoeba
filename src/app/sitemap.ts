@@ -1,10 +1,16 @@
 import { MetadataRoute } from "next"
 
-export default function sitemap(): Promise<MetadataRoute.Sitemap> {
-	return Promise.resolve([
+export default function sitemap(): MetadataRoute.Sitemap {
+	const baseUrl = "https://amoeba-weld.vercel.app"
+
+	return [
 		{
-			url: "/",
+			url: `${baseUrl}/`,
 			lastModified: new Date(),
+		},
+		{
+			url: `${baseUrl}/checklist/sample-code`,
+			lastModified: new Date()
 		}
-	]) 
+	]
 }
