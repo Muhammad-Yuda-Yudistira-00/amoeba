@@ -32,7 +32,7 @@ export default function AddTask({code, pagination, setTasks, setPagination}: {co
 				setTask('')
 				setIsLoading(false)
 				setIsSuccess(true)
-				setTiomeout(() => setIsSuccess(false), 3000)
+				setTimeout(() => setIsSuccess(false), 3000)
 			}
 		}
 	}
