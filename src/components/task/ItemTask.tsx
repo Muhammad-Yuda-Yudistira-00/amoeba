@@ -22,9 +22,8 @@ const ItemTask = ({
 	}) => {
 
 	const handleDelete = async () => {
-		const confirmed = await showAlert()
+		const confirmed = await showAlert('task')
 		if(confirmed) {
-			// handleDeleteTask(task.id, setTasks, code, pagination, setPagination)
 			const result = await fetchTask({code, method: HttpMethod.DELETE, taskId: task.id})
 			if(result) {
 				console.info("succes deleted task")
@@ -64,7 +63,7 @@ const ItemTask = ({
 				<div
 					className="w-full"
 				>
-					<li data-key={task.id} className={`text-black border-b-2 border-stone-700 text-3xl md:text-5xl pt-2 px-4 decoration-amber-300 decoration-4 decoration-wavy w-full ${task.status === "done" ? "line-through" : ""} font-loversQuarrel selection:bg-amber-200`} contentEditable dangerouslySetInnerHTML={{ __html: task.title }} onBlur={handleBlur} />
+					<li data-key={task.id} className={`text-red-700 border-b-2 border-stone-700 text-3xl md:text-5xl pt-2 px-4 decoration-amber-300 decoration-4 decoration-wavy w-full ${task.status === "done" ? "line-through" : ""} font-loversQuarrel selection:bg-amber-200`} contentEditable dangerouslySetInnerHTML={{ __html: task.title }} onBlur={handleBlur} />
 				</div>
 			</div>					
 		</div>

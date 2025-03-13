@@ -1,20 +1,28 @@
 import Swal from 'sweetalert2';
 
-export function showAlert(): Promise<boolean> {
+export function showAlert(label: string): Promise<boolean> {
 	return Swal.fire({
 		title: "Are you sure?",
 		text: "You won't be able to revert this!",
 		icon: "warning",
 		showCancelButton: true,
-		confirmButtonColor: "#3085d6",
-		cancelButtonColor: "#d33",
-		confirmButtonText: "Yes, delete it!"
+		confirmButtonColor: "#fce897",
+		cancelButtonColor: "#b6520b",
+		confirmButtonText: "Yes, delete it!",
+		customClass: {
+			confirmButton: "text-confirm-button",
+			htmlContainer: "text-desc"
+		}
 	}).then(result => {
 		if(result.isConfirmed) {
 			Swal.fire({
 				title: "Deleted!",
-				text: "Your task has been deleted.",
-				icon: "success"
+				text: `Your ${label} has been deleted.`,
+				icon: "success",
+				customClass: {
+					confirmButton: "button-deleted",
+					htmlContainer: "desc-deleted"
+				}
 			})
 			return true
 		}

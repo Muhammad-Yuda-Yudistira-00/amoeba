@@ -52,3 +52,19 @@ html, body, a, button, select, checkbox [contenteditable="true"] {
 /*body, a, button, select, checkbox [contenteditable="true"] {
   cursor: url(/themes/cursors/male.ani), url(/themes/cursors/female.png), auto !important;
 }*/
+
+.text-confirm-button {
+  color: #444;
+}
+
+.text-desc {
+  color: #b6520b;
+}
+
+.button-deleted {
+  background-color: #b6520b;
+}
+
+.desc-deleted {
+  color: #b6520b;
+}

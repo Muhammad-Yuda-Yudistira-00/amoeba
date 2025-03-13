@@ -7,7 +7,7 @@ export default function ChecklistDelete({code}: {code: string}) {
 	const {push} = useRouter()
 	
 	const handleDeleteChecklist = async (code: string) => {
-		const confirmed = await showAlert()
+		const confirmed = await showAlert('checklist')
 		if(confirmed) {
 			// await deleteChecklist(checklistCode, push)
 			const result = await fetchChecklist({code: code, method: HttpMethod.DELETE, contentType: 'application/json'})
