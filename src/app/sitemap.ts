@@ -6,11 +6,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 	return [
 		{
 			url: `${baseUrl}/`,
-			lastModified: new Date(),
+			lastModified: new Date().toISOString(),
 		},
 		{
 			url: `${baseUrl}/checklist/sample-code`,
-			lastModified: new Date()
+			lastModified: new Date().toISOString()
 		}
 	]
 }
