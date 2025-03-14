@@ -3,6 +3,8 @@ import fetchTask from '@/services/task/QueryTask'
 import {HttpMethod} from '@/types/HttpMethod'
 import {Trash2} from "lucide-react"
 import {showAlert} from "@/libs/showAlert"
+import {useSortable} from '@dnd-kit/sortable'
+import {CSS} from '@dnd-kit/utilities'
 
 
 const ItemTask = ({
@@ -20,6 +22,12 @@ const ItemTask = ({
 		pagination: PaginationProps,
 		setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>
 	}) => {
+	const {attributes, listeners, setNodeRef, transform, transition} = useSortable({id: task.id})
+
+	const style = {
+		transition,
+		transform: CSS.Transform.toString(transform)
+	}
 
 	const handleDelete = async () => {
 		const confirmed = await showAlert('task')
@@ -52,6 +60,10 @@ const ItemTask = ({
 	return(
 		<div 
 			className="flex justify-between w-full"
+			ref={setNodeRef} 
+			{...attributes} 
+			{...listeners}
+			style={style}
 		>
 			<div className="flex gap-4 px-4 md:px-0 items-center">
 				<button type="button" className="hover:bg-amber-200 group h-full" onClick={async () => {
@@ -63,7 +75,24 @@ const ItemTask = ({
 				<div
 					className="w-full"
 				>
-					<li data-key={task.id} className={`text-red-700 border-b-2 border-stone-700 text-3xl md:text-5xl pt-2 px-4 decoration-amber-300 decoration-4 decoration-wavy w-full ${task.status === "done" ? "line-through" : ""} font-loversQuarrel selection:bg-amber-200`} contentEditable dangerouslySetInnerHTML={{ __html: task.title }} onBlur={handleBlur} />
+					<li 
+						data-key={task.id} 
+						className={`text-red-700 border-b-2 border-stone-700 text-3xl md:text-5xl pt-2 px-4 decoration-amber-300 decoration-4 decoration-wavy w-full ${task.status === "done" ? "line-through" : ""} font-loversQuarrel selection:bg-amber-200`} 
+						contentEditable 
+						suppressContentEditableWarning={true}
+						// dangerouslySetInnerHTML={{ __html: task.title }} 
+						// onInput={e => setEditedText(e.currentTarget.innerText)}
+						onBlur={handleBlur} 
+						onPointerDown={e => e.stopPropagation()} 
+						onKeyDown={e => {
+							if(e.key === " ") {
+								e.preventDefault()
+								document.execCommand("insertText", false, " ")
+							}
+						}}
+						data-dnd-kit-no-drag >
+							{task.title}
+						</li>
 				</div>
 			</div>					
 		</div>

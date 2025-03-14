@@ -9,7 +9,7 @@ export interface FetchTaskProps {
 	currentPage?: number
 	taskId?: number
 	name?: string
-	value?: string
+	value?: string | number
 	method?: HttpMethod
 	contentType?: string
 }
@@ -29,7 +29,7 @@ export default async function fetchTask({code, method = HttpMethod.GET, contentT
 		} else if(method === 'PATCH') {
 			const newData = new URLSearchParams()
 			if(name && value) {
-				newData.append(name, value)
+				newData.append(name, value.toString())
 			}
 
 			response = await fetch(`${apiweb}/checklist/${code}/task/${taskId}`, {
@@ -43,7 +43,7 @@ export default async function fetchTask({code, method = HttpMethod.GET, contentT
 		} else if(method === 'POST') {
 			const newData = new URLSearchParams()
 			if(name && value) {
-				newData.append(name, value)
+				newData.append(name, value.toString())
 			}
 			response = await fetch(`${apiweb}/checklist/${code}/task`, {
 				method: method,

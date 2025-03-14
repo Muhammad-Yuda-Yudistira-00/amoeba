@@ -12,6 +12,9 @@ import ChecklistHeader from "@/components/elements/ChecklistHeader"
 import Checklist from "@/types/Checklist"
 import ChecklistDelete from "@/components/elements/checklist/ChecklistDelete"
 import fetchTask from "@/services/task/QueryTask"
+import {DndContext, closestCorners, DragEndEvent} from "@dnd-kit/core"
+import {arrayMove} from '@dnd-kit/sortable'
+import {HttpMethod} from '@/types/HttpMethod'
 
 export default function ChecklistClient({initialData, code, activePage}: {initialData: Checklist, code: string, activePage?: number}){
 	const [tasks, setTasks] = useState<Task[]>([])
@@ -49,6 +52,25 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 		fetchData()
 	}, [code, activePage])
 
+	const getTaskPos = (id: number): number => tasks.findIndex(task => task.id === id)
+
+	const handleDragEnd = async (event: DragEndEvent) => {
+		const {active, over} = event
+
+		if(!over || active.id === over.id) return
+
+		const originalPos = getTaskPos(Number(active.id))
+		const newPos = getTaskPos(Number(over.id))
+
+			setTasks(tasks => {
+				return arrayMove(tasks, originalPos, newPos)
+			})
+
+		const response = await fetchTask({code, method: HttpMethod.PATCH, contentType: 'application/x-www-form-urlencoded', taskId: Number(active.id), name: 'order', value: newPos + 1 })
+
+		if(response) console.log('Success update task order.')
+	}
+
 	return (
 		<div className="flex flex-row-reverse w-screen h-full justify-between md:justify-end mb-12">
 			<div className="text-center py-4 flex flex-col items-center border-x-2 bg-stone-700 md:bg-stone-700 w-auto">
@@ -64,7 +86,9 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 					<div className="flex flex-col items-center gap-3">
 						<ChecklistHeader checklist={checklist} code={code} setChecklist={setChecklist} />
 						<div className="w-full">
-							<ListTask code={code} tasks={tasks} setTasks={setTasks} pagination={pagination} setPagination={setPagination} />
+							<DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
+								<ListTask code={code} tasks={tasks} setTasks={setTasks} pagination={pagination} setPagination={setPagination} />
+							</DndContext>
 						</div>
 						<div className="pt-8">
 							<AddTask code={code} pagination={pagination} setTasks={setTasks} setPagination={setPagination} />

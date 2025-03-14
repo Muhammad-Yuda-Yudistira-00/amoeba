@@ -2,6 +2,7 @@ import Task, {PaginationProps} from "@/types/Task"
 import fetchTask from "@/services/task/QueryTask"
 import {HttpMethod} from "@/types/HttpMethod"
 import ItemTask from '@/components/task/ItemTask'
+import {SortableContext, verticalListSortingStrategy} from '@dnd-kit/sortable'
 
 export default function ListTask({code, tasks, setTasks, pagination, setPagination}: {code:string, tasks: Task[], setTasks: React.Dispatch<React.SetStateAction<Task[]>>, pagination: PaginationProps, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>}) {
 
@@ -9,18 +10,23 @@ export default function ListTask({code, tasks, setTasks, pagination, setPaginati
 		const taskId = Number(e.currentTarget.getAttribute("data-key"))
 		const title = (e.currentTarget as HTMLElement).innerText
 
+		setTasks(prevTasks => prevTasks.map(prevTask => prevTask.id === taskId ? {...prevTask, title} : prevTask))
+
 		const result = await fetchTask({code, method: HttpMethod.PATCH, contentType: 'application/x-www-form-urlencoded', name: 'title', value: title, taskId})
+
 		if(result) {
-			setTasks(prevTasks => prevTasks.map(prevTask => prevTask.id === taskId ? (Array.isArray(result.data) ? result.data[0] : result.data) : prevTask))
+			console.info('Success update task')
 		}
 	}
 
 	if(pagination.totalItems > 0) {
 		return (
 			<ul className="px-0">
-				{tasks && tasks.map(task => (
-					<ItemTask key={task.id} task={task} code={code} setTasks={setTasks} handleBlur={handleBlur} pagination={pagination} setPagination={setPagination} />	
-				))}
+				<SortableContext items={tasks} strategy={verticalListSortingStrategy} >
+					{tasks && tasks.map(task => (
+						<ItemTask key={task.id} task={task} code={code} setTasks={setTasks} handleBlur={handleBlur} pagination={pagination} setPagination={setPagination} />	
+					))}
+				</SortableContext>
 			</ul>
 			)
 	} else {
