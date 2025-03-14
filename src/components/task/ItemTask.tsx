@@ -1,7 +1,7 @@
 import Task, {PaginationProps} from '@/types/Task'
 import fetchTask from '@/services/task/QueryTask'
 import {HttpMethod} from '@/types/HttpMethod'
-import {Trash2} from "lucide-react"
+import {Trash2, Move} from "lucide-react"
 import {showAlert} from "@/libs/showAlert"
 import {useSortable} from '@dnd-kit/sortable'
 import {CSS} from '@dnd-kit/utilities'
@@ -66,12 +66,25 @@ const ItemTask = ({
 			style={style}
 		>
 			<div className="flex gap-4 px-4 md:px-0 items-center">
-				<button type="button" className="hover:bg-amber-200 group h-full" onClick={async () => {
-					await handleDelete()
-				}}>
+				<button 
+					type="button" 
+					className="hover:bg-amber-200 group h-full" 
+					onClick={async () => await handleDelete()}
+					onPointerDown={e => e.stopPropagation()}
+				>
 					<Trash2 size={20} className="stroke-stone-700 group-hover:stroke-stone-600" />
 				</button>
-				<input type="checkbox" name="status" checked={task.status === "done"} onChange={async () => await handleStatus()} className="accent-stone-700 min-w-4 min-h-4" />
+				<div className="hover:bg-stone-700 w-[20px] h-[20px] group">
+					<Move size={20} className="stroke-stone-700 group-hover:stroke-stone-100" />
+				</div>
+				<input 
+					type="checkbox" 
+					name="status" 
+					checked={task.status === "done"} 
+					onChange={async () => await handleStatus()} 
+					onPointerDown={e => e.stopPropagation()}
+					className="accent-stone-700 min-w-4 min-h-4" 
+				/>
 				<div
 					className="w-full"
 				>
