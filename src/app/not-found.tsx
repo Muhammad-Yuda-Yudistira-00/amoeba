@@ -1,10 +1,13 @@
+import ContainerHome from '@/components/fragments/ContainerHome'
+
 const NotFound = () => {
 	return (
-		<div className="flex flex-col justify-center items-center min-h-screen gap-6 bg-[url('/themes/background/city-1.jpg')] bg-cover">
+		<ContainerHome>
 	      <div className="text-center">
-	        <h1 className="text-3xl md:text-6xl font-mutlu">Page not found</h1>
+	        <h1 className="text-5xl md:text-6xl font-mutlu pb-4 text-lime-400">Page not found..</h1>
+	        <p className="text-5xl">404</p>
 	      </div>
-	    </div>
+	    </ContainerHome>
 	)
 }
 
