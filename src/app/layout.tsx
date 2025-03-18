@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 const appName = process.env.NEXT_PUBLIC_APP_NAME + " (checklist app)";
-const appDesc = "Discover amoeBALIst – where stunning design meets effortless checklists! Elevate your productivity with beautifully crafted layouts that inspire, outshining competitors like Checkli with style and flair. Start creating today!";
+const appDesc = "Explore amoeBALIst – a free online checklist tool with stunning design! Create simple Checklists effortlessly, powered by beautiful tools that boost productivity with flair. Start now!";
 const appUrl = "https://amoeba-weld.vercel.app";
 
 export const metadata: Metadata = {
