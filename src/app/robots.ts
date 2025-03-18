@@ -5,9 +5,10 @@ export default function robots(): MetadataRoute.Robots {
 		rules: [
 			{
 				userAgent: '*',
+				disallow: '/checklist/*',
 				allow: '/'
 			}
 		],
-		sitemap: 'https://amoeba-weld.vercel.app/sitemap.xml'
+		sitemap: process.env.NEXT_PUBLIC_APP_NAME + '/sitemap.xml'
 	}
 }

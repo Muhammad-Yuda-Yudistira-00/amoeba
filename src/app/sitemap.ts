@@ -1,16 +1,12 @@
 import { MetadataRoute } from "next"
 
 export default function sitemap(): MetadataRoute.Sitemap {
-	const baseUrl = "https://amoeba-weld.vercel.app"
+	const baseUrl = process.env.NEXT_PUBLIC_APP_NAME
 
 	return [
 		{
 			url: `${baseUrl}/`,
 			lastModified: new Date().toISOString(),
 		},
-		{
-			url: `${baseUrl}/checklist/sample-code`,
-			lastModified: new Date().toISOString()
-		}
 	]
 }
