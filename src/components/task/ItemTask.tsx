@@ -90,7 +90,7 @@ const ItemTask = ({
 				>
 					<li 
 						data-key={task.id} 
-						className={`text-red-700 border-b-2 border-stone-700 text-3xl md:text-5xl pt-2 px-4 decoration-amber-300 decoration-4 decoration-wavy w-full ${task.status === "done" ? "line-through" : ""} font-loversQuarrel selection:bg-amber-200`} 
+						className={`text-blue-700 border-b-2 border-stone-700 text-3xl md:text-5xl pt-2 px-4 decoration-amber-300 decoration-4 decoration-wavy w-full ${task.status === "done" ? "line-through" : ""} font-loversQuarrel selection:bg-amber-200`} 
 						contentEditable 
 						suppressContentEditableWarning={true}
 						// dangerouslySetInnerHTML={{ __html: task.title }} 

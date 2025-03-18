@@ -47,7 +47,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id">
+    <html lang="id" className="">
       <head>
 
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-30774F78SL"></Script>
