@@ -25,7 +25,9 @@ export default async function ChecklistPage({params, searchParams}: PageProps) {
 		}
 
 		return(
+			<>
 			<ChecklistClient initialData={result} code={resolvedParams.code} activePage={activePage.page} />
+			</>
 		)
 	} catch(error) {
 		console.error("Error: ", error)

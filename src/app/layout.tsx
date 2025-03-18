@@ -14,21 +14,21 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const appName = "Amoeba List"; 
-const appDesc = "Aplikasi checklist yang membantu mengatur tugasmu lebih baik.";
+const appName = process.env.NEXT_PUBLIC_APP_NAME + " (checklist app)";
+const appDesc = "Discover amoeBALIst – where stunning design meets effortless checklists! Elevate your productivity with beautifully crafted layouts that inspire, outshining competitors like Checkli with style and flair. Start creating today!";
 const appUrl = "https://amoeba-weld.vercel.app";
 
 export const metadata: Metadata = {
-  title: `${appName} | Checklist`,
+  title: appName,
   description: appDesc,
   openGraph: {
-    title: `${appName} | Checklist`,
+    title: appName,
     description: appDesc,
     url: appUrl,
     siteName: appName,
     images: [
       {
-        url: `${appUrl}/alt-logo/amoeba-logo.png`,
+        url: `${appUrl}/sample/sample-web.jpg`,
         width: 1200,
         height: 630
       }
@@ -61,12 +61,11 @@ export default function RootLayout({
           `}
         </Script>
 
-        <meta name="apple-mobile-web-app-title" content="Amoeba List" />
+        <meta name="apple-mobile-web-app-title" content="AmoeBALIst" />
 
         {/* google search console via tag html for verification */}
         <meta name="google-site-verification" content="zj-GFUXInFYVlsAm7D3Ngd_wsDSwRyutH-0xOYI5bVE" />
-
-        <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
+        
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white scrollbar-thin scrollbar-thumb-red-500 scrollbar-track-gray-200`}
