@@ -1,10 +1,11 @@
 import Task, {PaginationProps} from '@/types/Task'
 import fetchTask from '@/services/task/QueryTask'
 import {HttpMethod} from '@/types/HttpMethod'
-import {Trash2, Move} from "lucide-react"
+import {Trash2, Move, EllipsisVertical} from "lucide-react"
 import {showAlert} from "@/libs/showAlert"
 import {useSortable} from '@dnd-kit/sortable'
 import {CSS} from '@dnd-kit/utilities'
+import {useState} from 'react'
 
 
 const ItemTask = ({
@@ -13,20 +14,30 @@ const ItemTask = ({
 	setTasks,
 	handleBlur,
 	pagination,
-	setPagination
+	setPagination,
+	openTask,
+	setOpenTask
 	}:{
 		task: Task,
 		code: string, 
 		setTasks: React.Dispatch<React.SetStateAction<Task[]>>
 		handleBlur: (e: React.FocusEvent) => void,
 		pagination: PaginationProps,
-		setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>
+		setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>,
+		openTask: number,
+		setOpenTask: React.Dispatch<React.SetStateAction<number>>
 	}) => {
 	const {attributes, listeners, setNodeRef, transform, transition} = useSortable({id: task.id})
+	const [isOpen, setIsOpen] = useState<boolean>(false)
 
 	const style = {
 		transition,
 		transform: CSS.Transform.toString(transform)
+	}
+
+	const handleMenuTask = () => {
+		setOpenTask(task.id)
+		setIsOpen(isOpen => !isOpen)
 	}
 
 	const handleDelete = async () => {
@@ -76,6 +87,19 @@ const ItemTask = ({
 				</button>
 				<div className="hover:bg-stone-700 w-[20px] h-[20px] group">
 					<Move size={20} className="stroke-stone-700 group-hover:stroke-stone-100" />
+				</div>
+				<div className="relative">
+					<EllipsisVertical 
+						size={25} 
+						color="blue" 
+						className="bg-amber-200 py-1" 
+						onClick={handleMenuTask} 
+						onPointerDown={e => e.stopPropagation()}
+					/>
+					<ul className={`bg-stone-600 text-sm w-32 ${openTask === task.id && isOpen ? 'absolute' : 'hidden'} left-12 top-0 p-2 px-4 opacity-80`}>
+						<li className="hover:text-blue-300 border-b-2 border-dotted mb-1">+ new sub-task</li>
+						<li className="hover:text-blue-300 border-b-2 border-dotted mb-1">> sub-task</li>
+					</ul>
 				</div>
 				<input 
 					type="checkbox" 

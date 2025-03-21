@@ -1,10 +1,14 @@
 import Task, {PaginationProps} from "@/types/Task"
+"use context"
+
 import fetchTask from "@/services/task/QueryTask"
 import {HttpMethod} from "@/types/HttpMethod"
 import ItemTask from '@/components/task/ItemTask'
 import {SortableContext, verticalListSortingStrategy} from '@dnd-kit/sortable'
+import {useState} from 'react'
 
 export default function ListTask({code, tasks, setTasks, pagination, setPagination}: {code:string, tasks: Task[], setTasks: React.Dispatch<React.SetStateAction<Task[]>>, pagination: PaginationProps, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>}) {
+	const [openTask, setOpenTask] = useState<number | null>(null)
 
 	const handleBlur = async (e: React.FocusEvent<Element>) => {
 		const taskId = Number(e.currentTarget.getAttribute("data-key"))
@@ -24,7 +28,7 @@ export default function ListTask({code, tasks, setTasks, pagination, setPaginati
 			<ul className="px-0">
 				<SortableContext items={tasks} strategy={verticalListSortingStrategy} >
 					{tasks && tasks.map(task => (
-						<ItemTask key={task.id} task={task} code={code} setTasks={setTasks} handleBlur={handleBlur} pagination={pagination} setPagination={setPagination} />	
+						<ItemTask key={task.id} task={task} code={code} setTasks={setTasks} handleBlur={handleBlur} pagination={pagination} setPagination={setPagination} openTask={openTask} setOpenTask={setOpenTask} />	
 					))}
 				</SortableContext>
 			</ul>

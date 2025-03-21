@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 
-const urlSaweria = "https://saweria.co/titik444"
+const urlSaweria = "https://saweria.co/OnTime"
 const urlWa = "https://wa.me/62895335059382?text=Hello,%20I%20will%20donate%20via%20Dana%20to%20your%20number.%20Please%20confirm"
 
 const Donation = () => {
