@@ -68,6 +68,10 @@ const ItemTask = ({
 		}
 	}
 
+	const addNewSubTask = async () => {
+
+	}
+
 	return(
 		<div 
 			className="flex justify-between w-full"
@@ -76,7 +80,7 @@ const ItemTask = ({
 			{...listeners}
 			style={style}
 		>
-			<div className="flex gap-4 px-4 md:px-0 items-center">
+			<div className="flex gap-4 px-4 md:px-0 items-center border-b-2 border-stone-400 w-full">
 				<button 
 					type="button" 
 					className="hover:bg-amber-200 group h-full" 
@@ -97,7 +101,7 @@ const ItemTask = ({
 						onPointerDown={e => e.stopPropagation()}
 					/>
 					<ul className={`bg-stone-600 text-sm w-32 ${openTask === task.id && isOpen ? 'absolute' : 'hidden'} left-12 top-0 p-2 px-4 opacity-80`}>
-						<li className="hover:text-blue-300 border-b-2 border-dotted mb-1">+ new sub-task</li>
+						<li className="hover:text-blue-300 border-b-2 border-dotted mb-1" onClick={addNewSubTask}>+ new sub-task</li>
 						<li className="hover:text-blue-300 border-b-2 border-dotted mb-1">> sub-task</li>
 					</ul>
 				</div>
@@ -114,7 +118,7 @@ const ItemTask = ({
 				>
 					<li 
 						data-key={task.id} 
-						className={`text-blue-700 border-b-2 border-stone-700 text-3xl md:text-5xl pt-2 px-4 decoration-amber-300 decoration-4 decoration-wavy w-full ${task.status === "done" ? "line-through" : ""} font-loversQuarrel selection:bg-amber-200`} 
+						className={`text-blue-700 text-3xl md:text-5xl pt-2 px-4 decoration-amber-300 decoration-4 decoration-wavy w-full ${task.status === "done" ? "line-through" : ""} font-loversQuarrel selection:bg-amber-200`} 
 						contentEditable 
 						suppressContentEditableWarning={true}
 						// dangerouslySetInnerHTML={{ __html: task.title }} 

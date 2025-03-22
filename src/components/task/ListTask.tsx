@@ -28,7 +28,19 @@ export default function ListTask({code, tasks, setTasks, pagination, setPaginati
 			<ul className="px-0">
 				<SortableContext items={tasks} strategy={verticalListSortingStrategy} >
 					{tasks && tasks.map(task => (
+						<>
 						<ItemTask key={task.id} task={task} code={code} setTasks={setTasks} handleBlur={handleBlur} pagination={pagination} setPagination={setPagination} openTask={openTask} setOpenTask={setOpenTask} />	
+						{task.children.length > 0 && task.children.map(subTask => (
+							<div className="pl-8">
+							<ItemTask key={subTask.id} task={subTask} code={code} setTasks={setTasks} handleBlur={handleBlur} pagination={pagination} setPagination={setPagination} openTask={openTask} setOpenTask={setOpenTask} />
+							{subTask.children.length > 0 && subTask.children.map(subSubTask => (
+								<div className="pl-8">
+									<ItemTask key={subSubTask.id} task={subSubTask} code={code} setTasks={setTasks} handleBlur={handleBlur} pagination={pagination} setPagination={setPagination} openTask={openTask} setOpenTask={setOpenTask} />
+								</div>
+							))}
+							</div>
+						))}
+						</>
 					))}
 				</SortableContext>
 			</ul>
