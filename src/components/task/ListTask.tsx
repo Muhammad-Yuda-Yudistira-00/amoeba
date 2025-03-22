@@ -5,10 +5,27 @@ import fetchTask from "@/services/task/QueryTask"
 import {HttpMethod} from "@/types/HttpMethod"
 import ItemTask from '@/components/task/ItemTask'
 import {SortableContext, verticalListSortingStrategy} from '@dnd-kit/sortable'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 
 export default function ListTask({code, tasks, setTasks, pagination, setPagination}: {code:string, tasks: Task[], setTasks: React.Dispatch<React.SetStateAction<Task[]>>, pagination: PaginationProps, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>}) {
 	const [openTask, setOpenTask] = useState<number | null>(null)
+	const [flatTasks, setFlatTasks] = useState<Task[]>([])
+
+	useEffect(() => {
+		const flatArray: Task[] = []
+
+		function flatten(task: Task) {
+			const taskWithoutChild = {...task, children: undefined}
+			flatArray.push(taskWithoutChild)
+
+			if(task.children.length > 0) {
+				task.children.forEach(child => flatten(child))
+			}
+		}
+
+		tasks.forEach(task => flatten(task))
+		setFlatTasks(flatArray)
+	}, [tasks])
 
 	const handleBlur = async (e: React.FocusEvent<Element>) => {
 		const taskId = Number(e.currentTarget.getAttribute("data-key"))
@@ -26,20 +43,10 @@ export default function ListTask({code, tasks, setTasks, pagination, setPaginati
 	if(pagination.totalItems > 0) {
 		return (
 			<ul className="px-0">
-				<SortableContext items={tasks} strategy={verticalListSortingStrategy} >
-					{tasks && tasks.map(task => (
+				<SortableContext items={flatTasks} strategy={verticalListSortingStrategy} >
+					{tasks && flatTasks.map(task => (
 						<>
-						<ItemTask key={task.id} task={task} code={code} setTasks={setTasks} handleBlur={handleBlur} pagination={pagination} setPagination={setPagination} openTask={openTask} setOpenTask={setOpenTask} />	
-						{task.children.length > 0 && task.children.map(subTask => (
-							<div className="pl-8">
-							<ItemTask key={subTask.id} task={subTask} code={code} setTasks={setTasks} handleBlur={handleBlur} pagination={pagination} setPagination={setPagination} openTask={openTask} setOpenTask={setOpenTask} />
-							{subTask.children.length > 0 && subTask.children.map(subSubTask => (
-								<div className="pl-8">
-									<ItemTask key={subSubTask.id} task={subSubTask} code={code} setTasks={setTasks} handleBlur={handleBlur} pagination={pagination} setPagination={setPagination} openTask={openTask} setOpenTask={setOpenTask} />
-								</div>
-							))}
-							</div>
-						))}
+							<ItemTask key={task.id} task={task} code={code} setTasks={setTasks} handleBlur={handleBlur} pagination={pagination} setPagination={setPagination} openTask={openTask} setOpenTask={setOpenTask} />
 						</>
 					))}
 				</SortableContext>

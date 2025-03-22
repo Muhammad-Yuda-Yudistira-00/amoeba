@@ -68,19 +68,15 @@ const ItemTask = ({
 		}
 	}
 
-	const addNewSubTask = async () => {
-
-	}
-
 	return(
 		<div 
-			className="flex justify-between w-full"
+			className={`flex justify-between w-full pl-${task.level * 4}`}
 			ref={setNodeRef} 
 			{...attributes} 
 			{...listeners}
 			style={style}
 		>
-			<div className="flex gap-4 px-4 md:px-0 items-center border-b-2 border-stone-400 w-full">
+			<div className={`flex gap-4 px-4 md:px-0 items-center border-b-2 border-stone-400 w-full`}>
 				<button 
 					type="button" 
 					className="hover:bg-amber-200 group h-full" 
@@ -101,7 +97,7 @@ const ItemTask = ({
 						onPointerDown={e => e.stopPropagation()}
 					/>
 					<ul className={`bg-stone-600 text-sm w-32 ${openTask === task.id && isOpen ? 'absolute' : 'hidden'} left-12 top-0 p-2 px-4 opacity-80`}>
-						<li className="hover:text-blue-300 border-b-2 border-dotted mb-1" onClick={addNewSubTask}>+ new sub-task</li>
+						<li className="hover:text-blue-300 border-b-2 border-dotted mb-1">+ new sub-task</li>
 						<li className="hover:text-blue-300 border-b-2 border-dotted mb-1">> sub-task</li>
 					</ul>
 				</div>
