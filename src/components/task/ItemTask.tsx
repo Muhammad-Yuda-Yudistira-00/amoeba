@@ -29,15 +29,21 @@ const ItemTask = ({
 	}) => {
 	const {attributes, listeners, setNodeRef, transform, transition} = useSortable({id: task.id})
 	const [isOpen, setIsOpen] = useState<boolean>(false)
+	const [isOpenInput, setIsOpenInput] = useState<boolean>(false)
 
 	const style = {
 		transition,
-		transform: CSS.Transform.toString(transform)
+		transform: CSS.Transform.toString(transform),
+		marginLeft: `${task.level * 40 - 40}px` 
 	}
 
 	const handleMenuTask = () => {
 		setOpenTask(task.id)
 		setIsOpen(isOpen => !isOpen)
+	}
+
+	const showInputSubTask = () => {
+		setIsOpenInput(isOpenInput => !isOpenInput)
 	}
 
 	const handleDelete = async () => {
@@ -68,15 +74,16 @@ const ItemTask = ({
 		}
 	}
 
+
 	return(
 		<div 
-			className={`flex justify-between w-full pl-${task.level * 4}`}
+			className={`flex flex-col justify-between w-full`}
 			ref={setNodeRef} 
 			{...attributes} 
 			{...listeners}
 			style={style}
 		>
-			<div className={`flex gap-4 px-4 md:px-0 items-center border-b-2 border-stone-400 w-full`}>
+			<div className={`flex gap-4 items-center border-b-2 border-stone-400 w-full`}>
 				<button 
 					type="button" 
 					className="hover:bg-amber-200 group h-full" 
@@ -96,8 +103,8 @@ const ItemTask = ({
 						onClick={handleMenuTask} 
 						onPointerDown={e => e.stopPropagation()}
 					/>
-					<ul className={`bg-stone-600 text-sm w-32 ${openTask === task.id && isOpen ? 'absolute' : 'hidden'} left-12 top-0 p-2 px-4 opacity-80`}>
-						<li className="hover:text-blue-300 border-b-2 border-dotted mb-1">+ new sub-task</li>
+					<ul className={`bg-stone-600 text-sm w-32 z-40 ${openTask === task.id && isOpen ? 'absolute' : 'hidden'} left-12 top-0 p-2 px-4 opacity-80`}>
+						<li className="hover:text-blue-300 border-b-2 border-dotted mb-1" onClick={showInputSubTask}>+ new sub-task</li>
 						<li className="hover:text-blue-300 border-b-2 border-dotted mb-1">> sub-task</li>
 					</ul>
 				</div>
@@ -131,7 +138,11 @@ const ItemTask = ({
 							{task.title}
 						</li>
 				</div>
-			</div>					
+			</div>
+			<div className={`text-stone-700 pt-2 flex justify-between ${isOpenInput? 'block' : 'hidden'}`}>
+				<input type="text" placeholder="add new sub-task.." className="bg-amber-200 focus:outline-red-700 w-[85%] px-2" />
+				<button className={`bg-amber-200 px-3 border-2 border-red-700 uppercase font-semibold text-sm hover:bg-red-700 hover:text-stone-300`}>Add</button>
+			</div>	
 		</div>
 	)
 }

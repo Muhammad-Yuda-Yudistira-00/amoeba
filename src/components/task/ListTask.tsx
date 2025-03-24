@@ -45,9 +45,7 @@ export default function ListTask({code, tasks, setTasks, pagination, setPaginati
 			<ul className="px-0">
 				<SortableContext items={flatTasks} strategy={verticalListSortingStrategy} >
 					{tasks && flatTasks.map(task => (
-						<>
 							<ItemTask key={task.id} task={task} code={code} setTasks={setTasks} handleBlur={handleBlur} pagination={pagination} setPagination={setPagination} openTask={openTask} setOpenTask={setOpenTask} />
-						</>
 					))}
 				</SortableContext>
 			</ul>
