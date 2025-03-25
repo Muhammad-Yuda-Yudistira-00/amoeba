@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script"
 import Music from "@/components/elements/Music"
+import ReduxProvider from '@/app/providers'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -70,10 +71,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white scrollbar-thin scrollbar-thumb-red-500 scrollbar-track-gray-200`}
       >
-        {children}
-        <div className="relative w-full h-80 m-auto text-center z-30 bg-[url('/themes/patterns/metallic-holographic.jpg')] py-24 bg-cover bg-red-700 bg-blend-color-burn">
-          <Music />
-        </div>
+        <ReduxProvider>
+          {children}
+          <div className="relative w-full h-80 m-auto text-center z-30 bg-[url('/themes/patterns/metallic-holographic.jpg')] py-24 bg-cover bg-red-700 bg-blend-color-burn">
+            <Music />
+          </div>
+        </ReduxProvider>
       </body>
     </html>
   );
