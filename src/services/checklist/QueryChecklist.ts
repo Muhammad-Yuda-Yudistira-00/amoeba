@@ -56,23 +56,23 @@ export async function fetchChecklist({code, method = HttpMethod.GET, contentType
 	}
 }
 
-export async function handleChangeTitle (e: React.FocusEvent<HTMLHeadingElement>, code: string, setChecklist: React.Dispatch<React.SetStateAction<Checklist | null>>) {
-	const target = e.currentTarget as HTMLElement
-	const updatedTitle = target.innerText
+// export async function handleChangeTitle (e: React.FocusEvent<HTMLHeadingElement>, code: string, setChecklist: React.Dispatch<React.SetStateAction<Checklist | null>>) {
+// 	const target = e.currentTarget as HTMLElement
+// 	const updatedTitle = target.innerText
 
-	await fetchChecklist({code: code, method: HttpMethod.PATCH, contentType: 'application/x-www-form-urlencoded', name: 'title', value: updatedTitle})
+// 	await fetchChecklist({code: code, method: HttpMethod.PATCH, contentType: 'application/x-www-form-urlencoded', name: 'title', value: updatedTitle})
 
-	setChecklist(prev => prev ? { ...prev, title: updatedTitle } : null)
-}
+// 	setChecklist(prev => prev ? { ...prev, title: updatedTitle } : null)
+// }
 
-export async function handleChangeDescription (e: React.FocusEvent<HTMLElement>, code: string, setChecklist: React.Dispatch<React.SetStateAction<Checklist | null>>) {
-	const target = e.currentTarget as HTMLElement
-	const updatedDescription = target.innerText
+// export async function handleChangeDescription (e: React.FocusEvent<HTMLElement>, code: string, setChecklist: React.Dispatch<React.SetStateAction<Checklist | null>>) {
+// 	const target = e.currentTarget as HTMLElement
+// 	const updatedDescription = target.innerText
 
-	await fetchChecklist({code: code, method: HttpMethod.PATCH, contentType: 'application/x-www-form-urlencoded', name: 'description', value: updatedDescription})
+// 	await fetchChecklist({code: code, method: HttpMethod.PATCH, contentType: 'application/x-www-form-urlencoded', name: 'description', value: updatedDescription})
 	
-	setChecklist(prev => prev ? {...prev, description: updatedDescription} : null)
-}
+// 	setChecklist(prev => prev ? {...prev, description: updatedDescription} : null)
+// }
 
 export async function resetExpiredChecklist(code: string, setChecklist: React.Dispatch<React.SetStateAction<Checklist | null>>) {
 	const expiredAt = new Date()
