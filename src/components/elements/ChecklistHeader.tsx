@@ -6,7 +6,7 @@ import {RootState, AppDispatch} from '@/redux/store'
 import {fetchChecklist, updateChecklistField} from '@/redux/slices/checklistSlice'
 import {useEffect } from 'react'
 
-export default function ChecklistHeader({checklist, code, setChecklist}: {checklist: Checklist | null, code: string, setChecklist: React.Dispatch<React.SetStateAction<Checklist | null>>}) {
+export default function ChecklistHeader({code}: {code: string}) {
 	const dispatch = useDispatch<AppDispatch>()
 	const checklistData = useSelector((state: RootState) => state.checklist.data)
 	const loading = useSelector((state: RootState) => state.checklist.loading)

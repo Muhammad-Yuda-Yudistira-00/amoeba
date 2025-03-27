@@ -16,7 +16,7 @@ import {DndContext, closestCorners, DragEndEvent} from "@dnd-kit/core"
 import {arrayMove} from '@dnd-kit/sortable'
 import {HttpMethod} from '@/types/HttpMethod'
 
-export default function ChecklistClient({initialData, code, activePage}: {initialData: Checklist, code: string, activePage?: number}){
+export default function ChecklistClient({code, activePage}: {code: string, activePage?: number}){
 	const [tasks, setTasks] = useState<Task[]>([])
 	const [pagination, setPagination] = useState<PaginationProps>({
 		currentPage: activePage ?? 1,
@@ -24,7 +24,6 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 		totalPages: 1,
 		totalItems: 10
 	})
-	const [checklist, setChecklist] = useState<Checklist | null>(initialData)
 	const {push} = useRouter()
 
 	useEffect(() => {
@@ -84,7 +83,7 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 			<div className="flex flex-col w-full items-center min-h-screen bg-orange-300 py-2 pt-4 px-0 md:px-8 md:w-4/5 py-10 bg-[url('/themes/background/city-3.jpg')] bg-cover bg-bottom bg-blend-screen">
 				<div className="flex flex-col justify-between items-center h-full">
 					<div className="flex flex-col items-center gap-3">
-						<ChecklistHeader checklist={checklist} code={code} setChecklist={setChecklist} />
+						<ChecklistHeader code={code} />
 						<div className="w-full">
 							<DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
 								<ListTask code={code} tasks={tasks} setTasks={setTasks} pagination={pagination} setPagination={setPagination} />
@@ -99,7 +98,7 @@ export default function ChecklistClient({initialData, code, activePage}: {initia
 						</div>
 					</div>
 					<div className="h-2/12 text-center md:min-w-96 w-[90%] md:w-2/3 bg-gradient-to-r from-white/10 via-amber-200 to-stone-700 mt-4 mb-8 border-2 shadow-2xl">
-						<Footer expiredAt={checklist?.expiredAt} code={code} setChecklist={setChecklist} />
+						<Footer code={code} />
 					</div>
 				</div>
 			</div>

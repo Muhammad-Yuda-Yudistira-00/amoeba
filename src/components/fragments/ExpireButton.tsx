@@ -5,9 +5,8 @@ import {resetExpiredChecklist} from "@/services/checklist/QueryChecklist"
 import {useSelector, useDispatch} from 'react-redux'
 import {updateChecklistField} from '@/redux/slices/checklistSlice'
 import {AppDispatch} from '@/redux/store'
-import timeToHuman from "@/utils/timeToHuman"
 
-const ExpireButton = ({code, setChecklist}: {code: string, setChecklist: React.Dispatch<React.SetStateAction<Checklist | null>>}) => {
+const ExpireButton = ({code, }: {code: string}) => {
 	const dispatch = useDispatch<AppDispatch>()
 
 	const resetExpiredAt = () => {

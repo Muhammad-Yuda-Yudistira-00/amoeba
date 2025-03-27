@@ -12,8 +12,7 @@ type FooterProps = {
 	setChecklist: React.Dispatch<React.SetStateAction<Checklist | null>>
 }
 
-const Footer: React.FC<FooterProps> = ({expiredAt, code, setChecklist}) => {
-	const expire: number | undefined = timeToHuman(expiredAt ?? "")
+const Footer: React.FC<FooterProps> = ({code}) => {
 	const dispatch = useDispatch<AppDispatch>()
 	const checklistData = useSelector((state: RootState) => state.checklist.data)
 	const loading = useSelector((state: RootState) => state.checklist.loading)
@@ -32,7 +31,7 @@ const Footer: React.FC<FooterProps> = ({expiredAt, code, setChecklist}) => {
 				<p className="text-stone-800 font-kingthingsXstitch">Your checklist active still in <span className="text-sm md:text-base">{timeToHuman(checklistData?.data.expiredAt)} / 31</span> days.</p>
 			</div>
 			<div>
-				<ExpireButton code={code} setChecklist={setChecklist} />
+				<ExpireButton code={code} />
 			</div>
 		</footer>
 	)

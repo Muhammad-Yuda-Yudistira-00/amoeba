@@ -45,9 +45,9 @@ export const updateChecklistField = createAsyncThunk(
 				'x-api-key': API_KEY || ''
 			}
 		})
-		if(response.ok) {
-			return {field, value}
-		}
+		if(!response.ok) throw new Error('Failed update checklist.')
+
+		return response.json()
 	}
 )
 
@@ -79,8 +79,9 @@ const checklistSlice = createSlice({
 			})
 			.addCase(updateChecklistField.fulfilled, (state, action) => {
 				if(state.data) {
-					state.data[action.payload.field] = action.payload.value
+					state.data = action.payload
 				}
+				state.loading = false
 			})
 			.addCase(updateChecklistField.rejected, (state, action) => {
 				state.data = action.payload
