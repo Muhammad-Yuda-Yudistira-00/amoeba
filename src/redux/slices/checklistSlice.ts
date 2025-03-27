@@ -6,20 +6,34 @@ const API_KEY = process.env.NEXT_PUBLIC_API_KEY
 
 export const fetchChecklist = createAsyncThunk(
 	'checklist/fetch',
-	async(code: string) => {
+	async (code: string) => {
 		const response = await fetch(`${API_URL}/checklist/${code}`, {
 			headers: {
 				'x-api-key': API_KEY || ''
 			}
 		})
-		if(!response) throw new Error('Fetching failed')
+		if(!response) throw new Error('Get checklist failed.')
+		return response.json()
+	}
+)
+
+export const deleteChecklist = createAsyncThunk(
+	'checklist/deleteChecklist',
+	async (code: string) => {
+		const response = await fetch(`${API_URL}/checklist/${code}`, {
+			method: 'DELETE',
+			headers: {
+				'x-api-key': API_KEY || ''
+			}
+		})
+		if(!response) throw new Error('Delete checklist failed.')
 		return response.json()
 	}
 )
 
 export const updateChecklistField = createAsyncThunk(
 	'checklist/updateField',
-	async({code, field, value}: {code: string, field: 'title' | 'description' | 'expiredAt', value: string | Date}) => {
+	async ({code, field, value}: {code: string, field: 'title' | 'description' | 'expiredAt', value: string | Date}) => {
 		const body = new URLSearchParams({
 			[field]: value instanceof Date ? value.toISOString() : value
 		})
@@ -31,8 +45,9 @@ export const updateChecklistField = createAsyncThunk(
 				'x-api-key': API_KEY || ''
 			}
 		})
-
-		return {field, value}
+		if(response.ok) {
+			return {field, value}
+		}
 	}
 )
 
@@ -65,14 +80,23 @@ const checklistSlice = createSlice({
 			.addCase(updateChecklistField.fulfilled, (state, action) => {
 				if(state.data) {
 					state.data[action.payload.field] = action.payload.value
-					if(action.payload.field === 'expiredAt' && typeof action.payload.value === 'string') {
-						state.data.expiredAt = new Date(action.payload.value).toISOString()
-
-					}
 				}
 			})
 			.addCase(updateChecklistField.rejected, (state, action) => {
+				state.data = action.payload
+				state.loading = false
+			})
+			.addCase(deleteChecklist.pending, (state) => {
+				state.loading = true
+				state.error = null
+			})
+			.addCase(deleteChecklist.fulfilled, (state) => {
+				state.data = null
+				state.loading = false
+			})
+			.addCase(deleteChecklist.rejected, (state, action) => {
 				state.error = action.error.message || 'Update failed'
+				state.loading = false
 			})
 	}
 })

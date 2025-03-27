@@ -9,10 +9,7 @@ const makeStore = () => {
 	console.log('initial state: ', store.getState())
 
 	store.subscribe(() => {
-		console.group('[Redux] state changed')
-		console.log('Previous state:', store.getState())
 	    console.log('Current state:', store.getState())
-	    console.groupEnd()
 	})
 
 	return store
