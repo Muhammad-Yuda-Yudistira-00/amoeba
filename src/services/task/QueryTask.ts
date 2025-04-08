@@ -10,11 +10,12 @@ export interface FetchTaskProps {
 	taskId?: number
 	name?: string
 	value?: string | number
+	level?: number
 	method?: HttpMethod
 	contentType?: string
 }
 
-export default async function fetchTask({code, method = HttpMethod.GET, contentType = 'application/json', currentPage, taskId, name, value}: FetchTaskProps): Promise<{data: Task[]; pagination: PaginationProps} | null | {data: Task}> {
+export default async function fetchTask({code, method = HttpMethod.GET, contentType = 'application/json', currentPage, taskId, name, value, level = 1}: FetchTaskProps): Promise<{data: Task[]; pagination: PaginationProps} | null | {data: Task}> {
 	let response
 
 	try {
@@ -30,6 +31,7 @@ export default async function fetchTask({code, method = HttpMethod.GET, contentT
 			const newData = new URLSearchParams()
 			if(name && value) {
 				newData.append(name, value.toString())
+				newData.append('level', level)
 			}
 
 			response = await fetch(`${apiweb}/checklist/${code}/task/${taskId}`, {
@@ -44,6 +46,7 @@ export default async function fetchTask({code, method = HttpMethod.GET, contentT
 			const newData = new URLSearchParams()
 			if(name && value) {
 				newData.append(name, value.toString())
+				newData.append('level', level)
 			}
 			response = await fetch(`${apiweb}/checklist/${code}/task`, {
 				method: method,
