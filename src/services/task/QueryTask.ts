@@ -32,10 +32,10 @@ export default async function fetchTask({code, method = HttpMethod.GET, contentT
 			const newData = new URLSearchParams()
 			if(name && value) {
 				if(name === 'level') {
-					newData.append(name, value)
+					newData.append(name, value.toString())
 				} else {
 					newData.append(name, value.toString())
-					newData.append('level', level)
+					newData.append('level', level.toString())
 				}
 			}
 
@@ -51,9 +51,9 @@ export default async function fetchTask({code, method = HttpMethod.GET, contentT
 			const newData = new URLSearchParams()
 			if(name && value) {
 				newData.append(name, value.toString())
-				newData.append('level', level)
+				newData.append('level', level.toString())
 				if(order) {
-					newData.append('order', order)
+					newData.append('order', order.toString())
 				}
 			}
 			response = await fetch(`${apiweb}/checklist/${code}/task`, {

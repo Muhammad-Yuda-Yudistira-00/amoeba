@@ -1,6 +1,5 @@
 "use client"
 
-import Checklist from "@/types/Checklist"
 import {useSelector, useDispatch} from 'react-redux'
 import {RootState, AppDispatch} from '@/redux/store'
 import {fetchChecklist, updateChecklistField} from '@/redux/slices/checklistSlice'
@@ -16,16 +15,14 @@ export default function ChecklistHeader({code}: {code: string}) {
 		dispatch(fetchChecklist(code))
 	}, [code, dispatch])
 
-	const handleTitle = (e) => {
+	const handleTitle = (e: React.FocusEvent<HTMLElement>) => {
 		const newTitle = e.currentTarget.innerText
 		dispatch(updateChecklistField({code, field: 'title', value: newTitle}))
-		// setChecklist(prev => ({...prev, title: newTitle}))
 	}
 
-	const handleDescription = (e) => {
+	const handleDescription = (e: React.FocusEvent<HTMLElement>) => {
 		const newDescription = e.currentTarget.innerText
 		dispatch(updateChecklistField({code, field: 'description', value: newDescription}))
-		// setChecklist(prev => ({...prev, description: newDescription}))
 	}
 
 	if(loading) return <p className="text-blue-700 text-2xl">Loading..</p>

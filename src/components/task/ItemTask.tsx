@@ -26,10 +26,10 @@ const ItemTask = ({
 		handleBlur: (e: React.FocusEvent) => void,
 		pagination: PaginationProps,
 		setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>,
-		openTask: number,
-		setOpenTask: React.Dispatch<React.SetStateAction<number>>,
-		inputSubTask: number,
-		setInputSubTask: React.Dispatch<React.SetStateAction<number>>
+		openTask: number | null,
+		setOpenTask: React.Dispatch<React.SetStateAction<number | null>>,
+		inputSubTask: number | null,
+		setInputSubTask: React.Dispatch<React.SetStateAction<number | null>>
 	}) => {
 	const {attributes, listeners, setNodeRef, transform, transition} = useSortable({id: task.id})
 	const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -69,8 +69,11 @@ const ItemTask = ({
 
 		await fetchTask({code, method: HttpMethod.POST, contentType: 'application/x-www-form-urlencoded', name: 'title', value: subTask, currentPage: pagination.currentPage, level: task.level === 2 ? 3 : 2, order: task.order + 1})
 		const updatedTasks = await fetchTask({code, currentPage: pagination.currentPage})
-		setTasks(updatedTasks.data)
-		setPagination(updatedTasks.pagination)
+
+		setTasks(Array.isArray(updatedTasks!.data) ? updatedTasks!.data : [])
+		if('pagination' in updatedTasks!) {
+			setPagination(updatedTasks!.pagination)
+		}
 
 		setSubTask('')
 		setIsLoading(false)
@@ -80,8 +83,11 @@ const ItemTask = ({
 	const turnLevel = async (arrow: string) => {
 		await fetchTask({code, method: HttpMethod.PATCH, contentType: 'application/x-www-form-urlencoded', taskId: task.id, name: 'level', value: task.level + (arrow === 'up' ? -1 : 1)})
 		const updatedTasks = await fetchTask({code, currentPage: pagination.currentPage})
-		setTasks(updatedTasks.data)
-		setPagination(updatedTasks.pagination)
+
+		setTasks(Array.isArray(updatedTasks!.data) ? updatedTasks!.data : [])
+		if('pagination' in updatedTasks!) {
+			setPagination(updatedTasks!.pagination)
+		}
 
 		setIsOpen(false)
 	}
@@ -108,7 +114,7 @@ const ItemTask = ({
 	const handleStatus = async () => {
 		const newStatus = task.status === 'done' ? 'in_progress' : 'done'
 
-		const result = await fetchTask({code, method: HttpMethod.PATCH, contentType: 'application/x-www-form-urlencoded', taskId: task.id, name: 'status', value: newStatus})
+		const result = await fetchTask({code, method: HttpMethod.PATCH, contentType: 'application/x-www-form-urlencoded', taskId: task.id, name: 'status', value: newStatus, level: task.level})
 		if(result) {
 			setTasks(prevTasks => prevTasks.map(prevTask => prevTask.id === task.id ? (Array.isArray(result.data) ? result.data[0] : result.data) : prevTask))
 		}
@@ -158,7 +164,7 @@ const ItemTask = ({
 									onPointerDown={e => e.stopPropagation()}
 									onClick={() => turnLevel('down')}
 								>
-									> subtask
+									&gt; subtask
 								</li>
 							</>
 						}

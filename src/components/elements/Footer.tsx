@@ -1,15 +1,12 @@
 import timeToHuman from "@/utils/timeToHuman"
 import ExpireButton from "@/components/fragments/ExpireButton"
-import Checklist from "@/types/Checklist"
 import {useSelector, useDispatch} from 'react-redux'
 import {fetchChecklist} from '@/redux/slices/checklistSlice'
 import {AppDispatch, RootState} from '@/redux/store'
 import {useEffect} from 'react'
 
 type FooterProps = {
-	expiredAt: string | undefined
 	code: string
-	setChecklist: React.Dispatch<React.SetStateAction<Checklist | null>>
 }
 
 const Footer: React.FC<FooterProps> = ({code}) => {
@@ -28,7 +25,7 @@ const Footer: React.FC<FooterProps> = ({code}) => {
 	return(
 		<footer className="py-2 px-2">
 			<div>
-				<p className="text-stone-800 font-kingthingsXstitch">Your checklist active still in <span className="text-sm md:text-base">{timeToHuman(checklistData?.data.expiredAt)} / 31</span> days.</p>
+				<p className="text-stone-800 font-kingthingsXstitch">Your checklist active still in <span className="text-sm md:text-base">{checklistData ? timeToHuman(checklistData?.data.expiredAt) : "-"} / 31</span> days.</p>
 			</div>
 			<div>
 				<ExpireButton code={code} />

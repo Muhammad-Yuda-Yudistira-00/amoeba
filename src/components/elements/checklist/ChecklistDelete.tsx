@@ -1,6 +1,4 @@
-import {fetchChecklist} from "@/services/checklist/QueryChecklist"
 import {useRouter} from 'next/navigation'
-import {HttpMethod} from '@/types/HttpMethod'
 import {showAlert} from "@/libs/showAlert"
 import {useDispatch} from 'react-redux'
 import {deleteChecklist} from '@/redux/slices/checklistSlice'
@@ -13,7 +11,6 @@ export default function ChecklistDelete({code}: {code: string}) {
 	const handleDeleteChecklist = async () => {
 		const confirmed = await showAlert('checklist')
 		if(confirmed) {
-			// const result = await fetchChecklist({code: code, method: HttpMethod.DELETE, contentType: 'application/json'})
 			const result = await dispatch(deleteChecklist(code)).unwrap()
 			if(result) {
 				push('/')

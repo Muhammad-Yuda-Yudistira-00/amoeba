@@ -3,9 +3,7 @@ type Task = {
 	order: number;
 	title: string;
 	status: string;
-	parentId: number;
 	level: number;
-	children: array;
 }
 
 export type PaginationProps = {

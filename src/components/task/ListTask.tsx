@@ -1,15 +1,13 @@
 import Task, {PaginationProps} from "@/types/Task"
-"use context"
-
 import fetchTask from "@/services/task/QueryTask"
 import {HttpMethod} from "@/types/HttpMethod"
 import ItemTask from '@/components/task/ItemTask'
 import {SortableContext, verticalListSortingStrategy} from '@dnd-kit/sortable'
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 
 export default function ListTask({code, tasks, setTasks, pagination, setPagination}: {code:string, tasks: Task[], setTasks: React.Dispatch<React.SetStateAction<Task[]>>, pagination: PaginationProps, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>}) {
 	const [openTask, setOpenTask] = useState<number | null>(null)
-	const [inputSubTask, setInputSubTask] = useState<number>(null)
+	const [inputSubTask, setInputSubTask] = useState<number | null>(null)
 
 	const handleBlur = async (e: React.FocusEvent<Element>) => {
 		const taskId = Number(e.currentTarget.getAttribute("data-key"))

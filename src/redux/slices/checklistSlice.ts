@@ -54,7 +54,7 @@ export const updateChecklistField = createAsyncThunk(
 const checklistSlice = createSlice({
 	name: 'checklist',
 	initialState: {
-		data: null as Checklist | null,
+		data: null as {data: Checklist} | null,
 		loading: false,
 		error: null as string | null
 	},
@@ -84,8 +84,8 @@ const checklistSlice = createSlice({
 				state.loading = false
 			})
 			.addCase(updateChecklistField.rejected, (state, action) => {
-				state.data = action.payload
 				state.loading = false
+				state.error = action.error.message ?? 'Unknown error'
 			})
 			.addCase(deleteChecklist.pending, (state) => {
 				state.loading = true

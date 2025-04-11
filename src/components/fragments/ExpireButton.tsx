@@ -1,8 +1,6 @@
 "use client"
 
-import Checklist from "@/types/Checklist"
-import {resetExpiredChecklist} from "@/services/checklist/QueryChecklist"
-import {useSelector, useDispatch} from 'react-redux'
+import {useDispatch} from 'react-redux'
 import {updateChecklistField} from '@/redux/slices/checklistSlice'
 import {AppDispatch} from '@/redux/store'
 
@@ -10,11 +8,11 @@ const ExpireButton = ({code, }: {code: string}) => {
 	const dispatch = useDispatch<AppDispatch>()
 
 	const resetExpiredAt = () => {
-		let newExpiredAt = new Date()
+		const newExpiredAt = new Date()
 		newExpiredAt.setMonth(new Date().getMonth() + 1)
 
-		newExpiredAt = newExpiredAt.toISOString()
-		dispatch(updateChecklistField({code, field: 'expiredAt', value: newExpiredAt}))
+		const expiredAtISO = newExpiredAt.toISOString()
+		dispatch(updateChecklistField({code, field: 'expiredAt', value: expiredAtISO}))
 	}
 
 	return (
