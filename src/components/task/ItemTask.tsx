@@ -1,7 +1,7 @@
 import Task, {PaginationProps} from '@/types/Task'
 import fetchTask from '@/services/task/QueryTask'
 import {HttpMethod} from '@/types/HttpMethod'
-import {Trash2, Move, EllipsisVertical} from "lucide-react"
+import {Trash2, Move, EllipsisVertical, CircleX} from "lucide-react"
 import {showAlert} from "@/libs/showAlert"
 import {useSortable} from '@dnd-kit/sortable'
 import {CSS} from '@dnd-kit/utilities'
@@ -16,7 +16,9 @@ const ItemTask = ({
 	pagination,
 	setPagination,
 	openTask,
-	setOpenTask
+	setOpenTask,
+	inputSubTask,
+	setInputSubTask
 	}:{
 		task: Task,
 		code: string, 
@@ -25,11 +27,15 @@ const ItemTask = ({
 		pagination: PaginationProps,
 		setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>,
 		openTask: number,
-		setOpenTask: React.Dispatch<React.SetStateAction<number>>
+		setOpenTask: React.Dispatch<React.SetStateAction<number>>,
+		inputSubTask: number,
+		setInputSubTask: React.Dispatch<React.SetStateAction<number>>
 	}) => {
 	const {attributes, listeners, setNodeRef, transform, transition} = useSortable({id: task.id})
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const [isOpenInput, setIsOpenInput] = useState<boolean>(false)
+	const [subTask, setSubTask] = useState<string>("")
+	const [isLoading, setIsLoading] = useState<boolean>(false)
 
 	const style = {
 		transition,
@@ -43,7 +49,41 @@ const ItemTask = ({
 	}
 
 	const showInputSubTask = () => {
+		setInputSubTask(task.id)
+		// buka input sub task
 		setIsOpenInput(isOpenInput => !isOpenInput)
+		// tutup menu task
+		setIsOpen(isOpen => !isOpen)
+	}
+
+	const subTaskTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSubTask(e.currentTarget.value)
+	}
+
+	const addSubTask = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault()
+
+		if(!subTask) return
+
+		setIsLoading(true)
+
+		await fetchTask({code, method: HttpMethod.POST, contentType: 'application/x-www-form-urlencoded', name: 'title', value: subTask, currentPage: pagination.currentPage, level: task.level === 2 ? 3 : 2, order: task.order + 1})
+		const updatedTasks = await fetchTask({code, currentPage: pagination.currentPage})
+		setTasks(updatedTasks.data)
+		setPagination(updatedTasks.pagination)
+
+		setSubTask('')
+		setIsLoading(false)
+		setIsOpenInput(false)
+	}
+
+	const turnLevel = async (arrow: string) => {
+		await fetchTask({code, method: HttpMethod.PATCH, contentType: 'application/x-www-form-urlencoded', taskId: task.id, name: 'level', value: task.level + (arrow === 'up' ? -1 : 1)})
+		const updatedTasks = await fetchTask({code, currentPage: pagination.currentPage})
+		setTasks(updatedTasks.data)
+		setPagination(updatedTasks.pagination)
+
+		setIsOpen(false)
 	}
 
 	const handleDelete = async () => {
@@ -86,7 +126,7 @@ const ItemTask = ({
 			<div className={`flex gap-4 items-center border-b-2 border-stone-400 w-full`}>
 				<button 
 					type="button" 
-					className="hover:bg-amber-200 group h-full" 
+					className="hover:bg-amber-200 group h-12" 
 					onClick={async () => await handleDelete()}
 					onPointerDown={e => e.stopPropagation()}
 				>
@@ -104,8 +144,31 @@ const ItemTask = ({
 						onPointerDown={e => e.stopPropagation()}
 					/>
 					<ul className={`bg-stone-600 text-sm w-32 z-40 ${openTask === task.id && isOpen ? 'absolute' : 'hidden'} left-12 top-0 p-2 px-4 opacity-80`}>
-						<li className="hover:text-blue-300 border-b-2 border-dotted mb-1" onClick={showInputSubTask}>+ new sub-task</li>
-						<li className="hover:text-blue-300 border-b-2 border-dotted mb-1">> sub-task</li>
+						{task.level !== 3 && 
+							<>
+								<li 
+									className="hover:text-blue-300 border-b-2 border-dotted mb-1" 
+									onPointerDown={e => e.stopPropagation()} 
+									onClick={showInputSubTask}
+								>
+									+ new subtask
+								</li>
+								<li 
+									className="hover:text-blue-300 border-b-2 border-dotted mb-1"
+									onPointerDown={e => e.stopPropagation()}
+									onClick={() => turnLevel('down')}
+								>
+									> subtask
+								</li>
+							</>
+						}
+						<li 
+							className="hover:text-blue-300 border-b-2 border-dotted mb-1"
+							onPointerDown={e => e.stopPropagation()}
+							onClick={() => turnLevel('up')}
+						>
+							&lt; unsubtask
+						</li>
 					</ul>
 				</div>
 				<input 
@@ -124,8 +187,6 @@ const ItemTask = ({
 						className={`text-blue-700 text-3xl md:text-5xl pt-2 px-4 decoration-amber-300 decoration-4 decoration-wavy w-full ${task.status === "done" ? "line-through" : ""} font-loversQuarrel selection:bg-amber-200`} 
 						contentEditable 
 						suppressContentEditableWarning={true}
-						// dangerouslySetInnerHTML={{ __html: task.title }} 
-						// onInput={e => setEditedText(e.currentTarget.innerText)}
 						onBlur={handleBlur} 
 						onPointerDown={e => e.stopPropagation()} 
 						onKeyDown={e => {
@@ -139,10 +200,38 @@ const ItemTask = ({
 						</li>
 				</div>
 			</div>
-			<div className={`text-stone-700 pt-2 flex justify-between ${isOpenInput? 'block' : 'hidden'}`}>
-				<input type="text" placeholder="add new sub-task.." className="bg-amber-200 focus:outline-red-700 w-[85%] px-2" />
-				<button className={`bg-amber-200 px-3 border-2 border-red-700 uppercase font-semibold text-sm hover:bg-red-700 hover:text-stone-300`}>Add</button>
-			</div>	
+			<form action="" method="POST" onSubmit={(e) => addSubTask(e)} className={`text-stone-700 pt-2 flex justify-between ${inputSubTask === task.id && isOpenInput? 'block' : 'hidden'}`}>
+				<input 
+						type="text" 
+						value={subTask}
+						placeholder="add new sub-task.." 
+						className="bg-amber-200 focus:outline-red-700 w-[85%] px-2" 
+						onChange={(e) => subTaskTitle(e)} 
+						onPointerDown={e => e.stopPropagation()} 
+						onKeyDown={(e) => {
+							if(e.key === " ") {
+								e.preventDefault()
+								document.execCommand("insertText", false, " ")
+							}
+							if(e.key === 'Enter') {
+								e.preventDefault()
+								const form = e.currentTarget.closest('form') as HTMLFormElement | null
+								if(form) {
+									form.requestSubmit()
+								}
+							}
+						}}
+				/>
+				<CircleX 
+					size={25}
+					className="hover:text-red-700" 
+					onPointerDown={e => e.stopPropagation()}
+					onClick={() => {
+						setIsOpenInput(prev => !prev)
+					}}
+				/>
+				<button className={`bg-amber-200 px-3 border-2 border-red-700 uppercase font-semibold text-sm hover:bg-red-700 hover:text-stone-300`}>{isLoading? 'Loading..' : 'Add'}</button>
+			</form>	
 		</div>
 	)
 }

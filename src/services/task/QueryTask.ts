@@ -11,11 +11,12 @@ export interface FetchTaskProps {
 	name?: string
 	value?: string | number
 	level?: number
+	order?: number
 	method?: HttpMethod
 	contentType?: string
 }
 
-export default async function fetchTask({code, method = HttpMethod.GET, contentType = 'application/json', currentPage, taskId, name, value, level = 1}: FetchTaskProps): Promise<{data: Task[]; pagination: PaginationProps} | null | {data: Task}> {
+export default async function fetchTask({code, method = HttpMethod.GET, contentType = 'application/json', currentPage, taskId, name, value, level = 1, order}: FetchTaskProps): Promise<{data: Task[]; pagination: PaginationProps} | null | {data: Task}> {
 	let response
 
 	try {
@@ -30,8 +31,12 @@ export default async function fetchTask({code, method = HttpMethod.GET, contentT
 		} else if(method === 'PATCH') {
 			const newData = new URLSearchParams()
 			if(name && value) {
-				newData.append(name, value.toString())
-				newData.append('level', level)
+				if(name === 'level') {
+					newData.append(name, value)
+				} else {
+					newData.append(name, value.toString())
+					newData.append('level', level)
+				}
 			}
 
 			response = await fetch(`${apiweb}/checklist/${code}/task/${taskId}`, {
@@ -47,6 +52,9 @@ export default async function fetchTask({code, method = HttpMethod.GET, contentT
 			if(name && value) {
 				newData.append(name, value.toString())
 				newData.append('level', level)
+				if(order) {
+					newData.append('order', order)
+				}
 			}
 			response = await fetch(`${apiweb}/checklist/${code}/task`, {
 				method: method,

@@ -16,19 +16,21 @@ export default async function ChecklistPage({params, searchParams}: PageProps) {
 
 	const code = resolvedParams?.code
 
-	const res = await fetch(`${apiweb}/checklist/${code}`, {
-		method: 'GET',
-		headers: {
-			'x-api-key': apikey
-		},
-		cache: 'no-store'
-	})
+	try {
+		const res = await fetch(`${apiweb}/checklist/${code}`, {
+			method: 'GET',
+			headers: {
+				'x-api-key': apikey
+			},
+			cache: 'no-store'
+		})
 
-	if(!res.ok) return notFound()
+		if(!res.ok) throw new Error('Failed to fetch: ' + res.status)
 
-	const data = await res.json()
-
-	if(!data || !data.data) return notFound()
+	} catch(err) {
+		console.error('check checklist: ', err)
+		return notFound()
+	}
 
 	return(
 		<>

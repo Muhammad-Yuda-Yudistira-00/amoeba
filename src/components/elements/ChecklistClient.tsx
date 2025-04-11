@@ -31,7 +31,7 @@ export default function ChecklistClient({code, activePage}: {code: string, activ
 			setPagination({...pagination, currentPage: pagination.currentPage - 1})
 			push(`/checklist/${code}?page=${pagination.currentPage - 1}`)
 		}
-	}, [tasks.length])
+	}, [tasks.length, pagination])
 
 	useEffect(() => {
 		const fetchData = async () => {

@@ -9,23 +9,7 @@ import {useState, useEffect} from 'react'
 
 export default function ListTask({code, tasks, setTasks, pagination, setPagination}: {code:string, tasks: Task[], setTasks: React.Dispatch<React.SetStateAction<Task[]>>, pagination: PaginationProps, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>}) {
 	const [openTask, setOpenTask] = useState<number | null>(null)
-	// const [flatTasks, setFlatTasks] = useState<Task[]>([])
-
-	// useEffect(() => {
-	// 	const flatArray: Task[] = []
-
-	// 	function flatten(task: Task) {
-	// 		const taskWithoutChild = {...task, children: undefined}
-	// 		flatArray.push(taskWithoutChild)
-
-	// 		if(task.children.length > 0) {
-	// 			task.children.forEach(child => flatten(child))
-	// 		}
-	// 	}
-
-	// 	tasks.forEach(task => flatten(task))
-	// 	setFlatTasks(flatArray)
-	// }, [tasks])
+	const [inputSubTask, setInputSubTask] = useState<number>(null)
 
 	const handleBlur = async (e: React.FocusEvent<Element>) => {
 		const taskId = Number(e.currentTarget.getAttribute("data-key"))
@@ -45,7 +29,7 @@ export default function ListTask({code, tasks, setTasks, pagination, setPaginati
 			<ul className="px-0">
 				<SortableContext items={tasks} strategy={verticalListSortingStrategy} >
 					{tasks && tasks.map(task => (
-							<ItemTask key={task.id} task={task} code={code} setTasks={setTasks} handleBlur={handleBlur} pagination={pagination} setPagination={setPagination} openTask={openTask} setOpenTask={setOpenTask} />
+							<ItemTask key={task.id} task={task} code={code} setTasks={setTasks} handleBlur={handleBlur} pagination={pagination} setPagination={setPagination} openTask={openTask} setOpenTask={setOpenTask} inputSubTask={inputSubTask} setInputSubTask={setInputSubTask} />
 					))}
 				</SortableContext>
 			</ul>
