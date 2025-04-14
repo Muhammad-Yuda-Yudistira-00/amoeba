@@ -6,6 +6,7 @@ import {showAlert} from "@/libs/showAlert"
 import {useSortable} from '@dnd-kit/sortable'
 import {CSS} from '@dnd-kit/utilities'
 import {useState} from 'react'
+import SubtaskInput from '@/components/elements/task/SubtaskInput'
 
 
 const ItemTask = ({
@@ -206,7 +207,7 @@ const ItemTask = ({
 						</li>
 				</div>
 			</div>
-			<form action="" method="POST" onSubmit={(e) => addSubTask(e)} className={`text-stone-700 pt-2 flex justify-between gap-2 ${inputSubTask === task.id && isOpenInput? 'block' : 'hidden'}`}>
+			{/*<form action="" method="POST" onSubmit={(e) => addSubTask(e)} className={`text-stone-700 pt-2 flex justify-between gap-2 ${inputSubTask === task.id && isOpenInput? 'block' : 'hidden'}`}>
 				<input 
 						type="text" 
 						value={subTask}
@@ -237,7 +238,8 @@ const ItemTask = ({
 					}}
 				/>
 				<button className={`bg-amber-200 px-3 border-2 border-red-700 uppercase font-semibold text-sm hover:bg-red-700 hover:text-stone-300`}>{isLoading? 'Loading..' : 'Add'}</button>
-			</form>	
+			</form>	*/}
+			<SubtaskInput code={code} task={task} inputSubTask={inputSubTask} setTasks={setTasks} pagination={pagination} setPagination={setPagination} isOpenInput={isOpenInput} setIsOpenInput={setIsOpenInput} />
 		</div>
 	)
 }
