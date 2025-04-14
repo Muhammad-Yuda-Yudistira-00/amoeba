@@ -206,7 +206,7 @@ const ItemTask = ({
 						</li>
 				</div>
 			</div>
-			<form action="" method="POST" onSubmit={(e) => addSubTask(e)} className={`text-stone-700 pt-2 flex justify-between ${inputSubTask === task.id && isOpenInput? 'block' : 'hidden'}`}>
+			<form action="" method="POST" onSubmit={(e) => addSubTask(e)} className={`text-stone-700 pt-2 flex justify-between gap-2 ${inputSubTask === task.id && isOpenInput? 'block' : 'hidden'}`}>
 				<input 
 						type="text" 
 						value={subTask}
