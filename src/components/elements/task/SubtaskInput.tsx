@@ -1,7 +1,7 @@
 import {useState} from 'react'
-import Task from '@/types/Task'
+import Task, {PaginationProps} from '@/types/Task'
 import {HttpMethod} from '@/types/HttpMethod'
-import fetchTask, {PaginationProps} from '@/services/task/QueryTask'
+import fetchTask from '@/services/task/QueryTask'
 import {CircleX} from "lucide-react"
 
 export default function SubtaskInput({code,task,inputSubTask,setTasks,pagination,setPagination,isOpenInput,setIsOpenInput}:{code:string,task:Task,inputSubTask:number|null,setTasks:React.Dispatch<React.SetStateAction<Task[]>>,pagination:PaginationProps,setPagination:React.Dispatch<React.SetStateAction<PaginationProps>>,isOpenInput:boolean,setIsOpenInput:React.Dispatch<React.SetStateAction<boolean>>}) {
