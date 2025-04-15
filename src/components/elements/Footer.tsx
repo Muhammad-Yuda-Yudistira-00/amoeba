@@ -19,13 +19,13 @@ const Footer: React.FC<FooterProps> = ({code}) => {
 		dispatch(fetchChecklist(code))
 	}, [code, dispatch])
 
-	if(loading) return <p className="text-blue-700 text-lg">Loading..</p>
-	if(error) return <p className="text-blue-700 text-lg">Error: {error}</p>
+	if(loading) return <p className="text-stone-800 text-lg">Loading..</p>
+	if(error) return <p className="text-stone-800 text-lg">Error: {error}</p>
 
 	return(
 		<footer className="py-2 px-2">
 			<div>
-				<p className="text-stone-800 font-kingthingsXstitch">Your checklist active still in <span className="text-sm md:text-base">{checklistData ? timeToHuman(checklistData?.data.expiredAt) : "-"} / 31</span> days.</p>
+				<p className="text-sm md:text-lg text-stone-800 font-kingthingsXstitch">Your checklist active still in <span className="text-xs md:text-base">{checklistData ? timeToHuman(checklistData?.data.expiredAt) : "-"} / 31</span> days.</p>
 			</div>
 			<div>
 				<ExpireButton code={code} />

@@ -1,10 +1,10 @@
-import {EllipsisVertical} from "lucide-react"
+import {EllipsisVertical, Trash2} from "lucide-react"
 import Task, {PaginationProps} from '@/types/Task'
 import fetchTask from '@/services/task/QueryTask'
 import {HttpMethod} from '@/types/HttpMethod'
 import {useState} from 'react'
 
-export default function TaskMenu ({code, task, setTasks, pagination, setPagination, openTask, setOpenTask, setInputSubTask, setIsOpenInput}: {code: string, task: Task, setTasks: React.Dispatch<React.SetStateAction<Task[]>>, pagination: PaginationProps, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>, openTask: number | null, setOpenTask: React.Dispatch<React.SetStateAction<number | null>>, setInputSubTask: React.Dispatch<React.SetStateAction<number | null>>, setIsOpenInput: React.Dispatch<React.SetStateAction<boolean>>}) {
+export default function TaskMenu ({code, task, setTasks, pagination, setPagination, openTask, setOpenTask, setInputSubTask, setIsOpenInput, onDelete}: {code: string, task: Task, setTasks: React.Dispatch<React.SetStateAction<Task[]>>, pagination: PaginationProps, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>, openTask: number | null, setOpenTask: React.Dispatch<React.SetStateAction<number | null>>, setInputSubTask: React.Dispatch<React.SetStateAction<number | null>>, setIsOpenInput: React.Dispatch<React.SetStateAction<boolean>>, onDelete: () => Promise<void>}) {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 
 	const handleMenuTask = () => {
@@ -34,10 +34,9 @@ export default function TaskMenu ({code, task, setTasks, pagination, setPaginati
 
 	return (
 		<div className="relative">
-			<EllipsisVertical 
-				size={25} 
+			<EllipsisVertical  
 				color="blue" 
-				className="bg-amber-200 py-1" 
+				className="bg-amber-200 py-1 w-4 h-4 md:w-5 md:h-5" 
 				onClick={handleMenuTask} 
 				onPointerDown={e => e.stopPropagation()}
 			/>
@@ -61,11 +60,18 @@ export default function TaskMenu ({code, task, setTasks, pagination, setPaginati
 					</>
 				}
 				<li 
-					className="hover:text-blue-300 border-b-2 border-dotted mb-1"
+					className={`hover:text-blue-300 border-b-2 border-dotted mb-1 ${task.level === 1 ? 'hidden' : ''}`}
 					onPointerDown={e => e.stopPropagation()}
 					onClick={() => turnLevel('up')}
 				>
 					&lt; unsubtask
+				</li>
+				<li 
+					className="hover:text-blue-300 border-b-2 border-dotted mb-1"
+					onPointerDown={e => e.stopPropagation()}
+					onClick={async () => await onDelete()}
+				>
+					<Trash2 size={10} className="stroke-white inline-block" /> delete
 				</li>
 			</ul>
 		</div>

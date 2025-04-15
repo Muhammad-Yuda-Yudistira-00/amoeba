@@ -71,39 +71,39 @@ const ItemTask = ({
 
 	return(
 		<div 
-			className={`flex flex-col justify-between w-full`}
+			className={`flex flex-col justify-between w-full px-2 md:px-0`}
 			ref={setNodeRef} 
 			{...attributes} 
 			{...listeners}
 			style={style}
 		>
-			<div className={`flex gap-4 items-center border-b-2 border-stone-400 w-full`}>
+			<div className={`flex gap-1 md:gap-4 items-center border-b-2 border-stone-400 w-full`}>
 				<button 
 					type="button" 
-					className="hover:bg-amber-200 group h-12" 
+					className="hidden md:inline-block hover:bg-amber-200 group md:h-12" 
 					onClick={async () => await handleDelete()}
 					onPointerDown={e => e.stopPropagation()}
 				>
-					<Trash2 size={20} className="stroke-stone-700 group-hover:stroke-stone-600" />
+					<Trash2 className="stroke-stone-700 group-hover:stroke-stone-600 w-3 md:w-5 h-3 md:h-5" />
 				</button>
-				<div className="hover:bg-stone-700 w-[20px] h-[20px] group">
-					<Move size={20} className="stroke-stone-700 group-hover:stroke-stone-100" />
+				<div className="hover:bg-stone-700 w-[20px] h-[20px] group md:h-12 flex items-center">
+					<Move className="stroke-stone-700 group-hover:stroke-stone-100 w-3 md:w-5 h-3 md:h-5" />
 				</div>
-				<TaskMenu code={code} task={task} setTasks={setTasks} pagination={pagination} setPagination={setPagination} openTask={openTask} setOpenTask={setOpenTask} setInputSubTask={setInputSubTask} setIsOpenInput={setIsOpenInput} />
+				<TaskMenu code={code} task={task} setTasks={setTasks} pagination={pagination} setPagination={setPagination} openTask={openTask} setOpenTask={setOpenTask} setInputSubTask={setInputSubTask} setIsOpenInput={setIsOpenInput} onDelete={handleDelete} />
 				<input 
 					type="checkbox" 
 					name="status" 
 					checked={task.status === "done"} 
 					onChange={async () => await handleStatus()} 
 					onPointerDown={e => e.stopPropagation()}
-					className="accent-stone-700 min-w-4 min-h-4" 
+					className="accent-stone-700 w-3 h-3 md:w-5 md:h-5" 
 				/>
 				<div
 					className="w-full"
 				>
 					<li 
 						data-key={task.id} 
-						className={`text-blue-700 text-3xl md:text-5xl pt-2 px-4 decoration-amber-300 decoration-4 decoration-wavy w-full ${task.status === "done" ? "line-through" : ""} font-loversQuarrel selection:bg-amber-200`} 
+						className={`text-blue-700 text-2xl md:text-5xl pt-0 md:pt-2 px-1 md:px-4 decoration-amber-300 decoration-4 decoration-wavy w-full ${task.status === "done" ? "line-through" : ""} font-loversQuarrel selection:bg-amber-200`} 
 						contentEditable 
 						suppressContentEditableWarning={true}
 						onBlur={handleBlur} 
