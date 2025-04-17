@@ -1,5 +1,6 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import Checklist from '@/types/Checklist'
+import Task from '@/types/Task'
 
 const API_URL = process.env.NEXT_PUBLIC_API_WEB
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY
@@ -51,16 +52,79 @@ export const updateChecklistField = createAsyncThunk(
 	}
 )
 
+export const getTasks = createAsyncThunk(
+	'checklist/getTasks',
+	async (code: string, currentPage: number) => {
+		const response = await fetch(`${API_URL}/checklist/${code}/task?page=${currentPage}`, {
+			headers: {
+				'x-api-key': API_KEY
+			}
+		})
+
+		if(!response.ok) throw new Error('Failed get tasks.')
+
+		return response.json()
+	}
+)
+
+export const updateTask = createAsyncThunk(
+	'checklist/updateTask',
+	async ({code, taskId, field, value, level}: {code: string, taskId: number, field: 'title' | 'status' | 'level', value: string | number, level?: number}) => {
+		const updatedData = new URLSearchParams()
+
+		if(field === 'level') {
+			updatedData.append(field, value.toString())
+		} else {
+			updatedData.append(field, value.toString())
+			updatedData.append('level', level.toString())
+		}
+
+		const response = await fetch(`${API_URL}/checklist/${code}/task/${taskId}`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				'x-api-key': API_KEY
+			},
+			body: updatedData
+		})
+
+		if(!response.ok) throw new Error('Failed update task.')
+
+		return response.json()
+	}
+)
+
+export const deleteTask = createAsyncThunk(
+	'checklist/deleteTask',
+	async ({code, taskId}: {code: string, taskId: number}) => {
+		const response = await fetch(`${API_URL}/checklist/${code}/task/${taskId}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				'x-api-key': API_KEY
+			}
+		})
+
+		if(!response.ok) throw new Error('Failed delete task.')
+
+		const result = response.json()
+
+		return taskId
+	}
+)
+
 const checklistSlice = createSlice({
 	name: 'checklist',
 	initialState: {
 		data: null as {data: Checklist} | null,
+		tasks: [] as Task[],
 		loading: false,
 		error: null as string | null
 	},
 	reducers: {
 		clearChecklist: (state) => {
 			state.data = null
+			state.tasks = []
 		}
 	},
 	extraReducers: (builder) => {
@@ -98,6 +162,46 @@ const checklistSlice = createSlice({
 			.addCase(deleteChecklist.rejected, (state, action) => {
 				state.error = action.error.message || 'Update failed'
 				state.loading = false
+			})
+			.addCase(getTasks.pending, (state) => {
+				state.loading = true
+				state.error = null
+			})
+			.addCase(getTasks.fulfilled, (state, action) => {
+				state.tasks = Array.isArray(action.payload.data) ? action.payload.data : []
+				state.loading = false
+			})
+			.addCase(getTasks.rejected, (state, action) => {
+				state.error = action.error.message || 'Failed get tasks'
+				state.loading = false
+			})
+			.addCase(updateTask.pending, (state) => {
+				state.loading = true
+				state.error = null
+			})
+			.addCase(updateTask.fulfilled, (state, action) => {
+				const updatedTask = action.payload.data
+				state.tasks = state.tasks.map(task => {
+					return task.id === updatedTask.id ? updatedTask : task
+				})
+				state.loading = false
+			})
+			.addCase(updateTask.rejected, (state, action) => {
+				state.loading = false
+				state.error = action.error.message
+			})
+			.addCase(deleteTask.pending, (state) => {
+				state.loading = true
+				state.error = null
+			})
+			.addCase(deleteTask.fulfilled, (state, action) => {
+				const deletedTask = action.payload
+				console.log({deletedTask})
+				state.tasks = state.tasks.filter(task => task.id !== deletedTask)
+			})
+			.addCase(deleteTask.rejected, (state, action) => {
+				state.loading = false
+				state.error = action.error.message
 			})
 	}
 })

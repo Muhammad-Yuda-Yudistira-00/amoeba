@@ -8,23 +8,24 @@ import {CSS} from '@dnd-kit/utilities'
 import {useState} from 'react'
 import SubtaskInput from '@/components/elements/task/SubtaskInput'
 import TaskMenu from '@/components/elements/task/TaskMenu'
+import {useDispatch} from 'react-redux'
+import {AppDispatch} from '@/redux/store'
+import {updateTask, deleteTask} from '@/redux/slices/checklistSlice'
 
 const ItemTask = ({
 	task, 
 	code,
 	setTasks,
-	handleBlur,
 	pagination,
 	setPagination,
 	openTask,
 	setOpenTask,
 	inputSubTask,
-	setInputSubTask
+	setInputSubTask,
 	}:{
 		task: Task,
 		code: string, 
 		setTasks: React.Dispatch<React.SetStateAction<Task[]>>
-		handleBlur: (e: React.FocusEvent) => void,
 		pagination: PaginationProps,
 		setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>,
 		openTask: number | null,
@@ -34,6 +35,7 @@ const ItemTask = ({
 	}) => {
 	const {attributes, listeners, setNodeRef, transform, transition} = useSortable({id: task.id})
 	const [isOpenInput, setIsOpenInput] = useState<boolean>(false)
+	const dispatch = useDispatch<AppDispatch>()
 
 	const style = {
 		transition,
@@ -41,33 +43,43 @@ const ItemTask = ({
 		marginLeft: `${task.level * 40 - 40}px` 
 	}
 
+	const handleBlur2 = async (e: React.FocusEvent<Element>, taskId: number, level?: number) => {
+		const title = (e.currentTarget as HTMLElement).innerText
+
+		dispatch(updateTask({code, taskId, field: 'title', value: title, level}))
+	}
+
+	const handleStatus = () => {
+		const updatedStatus = task.status === 'done' ? 'in_progress' : 'done'
+
+		dispatch(updateTask({code, taskId: task.id, field: 'status', value: updatedStatus, level: task.level}))
+	}
+
 	const handleDelete = async () => {
 		const confirmed = await showAlert('task')
 		if(confirmed) {
-			const result = await fetchTask({code, method: HttpMethod.DELETE, taskId: task.id})
-			if(result) {
-				console.info("succes deleted task")
-				const result = await fetchTask({code, currentPage: pagination.currentPage})
-				if(result) {
-					if(Array.isArray(result.data)) {
-						setTasks(result.data) 
-					}
-					if('pagination' in result) {
-						setPagination(result.pagination)
-					}
-				}
-			}
+			dispatch(deleteTask({code, taskId: task.id}))
 		}
 	}
 
-	const handleStatus = async () => {
-		const newStatus = task.status === 'done' ? 'in_progress' : 'done'
-
-		const result = await fetchTask({code, method: HttpMethod.PATCH, contentType: 'application/x-www-form-urlencoded', taskId: task.id, name: 'status', value: newStatus, level: task.level})
-		if(result) {
-			setTasks(prevTasks => prevTasks.map(prevTask => prevTask.id === task.id ? (Array.isArray(result.data) ? result.data[0] : result.data) : prevTask))
-		}
-	}
+	// const handleDelete = async () => {
+	// 	const confirmed = await showAlert('task')
+	// 	if(confirmed) {
+	// 		const result = await fetchTask({code, method: HttpMethod.DELETE, taskId: task.id})
+	// 		if(result) {
+	// 			console.info("succes deleted task")
+	// 			const result = await fetchTask({code, currentPage: pagination.currentPage})
+	// 			if(result) {
+	// 				if(Array.isArray(result.data)) {
+	// 					setTasks(result.data) 
+	// 				}
+	// 				if('pagination' in result) {
+	// 					setPagination(result.pagination)
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// }
 
 	return(
 		<div 
@@ -94,7 +106,7 @@ const ItemTask = ({
 					type="checkbox" 
 					name="status" 
 					checked={task.status === "done"} 
-					onChange={async () => await handleStatus()} 
+					onChange={handleStatus} 
 					onPointerDown={e => e.stopPropagation()}
 					className="accent-stone-700 w-3 h-3 md:w-5 md:h-5" 
 				/>
@@ -106,7 +118,7 @@ const ItemTask = ({
 						className={`text-blue-700 text-2xl md:text-5xl pt-0 md:pt-2 px-1 md:px-4 decoration-amber-300 decoration-4 decoration-wavy w-full ${task.status === "done" ? "line-through" : ""} font-loversQuarrel selection:bg-amber-200`} 
 						contentEditable 
 						suppressContentEditableWarning={true}
-						onBlur={handleBlur} 
+						onBlur={(e) => handleBlur2(e, task.id, task.level)} 
 						onPointerDown={e => e.stopPropagation()} 
 						onKeyDown={e => {
 							if(e.key === " ") {
@@ -116,7 +128,7 @@ const ItemTask = ({
 						}}
 						data-dnd-kit-no-drag >
 							{task.title}
-						</li>
+					</li>
 				</div>
 			</div>
 			<SubtaskInput code={code} task={task} inputSubTask={inputSubTask} setTasks={setTasks} pagination={pagination} setPagination={setPagination} isOpenInput={isOpenInput} setIsOpenInput={setIsOpenInput} />

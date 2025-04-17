@@ -3,31 +3,29 @@ import fetchTask from "@/services/task/QueryTask"
 import {HttpMethod} from "@/types/HttpMethod"
 import ItemTask from '@/components/task/ItemTask'
 import {SortableContext, verticalListSortingStrategy} from '@dnd-kit/sortable'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import {AppDispatch} from '@/redux/store'
+import {getTasks, updateTask} from '@/redux/slices/checklistSlice'
 
-export default function ListTask({code, tasks, setTasks, pagination, setPagination}: {code:string, tasks: Task[], setTasks: React.Dispatch<React.SetStateAction<Task[]>>, pagination: PaginationProps, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>}) {
+export default function ListTask({code, tasks, setTasks, pagination, setPagination, activePage}: {code:string, tasks: Task[], setTasks: React.Dispatch<React.SetStateAction<Task[]>>, pagination: PaginationProps, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>, activePage: number}) {
 	const [openTask, setOpenTask] = useState<number | null>(null)
 	const [inputSubTask, setInputSubTask] = useState<number | null>(null)
+	const dispatch = useDispatch<AppDispatch>()
+	const tasksRedux = useSelector((state: RootState) => state.checklist.tasks)
+	const loading = useSelector((state: RootState) => state.checklist.loading)
+	const error = useSelector((state: RootState) => state.checklist.error)
 
-	const handleBlur = async (e: React.FocusEvent<Element>) => {
-		const taskId = Number(e.currentTarget.getAttribute("data-key"))
-		const title = (e.currentTarget as HTMLElement).innerText
-
-		setTasks(prevTasks => prevTasks.map(prevTask => prevTask.id === taskId ? {...prevTask, title} : prevTask))
-
-		const result = await fetchTask({code, method: HttpMethod.PATCH, contentType: 'application/x-www-form-urlencoded', name: 'title', value: title, taskId})
-
-		if(result) {
-			console.info('Success update task')
-		}
-	}
+	useEffect(() => {
+		dispatch(getTasks(code, activePage))
+	}, [code,dispatch])
 
 	if(pagination.totalItems > 0) {
 		return (
 			<ul className="px-0">
-				<SortableContext items={tasks} strategy={verticalListSortingStrategy} >
-					{tasks && tasks.map(task => (
-							<ItemTask key={task.id} task={task} code={code} setTasks={setTasks} handleBlur={handleBlur} pagination={pagination} setPagination={setPagination} openTask={openTask} setOpenTask={setOpenTask} inputSubTask={inputSubTask} setInputSubTask={setInputSubTask} />
+				<SortableContext items={tasksRedux} strategy={verticalListSortingStrategy} >
+					{tasksRedux && tasksRedux.map(task => (
+							<ItemTask key={task.id} task={task} code={code} setTasks={setTasks} pagination={pagination} setPagination={setPagination} openTask={openTask} setOpenTask={setOpenTask} inputSubTask={inputSubTask} setInputSubTask={setInputSubTask} />
 					))}
 				</SortableContext>
 			</ul>

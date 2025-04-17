@@ -85,7 +85,7 @@ export default function ChecklistClient({code, activePage}: {code: string, activ
 						<ChecklistHeader code={code} />
 						<div className="w-full">
 							<DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
-								<ListTask code={code} tasks={tasks} setTasks={setTasks} pagination={pagination} setPagination={setPagination} />
+								<ListTask code={code} tasks={tasks} setTasks={setTasks} pagination={pagination} setPagination={setPagination} activePage={activePage} />
 							</DndContext>
 						</div>
 						<div className="pt-8">
