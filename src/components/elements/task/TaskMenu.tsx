@@ -3,9 +3,13 @@ import Task, {PaginationProps} from '@/types/Task'
 import fetchTask from '@/services/task/QueryTask'
 import {HttpMethod} from '@/types/HttpMethod'
 import {useState} from 'react'
+import {useDispatch} from 'react-redux'
+import {AppDispatch} from '@/redux/store'
+import {updateTask} from '@/redux/slices/checklistSlice'
 
-export default function TaskMenu ({code, task, setTasks, pagination, setPagination, openTask, setOpenTask, setInputSubTask, setIsOpenInput, onDelete}: {code: string, task: Task, setTasks: React.Dispatch<React.SetStateAction<Task[]>>, pagination: PaginationProps, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>, openTask: number | null, setOpenTask: React.Dispatch<React.SetStateAction<number | null>>, setInputSubTask: React.Dispatch<React.SetStateAction<number | null>>, setIsOpenInput: React.Dispatch<React.SetStateAction<boolean>>, onDelete: () => Promise<void>}) {
+export default function TaskMenu ({code, task, pagination, setPagination, openTask, setOpenTask, setInputSubTask, setIsOpenInput, onDelete}: {code: string, task: Task, pagination: PaginationProps, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>, openTask: number | null, setOpenTask: React.Dispatch<React.SetStateAction<number | null>>, setInputSubTask: React.Dispatch<React.SetStateAction<number | null>>, setIsOpenInput: React.Dispatch<React.SetStateAction<boolean>>, onDelete: () => Promise<void>}) {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
+	const dispatch = useDispatch<AppDispatch>()
 
 	const handleMenuTask = () => {
 		setOpenTask(task.id)
@@ -21,13 +25,8 @@ export default function TaskMenu ({code, task, setTasks, pagination, setPaginati
 	}
 
 	const turnLevel = async (arrow: string) => {
-		await fetchTask({code, method: HttpMethod.PATCH, contentType: 'application/x-www-form-urlencoded', taskId: task.id, name: 'level', value: task.level + (arrow === 'up' ? -1 : 1)})
-		const updatedTasks = await fetchTask({code, currentPage: pagination.currentPage})
-
-		setTasks(Array.isArray(updatedTasks!.data) ? updatedTasks!.data : [])
-		if('pagination' in updatedTasks!) {
-			setPagination(updatedTasks!.pagination)
-		}
+		const newLevel = arrow === 'down' ? task.level + 1 : task.level - 1
+		dispatch(updateTask({code, taskId: task.id, field: 'level', value: newLevel}))
 
 		setIsOpen(false)
 	}
@@ -67,7 +66,7 @@ export default function TaskMenu ({code, task, setTasks, pagination, setPaginati
 					&lt; unsubtask
 				</li>
 				<li 
-					className="hover:text-blue-300 border-b-2 border-dotted mb-1"
+					className="hover:text-blue-300 border-b-2 border-dotted mb-1 md:hidden"
 					onPointerDown={e => e.stopPropagation()}
 					onClick={async () => await onDelete()}
 				>

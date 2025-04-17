@@ -38,6 +38,7 @@ export const updateChecklistField = createAsyncThunk(
 		const body = new URLSearchParams({
 			[field]: value instanceof Date ? value.toISOString() : value
 		})
+
 		const response = await fetch(`${API_URL}/checklist/${code}`, {
 			method: 'PATCH',	
 			body,
@@ -52,9 +53,24 @@ export const updateChecklistField = createAsyncThunk(
 	}
 )
 
+export const getTask = createAsyncThunk(
+	'checklist/getTask',
+	async ({code, taskId}: {code: string, taskId: number}) => {
+		const response = await fetch(`${API_URL}/checklist/${code}/task/${taskId}`, {
+			headers: {
+				'x-api-key': API_KEY
+			}
+		})
+
+		if(!response.ok) throw new Error('Failed get task.')
+
+		return response.json()
+	}
+)
+
 export const getTasks = createAsyncThunk(
 	'checklist/getTasks',
-	async (code: string, currentPage: number) => {
+	async ({code, currentPage}: {code: string, currentPage: number}) => {
 		const response = await fetch(`${API_URL}/checklist/${code}/task?page=${currentPage}`, {
 			headers: {
 				'x-api-key': API_KEY
@@ -62,6 +78,31 @@ export const getTasks = createAsyncThunk(
 		})
 
 		if(!response.ok) throw new Error('Failed get tasks.')
+
+		return response.json()
+	}
+)
+
+export const addTask = createAsyncThunk(
+	'checklist/addTask',
+	async ({code, title, level, order}: {code: string, title: string, level: number, order?: number}) => {
+		const newTask = new URLSearchParams()
+		newTask.append('title', title)
+		newTask.append('level', level.toString())
+		if(order) {
+			newTask.append('order', order.toString())
+		}
+
+		const response = await fetch(`${API_URL}/checklist/${code}/task`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				'x-api-key': API_KEY
+			},
+			body: newTask
+		})
+
+		if(!response.ok) throw new Error('Failed add task.')
 
 		return response.json()
 	}
@@ -107,8 +148,6 @@ export const deleteTask = createAsyncThunk(
 
 		if(!response.ok) throw new Error('Failed delete task.')
 
-		const result = response.json()
-
 		return taskId
 	}
 )
@@ -118,6 +157,7 @@ const checklistSlice = createSlice({
 	initialState: {
 		data: null as {data: Checklist} | null,
 		tasks: [] as Task[],
+		selectedTask: null as Task || null,
 		loading: false,
 		error: null as string | null
 	},
@@ -163,6 +203,18 @@ const checklistSlice = createSlice({
 				state.error = action.error.message || 'Update failed'
 				state.loading = false
 			})
+			.addCase(getTask.pending, (state) => {
+				state.loading = true
+				state.error = null
+			})
+			.addCase(getTask.fulfilled, (state, action) => {
+				state.selectedTask = action.payload.data
+				state.loading = false
+			})
+			.addCase(getTask.rejected, (state, action) => {
+				state.error = action.error.message || 'Failed get task'
+				state.loading = false
+			})
 			.addCase(getTasks.pending, (state) => {
 				state.loading = true
 				state.error = null
@@ -173,6 +225,18 @@ const checklistSlice = createSlice({
 			})
 			.addCase(getTasks.rejected, (state, action) => {
 				state.error = action.error.message || 'Failed get tasks'
+				state.loading = false
+			})
+			.addCase(addTask.pending, (state) => {
+				state.loading = true
+				state.error = null
+			})
+			.addCase(addTask.fulfilled, (state, action) => {
+				state.tasks.push(action.payload.data)
+				state.loading = false
+			})
+			.addCase(addTask.rejected, (state, action) => {
+				state.error = action.error.message
 				state.loading = false
 			})
 			.addCase(updateTask.pending, (state) => {

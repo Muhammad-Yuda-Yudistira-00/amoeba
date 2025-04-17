@@ -62,25 +62,6 @@ const ItemTask = ({
 		}
 	}
 
-	// const handleDelete = async () => {
-	// 	const confirmed = await showAlert('task')
-	// 	if(confirmed) {
-	// 		const result = await fetchTask({code, method: HttpMethod.DELETE, taskId: task.id})
-	// 		if(result) {
-	// 			console.info("succes deleted task")
-	// 			const result = await fetchTask({code, currentPage: pagination.currentPage})
-	// 			if(result) {
-	// 				if(Array.isArray(result.data)) {
-	// 					setTasks(result.data) 
-	// 				}
-	// 				if('pagination' in result) {
-	// 					setPagination(result.pagination)
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// }
-
 	return(
 		<div 
 			className={`flex flex-col justify-between w-full px-2 md:px-0`}
@@ -101,7 +82,7 @@ const ItemTask = ({
 				<div className="hover:bg-stone-700 w-[20px] h-[20px] group md:h-12 flex items-center">
 					<Move className="stroke-stone-700 group-hover:stroke-stone-100 w-3 md:w-5 h-3 md:h-5" />
 				</div>
-				<TaskMenu code={code} task={task} setTasks={setTasks} pagination={pagination} setPagination={setPagination} openTask={openTask} setOpenTask={setOpenTask} setInputSubTask={setInputSubTask} setIsOpenInput={setIsOpenInput} onDelete={handleDelete} />
+				<TaskMenu code={code} task={task} pagination={pagination} setPagination={setPagination} openTask={openTask} setOpenTask={setOpenTask} setInputSubTask={setInputSubTask} setIsOpenInput={setIsOpenInput} onDelete={handleDelete} />
 				<input 
 					type="checkbox" 
 					name="status" 

@@ -17,7 +17,7 @@ export default function ListTask({code, tasks, setTasks, pagination, setPaginati
 	const error = useSelector((state: RootState) => state.checklist.error)
 
 	useEffect(() => {
-		dispatch(getTasks(code, activePage))
+		dispatch(getTasks({code, currentPage: activePage}))
 	}, [code,dispatch])
 
 	if(pagination.totalItems > 0) {

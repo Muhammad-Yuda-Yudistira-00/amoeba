@@ -2,11 +2,16 @@ import {useState} from "react"
 import Task, {PaginationProps} from '@/types/Task'
 import fetchTask from '@/services/task/QueryTask'
 import {HttpMethod} from '@/types/HttpMethod'
+import {AppDispatch, RootState} from '@/redux/store'
+import {useDispatch, useSelector} from 'react-redux'
+import {addTask} from '@/redux/slices/checklistSlice'
+import {unwrap} from '@reduxjs/toolkit'
 
 export default function AddTask({code, pagination, setTasks, setPagination}: {code: string, pagination: PaginationProps, setTasks: React.Dispatch<React.SetStateAction<Task[]>>, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>}) {
 	const [task, setTask] = useState<string>("")
-	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [isSuccess, setIsSuccess] = useState<boolean>(false)
+	const dispatch = useDispatch<AppDispatch>()
+	const loading = useSelector((state: RootState) => state.checklist.loading)
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setTask(e.currentTarget.value)
@@ -17,23 +22,16 @@ export default function AddTask({code, pagination, setTasks, setPagination}: {co
 
 		if(!task.trim()) return
 
-		setIsLoading(true)
 		setIsSuccess(false)
-	
-		const result = await fetchTask({code, method: HttpMethod.POST, contentType: 'application/x-www-form-urlencoded', name: 'title', value: task, currentPage: pagination.currentPage})
 
-		if(result) {
-			const tasks = await fetchTask({code, currentPage: pagination.currentPage})
-			if(tasks) {
-				setTasks(Array.isArray(tasks.data) ? tasks.data : [tasks.data])
-				if("pagination" in tasks) {
-					setPagination(tasks.pagination)
-				}
-				setTask('')
-				setIsLoading(false)
-				setIsSuccess(true)
-				setTimeout(() => setIsSuccess(false), 3000)
-			}
+		try {
+			await dispatch(addTask({code, title: task, level: 1})).unwrap()
+
+			setTask('')
+			setIsSuccess(true)
+			setTimeout(() => setIsSuccess(false), 3000)
+		} catch(error) {
+			console.log('Failed add data: ', error)
 		}
 	}
 
@@ -43,7 +41,7 @@ export default function AddTask({code, pagination, setTasks, setPagination}: {co
 					<div className="mr-4 w-full">
 						<input type="text" name="task" value={task} onChange={handleChange} placeholder="write your ide.." className="text-amber-700 px-2 rounded-l-2xl pl-4 text-stone-700 focus:outline-amber-400 h-6 w-full" />
 					</div>
-					<button className="px-3 py-1 md:px-4 md:py-2 ml-2 text-white bg-amber-700 text-xs md:text-sm hover:text-amber-300 rounded-2xl uppercase disabled:opacity-50 disabled:pointer-events-none" disabled={isLoading}>{isLoading ? 'loading..' : 'add'}</button>
+					<button className="px-3 py-1 md:px-4 md:py-2 ml-2 text-white bg-amber-700 text-xs md:text-sm hover:text-amber-300 rounded-2xl uppercase disabled:opacity-50 disabled:pointer-events-none" disabled={loading}>{loading ? 'loading..' : 'add'}</button>
 				</div>
 				{isSuccess && (
 					<div className="opacity-75 text-center w-full bg-yellow-400 relative">
