@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import {addTask} from '@/redux/slices/checklistSlice'
 import {unwrap} from '@reduxjs/toolkit'
 
-export default function AddTask({code, pagination, setTasks, setPagination}: {code: string, pagination: PaginationProps, setTasks: React.Dispatch<React.SetStateAction<Task[]>>, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>}) {
+export default function AddTask({code}: {code: string}) {
 	const [task, setTask] = useState<string>("")
 	const [isSuccess, setIsSuccess] = useState<boolean>(false)
 	const dispatch = useDispatch<AppDispatch>()

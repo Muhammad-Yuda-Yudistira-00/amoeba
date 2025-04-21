@@ -15,9 +15,6 @@ import {updateTask, deleteTask} from '@/redux/slices/checklistSlice'
 const ItemTask = ({
 	task, 
 	code,
-	setTasks,
-	pagination,
-	setPagination,
 	openTask,
 	setOpenTask,
 	inputSubTask,
@@ -25,9 +22,6 @@ const ItemTask = ({
 	}:{
 		task: Task,
 		code: string, 
-		setTasks: React.Dispatch<React.SetStateAction<Task[]>>
-		pagination: PaginationProps,
-		setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>,
 		openTask: number | null,
 		setOpenTask: React.Dispatch<React.SetStateAction<number | null>>,
 		inputSubTask: number | null,
@@ -82,7 +76,7 @@ const ItemTask = ({
 				<div className="hover:bg-stone-700 w-[20px] h-[20px] group md:h-12 flex items-center">
 					<Move className="stroke-stone-700 group-hover:stroke-stone-100 w-3 md:w-5 h-3 md:h-5" />
 				</div>
-				<TaskMenu code={code} task={task} pagination={pagination} setPagination={setPagination} openTask={openTask} setOpenTask={setOpenTask} setInputSubTask={setInputSubTask} setIsOpenInput={setIsOpenInput} onDelete={handleDelete} />
+				<TaskMenu code={code} task={task} openTask={openTask} setOpenTask={setOpenTask} setInputSubTask={setInputSubTask} setIsOpenInput={setIsOpenInput} onDelete={handleDelete} />
 				<input 
 					type="checkbox" 
 					name="status" 
@@ -112,7 +106,7 @@ const ItemTask = ({
 					</li>
 				</div>
 			</div>
-			<SubtaskInput code={code} task={task} inputSubTask={inputSubTask} setTasks={setTasks} pagination={pagination} setPagination={setPagination} isOpenInput={isOpenInput} setIsOpenInput={setIsOpenInput} />
+			<SubtaskInput code={code} task={task} inputSubTask={inputSubTask} isOpenInput={isOpenInput} setIsOpenInput={setIsOpenInput} />
 		</div>
 	)
 }

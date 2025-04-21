@@ -7,7 +7,7 @@ import {useDispatch} from 'react-redux'
 import {AppDispatch} from '@/redux/store'
 import {updateTask} from '@/redux/slices/checklistSlice'
 
-export default function TaskMenu ({code, task, pagination, setPagination, openTask, setOpenTask, setInputSubTask, setIsOpenInput, onDelete}: {code: string, task: Task, pagination: PaginationProps, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>, openTask: number | null, setOpenTask: React.Dispatch<React.SetStateAction<number | null>>, setInputSubTask: React.Dispatch<React.SetStateAction<number | null>>, setIsOpenInput: React.Dispatch<React.SetStateAction<boolean>>, onDelete: () => Promise<void>}) {
+export default function TaskMenu ({code, task, openTask, setOpenTask, setInputSubTask, setIsOpenInput, onDelete}: {code: string, task: Task, openTask: number | null, setOpenTask: React.Dispatch<React.SetStateAction<number | null>>, setInputSubTask: React.Dispatch<React.SetStateAction<number | null>>, setIsOpenInput: React.Dispatch<React.SetStateAction<boolean>>, onDelete: () => Promise<void>}) {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
 	const dispatch = useDispatch<AppDispatch>()
 

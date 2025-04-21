@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import {AppDispatch} from '@/redux/store'
 import {getTasks, updateTask} from '@/redux/slices/checklistSlice'
 
-export default function ListTask({code, tasks, setTasks, pagination, setPagination, activePage}: {code:string, tasks: Task[], setTasks: React.Dispatch<React.SetStateAction<Task[]>>, pagination: PaginationProps, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>, activePage: number}) {
+export default function ListTask({code, activePage}: {code:string, tasks: Task[], setTasks: React.Dispatch<React.SetStateAction<Task[]>>, pagination: PaginationProps, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>, activePage: number}) {
 	const [openTask, setOpenTask] = useState<number | null>(null)
 	const [inputSubTask, setInputSubTask] = useState<number | null>(null)
 	const dispatch = useDispatch<AppDispatch>()
@@ -26,7 +26,7 @@ export default function ListTask({code, tasks, setTasks, pagination, setPaginati
 			<ul className="px-0">
 				<SortableContext items={tasksRedux} strategy={verticalListSortingStrategy} >
 					{tasksRedux && tasksRedux.map(task => (
-							<ItemTask key={task.id} task={task} code={code} setTasks={setTasks} pagination={pagination} setPagination={setPagination} openTask={openTask} setOpenTask={setOpenTask} inputSubTask={inputSubTask} setInputSubTask={setInputSubTask} />
+							<ItemTask key={task.id} task={task} code={code} openTask={openTask} setOpenTask={setOpenTask} inputSubTask={inputSubTask} setInputSubTask={setInputSubTask} />
 					))}
 				</SortableContext>
 			</ul>

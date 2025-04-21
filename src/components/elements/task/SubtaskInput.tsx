@@ -1,5 +1,4 @@
 import {useState} from 'react'
-import Task, {PaginationProps} from '@/types/Task'
 import {HttpMethod} from '@/types/HttpMethod'
 import fetchTask from '@/services/task/QueryTask'
 import {CircleX} from "lucide-react"
@@ -7,7 +6,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import {AppDispatch} from '@/redux/store'
 import {addTask} from '@/redux/slices/checklistSlice'
 
-export default function SubtaskInput({code,task,inputSubTask,setTasks,pagination,setPagination,isOpenInput,setIsOpenInput}:{code:string,task:Task,inputSubTask:number|null,setTasks:React.Dispatch<React.SetStateAction<Task[]>>,pagination:PaginationProps,setPagination:React.Dispatch<React.SetStateAction<PaginationProps>>,isOpenInput:boolean,setIsOpenInput:React.Dispatch<React.SetStateAction<boolean>>}) {
+export default function SubtaskInput({code,task,inputSubTask,isOpenInput,setIsOpenInput}:{code:string,task:Task,inputSubTask:number|null,isOpenInput:boolean,setIsOpenInput:React.Dispatch<React.SetStateAction<boolean>>}) {
 	const [subTask, setSubTask] = useState<string>("")
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const dispatch = useDispatch<AppDispatch>()
