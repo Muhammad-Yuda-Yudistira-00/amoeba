@@ -1,7 +1,11 @@
 import {PaginationProps} from '@/types/Task'
 import Link from 'next/link'
+import {useSelector} from 'react-redux'
+import {RootState} from '@/redux/slices/checklistSlice'
 
-export default function Pagination({pagination, code}: {pagination: PaginationProps, code: string}) {
+export default function Pagination({code}: {code: string}) {
+	const pagination = useSelector((state: RootState) => state.checklist.pagination)
+	console.log({pagination})
 
 	return (
 		<ul className="pt-4">

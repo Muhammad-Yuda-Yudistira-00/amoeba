@@ -86,7 +86,7 @@ export default function ChecklistClient({code, activePage}: {code: string, activ
 					<h3 className="text-xs md:text-lg text-stone-300">Pagination</h3>
 				</span>
 				<div>
-					{pagination && (<Pagination pagination={pagination} code={code} />)}
+					{pagination && (<Pagination code={code} />)}
 				</div>
 			</div>
 			<div className="flex flex-col w-full items-center min-h-screen bg-orange-300 py-2 pt-4 px-0 md:px-8 md:w-4/5 py-10 bg-[url('/themes/background/city-3.jpg')] bg-cover bg-bottom bg-blend-screen">

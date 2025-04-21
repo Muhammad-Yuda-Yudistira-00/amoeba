@@ -1,6 +1,6 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import Checklist from '@/types/Checklist'
-import Task from '@/types/Task'
+import Task, {PaginationProps} from '@/types/Task'
 
 const API_URL = process.env.NEXT_PUBLIC_API_WEB
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY
@@ -159,7 +159,8 @@ const checklistSlice = createSlice({
 		tasks: [] as Task[],
 		selectedTask: null as Task || null,
 		loading: false,
-		error: null as string | null
+		error: null as string | null,
+		pagination: {} as PaginationProps
 	},
 	reducers: {
 		clearChecklist: (state) => {
@@ -221,6 +222,7 @@ const checklistSlice = createSlice({
 			})
 			.addCase(getTasks.fulfilled, (state, action) => {
 				state.tasks = Array.isArray(action.payload.data) ? action.payload.data : []
+				state.pagination = action.payload.pagination
 				state.loading = false
 			})
 			.addCase(getTasks.rejected, (state, action) => {

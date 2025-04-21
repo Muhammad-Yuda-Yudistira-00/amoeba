@@ -3,10 +3,14 @@ import Task, {PaginationProps} from '@/types/Task'
 import {HttpMethod} from '@/types/HttpMethod'
 import fetchTask from '@/services/task/QueryTask'
 import {CircleX} from "lucide-react"
+import {useDispatch, useSelector} from 'react-redux'
+import {AppDispatch} from '@/redux/store'
+import {addTask} from '@/redux/slices/checklistSlice'
 
 export default function SubtaskInput({code,task,inputSubTask,setTasks,pagination,setPagination,isOpenInput,setIsOpenInput}:{code:string,task:Task,inputSubTask:number|null,setTasks:React.Dispatch<React.SetStateAction<Task[]>>,pagination:PaginationProps,setPagination:React.Dispatch<React.SetStateAction<PaginationProps>>,isOpenInput:boolean,setIsOpenInput:React.Dispatch<React.SetStateAction<boolean>>}) {
 	const [subTask, setSubTask] = useState<string>("")
 	const [isLoading, setIsLoading] = useState<boolean>(false)
+	const dispatch = useDispatch<AppDispatch>()
 
 	const subTaskTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSubTask(e.currentTarget.value)
@@ -19,13 +23,7 @@ export default function SubtaskInput({code,task,inputSubTask,setTasks,pagination
 
 		setIsLoading(true)
 
-		await fetchTask({code, method: HttpMethod.POST, contentType: 'application/x-www-form-urlencoded', name: 'title', value: subTask, currentPage: pagination.currentPage, level: task.level === 2 ? 3 : 2, order: task.order + 1})
-		const updatedTasks = await fetchTask({code, currentPage: pagination.currentPage})
-
-		setTasks(Array.isArray(updatedTasks!.data) ? updatedTasks!.data : [])
-		if('pagination' in updatedTasks!) {
-			setPagination(updatedTasks!.pagination)
-		}
+		dispatch(addTask({code, title: subTask, level: task.level === 2 ? 3 : 2, order: task.order + 1}))
 
 		setSubTask('')
 		setIsLoading(false)

@@ -13,6 +13,7 @@ export default function ListTask({code, tasks, setTasks, pagination, setPaginati
 	const [inputSubTask, setInputSubTask] = useState<number | null>(null)
 	const dispatch = useDispatch<AppDispatch>()
 	const tasksRedux = useSelector((state: RootState) => state.checklist.tasks)
+	const paginationRedux = useSelector((state: RootState) => state.checklist.pagination)
 	const loading = useSelector((state: RootState) => state.checklist.loading)
 	const error = useSelector((state: RootState) => state.checklist.error)
 
@@ -20,7 +21,7 @@ export default function ListTask({code, tasks, setTasks, pagination, setPaginati
 		dispatch(getTasks({code, currentPage: activePage}))
 	}, [code,dispatch])
 
-	if(pagination.totalItems > 0) {
+	if(paginationRedux.totalItems > 0) {
 		return (
 			<ul className="px-0">
 				<SortableContext items={tasksRedux} strategy={verticalListSortingStrategy} >
