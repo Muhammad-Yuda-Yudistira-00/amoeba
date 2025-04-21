@@ -14,6 +14,9 @@ import fetchTask from "@/services/task/QueryTask"
 import {DndContext, closestCorners, DragEndEvent} from "@dnd-kit/core"
 import {arrayMove} from '@dnd-kit/sortable'
 import {HttpMethod} from '@/types/HttpMethod'
+import {useDispatch, useSelector} from 'react-redux'
+import {AppDispatch, RootState} from '@/redux/store'
+import {updateTask, getTask} from '@/redux/slices/checklistSlice'
 
 export default function ChecklistClient({code, activePage}: {code: string, activePage?: number}){
 	const [tasks, setTasks] = useState<Task[]>([])
@@ -24,49 +27,56 @@ export default function ChecklistClient({code, activePage}: {code: string, activ
 		totalItems: 10
 	})
 	const {push} = useRouter()
+	const dispatch = useDispatch<AppDispatch>()
+	const tasksRedux = useSelector((state: RootState) => state.checklist.tasks)
+	const task = useSelector((state: RootState) => state.checklist.selectedTask)
 
-	useEffect(() => {
-		if(pagination.currentPage > 1 && tasks.length === 0) {
-			setPagination({...pagination, currentPage: pagination.currentPage - 1})
-			push(`/checklist/${code}?page=${pagination.currentPage - 1}`)
-		}
-	}, [tasks.length, pagination])
+	// useEffect(() => {
+	// 	if(pagination.currentPage > 1 && tasks.length === 0) {
+	// 		setPagination({...pagination, currentPage: pagination.currentPage - 1})
+	// 		push(`/checklist/${code}?page=${pagination.currentPage - 1}`)
+	// 	}
+	// }, [tasks.length, pagination])
 
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const result = await fetchTask({code, currentPage: activePage})
-				if(result) {
-					setTasks(Array.isArray(result.data) ? [...result.data] : [result.data])
-					if("pagination" in result) {
-						setPagination(result.pagination)
-					}
-				} 
-			} catch(error) {
-				console.error('Failed get tasks: ' + error)
-			}
-		}
+	// useEffect(() => {
+	// 	const fetchData = async () => {
+	// 		try {
+	// 			const result = await fetchTask({code, currentPage: activePage})
+	// 			if(result) {
+	// 				setTasks(Array.isArray(result.data) ? [...result.data] : [result.data])
+	// 				if("pagination" in result) {
+	// 					setPagination(result.pagination)
+	// 				}
+	// 			} 
+	// 		} catch(error) {
+	// 			console.error('Failed get tasks: ' + error)
+	// 		}
+	// 	}
 
-		fetchData()
-	}, [code, activePage])
+	// 	fetchData()
+	// }, [code, activePage])
 
-	const getTaskPos = (id: number): number => tasks.findIndex(task => task.id === id)
+	const getTaskPos = (id: number): number => tasksRedux.findIndex(taskRedux => taskRedux.id === id)
 
 	const handleDragEnd = async (event: DragEndEvent) => {
 		const {active, over} = event
 
 		if(!over || active.id === over.id) return
 
+		dispatch(getTask({code, taskId: active.id}))
+
 		const originalPos = getTaskPos(Number(active.id))
 		const newPos = getTaskPos(Number(over.id))
 
-			setTasks(tasks => {
-				return arrayMove(tasks, originalPos, newPos)
-			})
+		dispatch(updateTask({code, taskId: active.id, field: 'order', value: newPos + 1, level: task.level}))
 
-		const response = await fetchTask({code, method: HttpMethod.PATCH, contentType: 'application/x-www-form-urlencoded', taskId: Number(active.id), name: 'order', value: newPos + 1 })
+		// 	setTasks(tasks => {
+		// 		return arrayMove(tasks, originalPos, newPos)
+		// 	})
 
-		if(response) console.log('Success update task order.')
+		// const response = await fetchTask({code, method: HttpMethod.PATCH, contentType: 'application/x-www-form-urlencoded', taskId: Number(active.id), name: 'order', value: newPos + 1 })
+
+		// if(response) console.log('Success update task order.')
 	}
 
 	return (
