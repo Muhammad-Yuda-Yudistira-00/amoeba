@@ -16,7 +16,7 @@ import {arrayMove} from '@dnd-kit/sortable'
 import {HttpMethod} from '@/types/HttpMethod'
 import {useDispatch, useSelector} from 'react-redux'
 import {AppDispatch, RootState} from '@/redux/store'
-import {updateTask, getTask} from '@/redux/slices/checklistSlice'
+import {updateOrderTask, getTasks} from '@/redux/slices/checklistSlice'
 
 export default function ChecklistClient({code, activePage}: {code: string, activePage?: number}){
 	const {push} = useRouter()
@@ -31,12 +31,13 @@ export default function ChecklistClient({code, activePage}: {code: string, activ
 
 		if(!over || active.id === over.id) return
 
-		dispatch(getTask({code, taskId: active.id}))
-
 		const originalPos = getTaskPos(Number(active.id))
 		const newPos = getTaskPos(Number(over.id))
 
-		dispatch(updateTask({code, taskId: active.id, field: 'order', value: newPos + 1, level: task.level}))
+		const movedTask = tasksRedux.find(task => task.id === active.id)
+
+		await dispatch(updateOrderTask({code, taskId: active.id, order: newPos + 1, level: movedTask.level}))
+		await dispatch(getTasks({code, currentPage: activePage}))
 	}
 
 	return (

@@ -135,6 +135,28 @@ export const updateTask = createAsyncThunk(
 	}
 )
 
+export const updateOrderTask = createAsyncThunk(
+	'checklist/updateRoderTask',
+	async ({code, taskId, order, level}: {code: string, taskId: number, order: number}) => {
+		const newOrder = new URLSearchParams()
+		newOrder.append('order', order.toString())
+		newOrder.append('level', level.toString())
+
+		const response = await fetch(`${API_URL}/checklist/${code}/task/${taskId}`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+				'x-api-key': API_KEY
+			},
+			body: newOrder
+		})
+
+		if(!response.ok) throw new Error('Failed change order.')
+
+		return response.json()
+	}
+)
+
 export const deleteTask = createAsyncThunk(
 	'checklist/deleteTask',
 	async ({code, taskId}: {code: string, taskId: number}) => {
@@ -166,6 +188,10 @@ const checklistSlice = createSlice({
 		clearChecklist: (state) => {
 			state.data = null
 			state.tasks = []
+			state.selectedTask = null
+			state.loading = false
+			state.error = null
+			state.pagination = {}
 		}
 	},
 	extraReducers: (builder) => {
@@ -234,7 +260,6 @@ const checklistSlice = createSlice({
 				state.error = null
 			})
 			.addCase(addTask.fulfilled, (state, action) => {
-				state.tasks.push(action.payload.data)
 				state.loading = false
 			})
 			.addCase(addTask.rejected, (state, action) => {
@@ -253,6 +278,17 @@ const checklistSlice = createSlice({
 				state.loading = false
 			})
 			.addCase(updateTask.rejected, (state, action) => {
+				state.loading = false
+				state.error = action.error.message
+			})
+			.addCase(updateOrderTask.pending, (state) => {
+				state.loading = true
+				state.error = null
+			})
+			.addCase(updateOrderTask.fulfilled, (state, action) => {
+				state.loading = false
+			})
+			.addCase(updateOrderTask.rejected, (state, action) => {
 				state.loading = false
 				state.error = action.error.message
 			})

@@ -8,9 +8,9 @@ import {CSS} from '@dnd-kit/utilities'
 import {useState} from 'react'
 import SubtaskInput from '@/components/elements/task/SubtaskInput'
 import TaskMenu from '@/components/elements/task/TaskMenu'
-import {useDispatch} from 'react-redux'
-import {AppDispatch} from '@/redux/store'
-import {updateTask, deleteTask} from '@/redux/slices/checklistSlice'
+import {useDispatch, useSelector} from 'react-redux'
+import {AppDispatch, RootState} from '@/redux/store'
+import {updateTask, deleteTask, getTasks} from '@/redux/slices/checklistSlice'
 
 const ItemTask = ({
 	task, 
@@ -30,6 +30,7 @@ const ItemTask = ({
 	const {attributes, listeners, setNodeRef, transform, transition} = useSortable({id: task.id})
 	const [isOpenInput, setIsOpenInput] = useState<boolean>(false)
 	const dispatch = useDispatch<AppDispatch>()
+	const pagination = useSelector((state: RootState) => state.checklist.pagination)
 
 	const style = {
 		transition,
@@ -53,6 +54,7 @@ const ItemTask = ({
 		const confirmed = await showAlert('task')
 		if(confirmed) {
 			dispatch(deleteTask({code, taskId: task.id}))
+			dispatch(getTasks({code, currentPage: pagination.currentPage}))
 		}
 	}
 

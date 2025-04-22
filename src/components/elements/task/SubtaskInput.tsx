@@ -3,13 +3,14 @@ import {HttpMethod} from '@/types/HttpMethod'
 import fetchTask from '@/services/task/QueryTask'
 import {CircleX} from "lucide-react"
 import {useDispatch, useSelector} from 'react-redux'
-import {AppDispatch} from '@/redux/store'
-import {addTask} from '@/redux/slices/checklistSlice'
+import {AppDispatch, RootState} from '@/redux/store'
+import {addTask, getTasks} from '@/redux/slices/checklistSlice'
 
 export default function SubtaskInput({code,task,inputSubTask,isOpenInput,setIsOpenInput}:{code:string,task:Task,inputSubTask:number|null,isOpenInput:boolean,setIsOpenInput:React.Dispatch<React.SetStateAction<boolean>>}) {
 	const [subTask, setSubTask] = useState<string>("")
-	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const dispatch = useDispatch<AppDispatch>()
+	const pagination = useSelector((state: RootState) => state.checklist.pagination)
+	const loading = useSelector((state: RootState) => state.checklist.loading)
 
 	const subTaskTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSubTask(e.currentTarget.value)
@@ -20,13 +21,13 @@ export default function SubtaskInput({code,task,inputSubTask,isOpenInput,setIsOp
 
 		if(!subTask) return
 
-		setIsLoading(true)
+		await dispatch(addTask({code, title: subTask, level: task.level === 2 ? 3 : 2, order: task.order + 1}))
+		await dispatch(getTasks({code, currentTarget: pagination.currentTarget}))
 
-		dispatch(addTask({code, title: subTask, level: task.level === 2 ? 3 : 2, order: task.order + 1}))
-
-		setSubTask('')
-		setIsLoading(false)
-		setIsOpenInput(false)
+		if(!loading) {
+			setSubTask('')
+			setIsOpenInput(false)
+		}
 	}
 
 	return (
@@ -60,7 +61,7 @@ export default function SubtaskInput({code,task,inputSubTask,isOpenInput,setIsOp
 					setIsOpenInput(prev => !prev)
 				}}
 			/>
-			<button className={`bg-amber-200 px-3 border-2 border-red-700 uppercase font-semibold text-sm hover:bg-red-700 hover:text-stone-300`}>{isLoading? 'Loading..' : 'Add'}</button>
+			<button disabled={loading} className={`bg-amber-200 px-3 border-2 border-red-700 uppercase font-semibold text-sm hover:bg-red-700 hover:text-stone-300`}>{loading? 'Loading..' : 'Add'}</button>
 		</form>	
 	)
 }

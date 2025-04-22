@@ -4,7 +4,7 @@ import fetchTask from '@/services/task/QueryTask'
 import {HttpMethod} from '@/types/HttpMethod'
 import {AppDispatch, RootState} from '@/redux/store'
 import {useDispatch, useSelector} from 'react-redux'
-import {addTask} from '@/redux/slices/checklistSlice'
+import {addTask, getTasks} from '@/redux/slices/checklistSlice'
 import {unwrap} from '@reduxjs/toolkit'
 
 export default function AddTask({code}: {code: string}) {
@@ -12,6 +12,7 @@ export default function AddTask({code}: {code: string}) {
 	const [isSuccess, setIsSuccess] = useState<boolean>(false)
 	const dispatch = useDispatch<AppDispatch>()
 	const loading = useSelector((state: RootState) => state.checklist.loading)
+	const pagination = useSelector((state: RootState) => state.checklist.pagination)
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setTask(e.currentTarget.value)
@@ -26,6 +27,7 @@ export default function AddTask({code}: {code: string}) {
 
 		try {
 			await dispatch(addTask({code, title: task, level: 1})).unwrap()
+			dispatch(getTasks({code, currentPage: pagination.currentPage}))
 
 			setTask('')
 			setIsSuccess(true)
