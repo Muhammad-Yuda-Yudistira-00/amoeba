@@ -1,6 +1,4 @@
-import Task, {PaginationProps} from '@/types/Task'
-import fetchTask from '@/services/task/QueryTask'
-import {HttpMethod} from '@/types/HttpMethod'
+import Task from '@/types/Task'
 import {Trash2, Move} from "lucide-react"
 import {showAlert} from "@/libs/showAlert"
 import {useSortable} from '@dnd-kit/sortable'

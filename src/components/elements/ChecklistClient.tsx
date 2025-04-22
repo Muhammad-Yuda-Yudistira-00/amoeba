@@ -1,28 +1,21 @@
 "use client"
 
-import {useState, useEffect} from "react"
-import {useRouter} from "next/navigation"
 import ListTask from "@/components/task/ListTask"
 import AddTask from "@/components/task/AddTask"
-import Task, {PaginationProps} from "@/types/Task"
 import Footer from "@/components/elements/Footer"
 import Donation from "@/components/elements/Donation"
 import Pagination from "@/components/elements/Pagination"
 import ChecklistHeader from "@/components/elements/ChecklistHeader"
 import ChecklistDelete from "@/components/elements/checklist/ChecklistDelete"
-import fetchTask from "@/services/task/QueryTask"
 import {DndContext, closestCorners, DragEndEvent} from "@dnd-kit/core"
-import {arrayMove} from '@dnd-kit/sortable'
-import {HttpMethod} from '@/types/HttpMethod'
+// import {arrayMove} from '@dnd-kit/sortable'
 import {useDispatch, useSelector} from 'react-redux'
 import {AppDispatch, RootState} from '@/redux/store'
 import {updateOrderTask, getTasks} from '@/redux/slices/checklistSlice'
 
-export default function ChecklistClient({code, activePage}: {code: string, activePage?: number}){
-	const {push} = useRouter()
+export default function ChecklistClient({code, activePage = 1}: {code: string, activePage?: number}){
 	const dispatch = useDispatch<AppDispatch>()
 	const tasksRedux = useSelector((state: RootState) => state.checklist.tasks)
-	const task = useSelector((state: RootState) => state.checklist.selectedTask)
 
 	const getTaskPos = (id: number): number => tasksRedux.findIndex(taskRedux => taskRedux.id === id)
 
@@ -31,12 +24,13 @@ export default function ChecklistClient({code, activePage}: {code: string, activ
 
 		if(!over || active.id === over.id) return
 
-		const originalPos = getTaskPos(Number(active.id))
+		// const originalPos = getTaskPos(Number(active.id))
 		const newPos = getTaskPos(Number(over.id))
 
 		const movedTask = tasksRedux.find(task => task.id === active.id)
+		if(!movedTask) return
 
-		await dispatch(updateOrderTask({code, taskId: active.id, order: newPos + 1, level: movedTask.level}))
+		await dispatch(updateOrderTask({code, taskId: Number(active.id), order: newPos + 1, level: movedTask.level}))
 		await dispatch(getTasks({code, currentPage: activePage}))
 	}
 

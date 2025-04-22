@@ -16,7 +16,7 @@ export default function ReduxProvider({
     return () => {
       console.log('[Redux] Store cleanup')
     }
-  }, [])
+  }, [store])
 
   return <Provider store={store}>{children}</Provider>
 }

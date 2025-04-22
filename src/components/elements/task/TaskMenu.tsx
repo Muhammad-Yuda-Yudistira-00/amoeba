@@ -1,7 +1,5 @@
 import {EllipsisVertical, Trash2} from "lucide-react"
-import Task, {PaginationProps} from '@/types/Task'
-import fetchTask from '@/services/task/QueryTask'
-import {HttpMethod} from '@/types/HttpMethod'
+import Task from '@/types/Task'
 import {useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {AppDispatch} from '@/redux/store'

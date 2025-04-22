@@ -1,11 +1,8 @@
 import {useState} from "react"
-import Task, {PaginationProps} from '@/types/Task'
-import fetchTask from '@/services/task/QueryTask'
-import {HttpMethod} from '@/types/HttpMethod'
 import {AppDispatch, RootState} from '@/redux/store'
 import {useDispatch, useSelector} from 'react-redux'
 import {addTask, getTasks} from '@/redux/slices/checklistSlice'
-import {unwrap} from '@reduxjs/toolkit'
+// import {unwrap} from '@reduxjs/toolkit'
 
 export default function AddTask({code}: {code: string}) {
 	const [task, setTask] = useState<string>("")

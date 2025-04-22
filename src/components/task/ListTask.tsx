@@ -1,25 +1,20 @@
-import Task, {PaginationProps} from "@/types/Task"
-import fetchTask from "@/services/task/QueryTask"
-import {HttpMethod} from "@/types/HttpMethod"
 import ItemTask from '@/components/task/ItemTask'
 import {SortableContext, verticalListSortingStrategy} from '@dnd-kit/sortable'
 import {useState, useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {AppDispatch} from '@/redux/store'
-import {getTasks, updateTask} from '@/redux/slices/checklistSlice'
+import {AppDispatch, RootState} from '@/redux/store'
+import {getTasks} from '@/redux/slices/checklistSlice'
 
-export default function ListTask({code, activePage}: {code:string, tasks: Task[], setTasks: React.Dispatch<React.SetStateAction<Task[]>>, pagination: PaginationProps, setPagination: React.Dispatch<React.SetStateAction<PaginationProps>>, activePage: number}) {
+export default function ListTask({code, activePage}: {code:string, activePage: number}) {
 	const [openTask, setOpenTask] = useState<number | null>(null)
 	const [inputSubTask, setInputSubTask] = useState<number | null>(null)
 	const dispatch = useDispatch<AppDispatch>()
 	const tasksRedux = useSelector((state: RootState) => state.checklist.tasks)
 	const paginationRedux = useSelector((state: RootState) => state.checklist.pagination)
-	const loading = useSelector((state: RootState) => state.checklist.loading)
-	const error = useSelector((state: RootState) => state.checklist.error)
 
 	useEffect(() => {
 		dispatch(getTasks({code, currentPage: activePage}))
-	}, [code,dispatch])
+	}, [code,dispatch,activePage])
 
 	if(paginationRedux.totalItems > 0) {
 		return (

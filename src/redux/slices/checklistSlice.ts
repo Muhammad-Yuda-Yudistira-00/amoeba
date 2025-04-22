@@ -58,7 +58,7 @@ export const getTask = createAsyncThunk(
 	async ({code, taskId}: {code: string, taskId: number}) => {
 		const response = await fetch(`${API_URL}/checklist/${code}/task/${taskId}`, {
 			headers: {
-				'x-api-key': API_KEY
+				'x-api-key': API_KEY ?? ''
 			}
 		})
 
@@ -73,7 +73,7 @@ export const getTasks = createAsyncThunk(
 	async ({code, currentPage}: {code: string, currentPage: number}) => {
 		const response = await fetch(`${API_URL}/checklist/${code}/task?page=${currentPage}`, {
 			headers: {
-				'x-api-key': API_KEY
+				'x-api-key': API_KEY ?? ''
 			}
 		})
 
@@ -97,7 +97,7 @@ export const addTask = createAsyncThunk(
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
-				'x-api-key': API_KEY
+				'x-api-key': API_KEY ?? ''
 			},
 			body: newTask
 		})
@@ -110,7 +110,7 @@ export const addTask = createAsyncThunk(
 
 export const updateTask = createAsyncThunk(
 	'checklist/updateTask',
-	async ({code, taskId, field, value, level}: {code: string, taskId: number, field: 'title' | 'status' | 'level', value: string | number, level?: number}) => {
+	async ({code, taskId, field, value, level = 1}: {code: string, taskId: number, field: 'title' | 'status' | 'level', value: string | number, level?: number}) => {
 		const updatedData = new URLSearchParams()
 
 		if(field === 'level') {
@@ -124,7 +124,7 @@ export const updateTask = createAsyncThunk(
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
-				'x-api-key': API_KEY
+				'x-api-key': API_KEY ?? ''
 			},
 			body: updatedData
 		})
@@ -137,7 +137,7 @@ export const updateTask = createAsyncThunk(
 
 export const updateOrderTask = createAsyncThunk(
 	'checklist/updateRoderTask',
-	async ({code, taskId, order, level}: {code: string, taskId: number, order: number}) => {
+	async ({code, taskId, order, level}: {code: string, taskId: number, order: number, level: number}) => {
 		const newOrder = new URLSearchParams()
 		newOrder.append('order', order.toString())
 		newOrder.append('level', level.toString())
@@ -146,7 +146,7 @@ export const updateOrderTask = createAsyncThunk(
 			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
-				'x-api-key': API_KEY
+				'x-api-key': API_KEY ?? ''
 			},
 			body: newOrder
 		})
@@ -164,7 +164,7 @@ export const deleteTask = createAsyncThunk(
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
-				'x-api-key': API_KEY
+				'x-api-key': API_KEY ?? ''
 			}
 		})
 
@@ -179,7 +179,7 @@ const checklistSlice = createSlice({
 	initialState: {
 		data: null as {data: Checklist} | null,
 		tasks: [] as Task[],
-		selectedTask: null as Task || null,
+		selectedTask: null as Task | null,
 		loading: false,
 		error: null as string | null,
 		pagination: {} as PaginationProps
@@ -191,7 +191,12 @@ const checklistSlice = createSlice({
 			state.selectedTask = null
 			state.loading = false
 			state.error = null
-			state.pagination = {}
+			state.pagination = {
+				currentPage: 1,
+				perPage: 10,
+				totalPages: 1,
+				totalItems: 0
+			}
 		}
 	},
 	extraReducers: (builder) => {
@@ -259,11 +264,11 @@ const checklistSlice = createSlice({
 				state.loading = true
 				state.error = null
 			})
-			.addCase(addTask.fulfilled, (state, action) => {
+			.addCase(addTask.fulfilled, (state) => {
 				state.loading = false
 			})
 			.addCase(addTask.rejected, (state, action) => {
-				state.error = action.error.message
+				state.error = action.error.message || 'terjadi kesalahan.'
 				state.loading = false
 			})
 			.addCase(updateTask.pending, (state) => {
@@ -279,18 +284,18 @@ const checklistSlice = createSlice({
 			})
 			.addCase(updateTask.rejected, (state, action) => {
 				state.loading = false
-				state.error = action.error.message
+				state.error = action.error.message || 'terjadi kesalahan.'
 			})
 			.addCase(updateOrderTask.pending, (state) => {
 				state.loading = true
 				state.error = null
 			})
-			.addCase(updateOrderTask.fulfilled, (state, action) => {
+			.addCase(updateOrderTask.fulfilled, (state) => {
 				state.loading = false
 			})
 			.addCase(updateOrderTask.rejected, (state, action) => {
 				state.loading = false
-				state.error = action.error.message
+				state.error = action.error.message || 'terjadi kesalahan.'
 			})
 			.addCase(deleteTask.pending, (state) => {
 				state.loading = true
@@ -303,7 +308,7 @@ const checklistSlice = createSlice({
 			})
 			.addCase(deleteTask.rejected, (state, action) => {
 				state.loading = false
-				state.error = action.error.message
+				state.error = action.error.message || 'terjadi kesalahan.'
 			})
 	}
 })
