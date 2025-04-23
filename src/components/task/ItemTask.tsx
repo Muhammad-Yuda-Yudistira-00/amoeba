@@ -51,8 +51,14 @@ const ItemTask = ({
 	const handleDelete = async () => {
 		const confirmed = await showAlert('task')
 		if(confirmed) {
-			dispatch(deleteTask({code, taskId: task.id}))
-			dispatch(getTasks({code, currentPage: pagination.currentPage}))
+			await dispatch(deleteTask({code, taskId: task.id}))
+
+			const estimatedTotal = pagination.totalItems - 1
+			const newTotalPages = Math.max(1, Math.ceil(estimatedTotal / pagination.perPage))
+
+			const targetPage = pagination.currentPage > newTotalPages ? newTotalPages : pagination.currentPage
+
+			await dispatch(getTasks({code, currentPage: targetPage}))
 		}
 	}
 

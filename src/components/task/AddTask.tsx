@@ -24,7 +24,10 @@ export default function AddTask({code}: {code: string}) {
 
 		try {
 			await dispatch(addTask({code, title: task, level: 1})).unwrap()
-			dispatch(getTasks({code, currentPage: pagination.currentPage}))
+
+			const estimatedTotal = pagination.totalItems + 1
+			const newTotalPages = Math.ceil(estimatedTotal / pagination.perPage)
+			await dispatch(getTasks({code, currentPage: newTotalPages}))
 
 			setTask('')
 			setIsSuccess(true)

@@ -20,8 +20,11 @@ export default function SubtaskInput({code,task,inputSubTask,isOpenInput,setIsOp
 
 		if(!subTask) return
 
-		await dispatch(addTask({code, title: subTask, level: task.level === 2 ? 3 : 2, order: task.order + 1}))
-		await dispatch(getTasks({code, currentPage: pagination.currentPage}))
+		const newOrder = task.order + 1
+		const newTotalPages = Math.ceil(newOrder / pagination.perPage)
+
+		await dispatch(addTask({code, title: subTask, level: task.level === 2 ? 3 : 2, order: newOrder}))
+		await dispatch(getTasks({code, currentPage: newTotalPages}))
 
 		if(!loading) {
 			setSubTask('')

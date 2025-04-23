@@ -13,8 +13,8 @@ export default function ListTask({code, activePage}: {code:string, activePage: n
 	const paginationRedux = useSelector((state: RootState) => state.checklist.pagination)
 
 	useEffect(() => {
-		dispatch(getTasks({code, currentPage: activePage}))
-	}, [code,dispatch,activePage])
+			dispatch(getTasks({code, currentPage: activePage}))
+	}, [code, dispatch, activePage])
 
 	if(paginationRedux.totalItems > 0) {
 		return (
