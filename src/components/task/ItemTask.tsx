@@ -80,7 +80,7 @@ const ItemTask = ({
 					<Trash2 className="stroke-stone-700 group-hover:stroke-stone-600 w-3 md:w-5 h-3 md:h-5" />
 				</button>
 				<div className="hover:bg-stone-700 w-[20px] h-[20px] group md:h-12 flex items-center">
-					<Move className="stroke-stone-700 group-hover:stroke-stone-100 w-3 md:w-5 h-3 md:h-5" />
+					<Move className="stroke-stone-700 group-hover:stroke-stone-100 w-3 md:w-5 h-3 md:h-5" style={{ touchAction: "none" }} />
 				</div>
 				<TaskMenu code={code} task={task} openTask={openTask} setOpenTask={setOpenTask} setInputSubTask={setInputSubTask} setIsOpenInput={setIsOpenInput} onDelete={handleDelete} />
 				<input 

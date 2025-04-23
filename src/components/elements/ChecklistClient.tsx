@@ -7,8 +7,8 @@ import Donation from "@/components/elements/Donation"
 import Pagination from "@/components/elements/Pagination"
 import ChecklistHeader from "@/components/elements/ChecklistHeader"
 import ChecklistDelete from "@/components/elements/checklist/ChecklistDelete"
-import {DndContext, closestCorners, DragEndEvent} from "@dnd-kit/core"
-// import {arrayMove} from '@dnd-kit/sortable'
+import {DndContext, closestCorners, DragEndEvent, useSensors, useSensor, TouchSensor, KeyboardSensor, PointerSensor} from "@dnd-kit/core"
+import {sortableKeyboardCoordinates} from '@dnd-kit/sortable'
 import {useDispatch, useSelector} from 'react-redux'
 import {AppDispatch, RootState} from '@/redux/store'
 import {updateOrderTask, getTasks} from '@/redux/slices/checklistSlice'
@@ -34,6 +34,14 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 		await dispatch(getTasks({code, currentPage: activePage}))
 	}
 
+	const sensors = useSensors(
+		useSensor(PointerSensor),
+		useSensor(TouchSensor),
+		useSensor(KeyboardSensor, {
+			coordinateGetter: sortableKeyboardCoordinates
+		})
+	)
+
 	return (
 		<div className="flex flex-row-reverse w-screen h-full justify-between md:justify-end mb-12">
 			<div className="text-center py-4 flex flex-col items-center border-x-2 bg-stone-700 md:bg-stone-700 w-auto">
@@ -49,7 +57,7 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 					<div className="flex flex-col items-center gap-3">
 						<ChecklistHeader code={code} />
 						<div className="w-full">
-							<DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd}>
+							<DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd} sensors={sensors} >
 								<ListTask code={code} activePage={activePage} />
 							</DndContext>
 						</div>
