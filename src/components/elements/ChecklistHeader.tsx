@@ -8,7 +8,6 @@ import {useEffect } from 'react'
 export default function ChecklistHeader({code}: {code: string}) {
 	const dispatch = useDispatch<AppDispatch>()
 	const checklistData = useSelector((state: RootState) => state.checklist.data)
-	const error = useSelector((state: RootState) => state.checklist.error)
 
 	useEffect(() => {
 		dispatch(fetchChecklist(code))

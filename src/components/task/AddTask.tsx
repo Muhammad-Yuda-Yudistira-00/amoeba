@@ -6,11 +6,10 @@ import {addTask, getTasks} from '@/redux/slices/checklistSlice'
 
 export default function AddTask({code}: {code: string}) {
 	const [task, setTask] = useState<string>("")
-	const [error, setError] = useState<object>({isError: false, message: ""})
 	const [isSuccess, setIsSuccess] = useState<boolean>(false)
 	const dispatch = useDispatch<AppDispatch>()
 	const loadingAddTask = useSelector((state: RootState) => state.checklist.loadingAddTask)
-	const errorAddTask = useSelector((state: RootState) => state.checklist.errorAddTask)
+	// const errorAddTask = useSelector((state: RootState) => state.checklist.errorAddTask)
 	const pagination = useSelector((state: RootState) => state.checklist.pagination)
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,7 +34,7 @@ export default function AddTask({code}: {code: string}) {
 			setIsSuccess(true)
 			setTimeout(() => setIsSuccess(false), 3000)
 		} catch(error) {
-			setError({isError: true, message: error })
+			console.info(error)
 		}
 	}
 
@@ -50,12 +49,7 @@ export default function AddTask({code}: {code: string}) {
 				{isSuccess && (
 					<div className="opacity-75 text-center w-full bg-yellow-400 relative">
 						<div className="absolute blcok -right-0 w-8 bg-stone-400 cursor-pointer hover:bg-black" onClick={() => setIsSuccess(false)}>x</div>
-						{error.isError && (
-							<small className="text-red-700">*{error.message}</small>
-						)}
-						{isSuccess && (
 							<small className="text-lime-700">*success add new task!</small>
-						)}
 					</div>
 				)}
 			</form>

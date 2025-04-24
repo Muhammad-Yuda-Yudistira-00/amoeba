@@ -274,7 +274,7 @@ const checklistSlice = createSlice({
 				state.loadingAddTask = false
 			})
 			.addCase(addTask.rejected, (state, action) => {
-				state.errorAddTask = action.errorAddTask.message || 'terjadi kesalahan.'
+				state.errorAddTask = action.error.message || 'terjadi kesalahan.'
 				state.loadingAddTask = false
 			})
 			.addCase(updateTask.pending, (state) => {
