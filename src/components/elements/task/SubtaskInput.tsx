@@ -2,7 +2,7 @@ import {useState} from 'react'
 import {CircleX} from "lucide-react"
 import {useDispatch, useSelector} from 'react-redux'
 import {AppDispatch, RootState} from '@/redux/store'
-import {addTask, getTasks} from '@/redux/slices/checklistSlice'
+import {addTask, getTasks, updateOrderTask} from '@/redux/slices/checklistSlice'
 import Task from '@/types/Task'
 
 export default function SubtaskInput({code,task,inputSubTask,isOpenInput,setIsOpenInput}:{code:string,task:Task,inputSubTask:number|null,isOpenInput:boolean,setIsOpenInput:React.Dispatch<React.SetStateAction<boolean>>}) {
@@ -23,7 +23,10 @@ export default function SubtaskInput({code,task,inputSubTask,isOpenInput,setIsOp
 		const newOrder = task.order + 1
 		const newTotalPages = Math.ceil(newOrder / pagination.perPage)
 
-		await dispatch(addTask({code, title: subTask, level: task.level === 2 ? 3 : 2, order: newOrder}))
+		const newTask = await dispatch(addTask({code, title: subTask, level: task.level === 2 ? 3 : 2, order: newOrder}))
+		console.log("new task: ", newTask.payload.data)
+		const id = newTask.payload.data.id
+		await dispatch(updateOrderTask({code, taskId: id, order: task.order + 1, level: task.level + 1}))
 		await dispatch(getTasks({code, currentPage: newTotalPages}))
 
 		if(!loading) {

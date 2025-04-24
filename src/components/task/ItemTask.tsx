@@ -73,7 +73,7 @@ const ItemTask = ({
 			<div className={`flex gap-1 md:gap-4 items-center border-b-2 border-stone-400 w-full`}>
 				<button 
 					type="button" 
-					className="hidden md:inline-block hover:bg-amber-200 group md:h-12" 
+					className="hidden md:inline-block hover:bg-yellow-300 group md:h-12" 
 					onClick={async () => await handleDelete()}
 					onPointerDown={e => e.stopPropagation()}
 				>

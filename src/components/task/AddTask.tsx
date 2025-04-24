@@ -6,9 +6,11 @@ import {addTask, getTasks} from '@/redux/slices/checklistSlice'
 
 export default function AddTask({code}: {code: string}) {
 	const [task, setTask] = useState<string>("")
+	const [error, setError] = useState<object>({isError: false, message: ""})
 	const [isSuccess, setIsSuccess] = useState<boolean>(false)
 	const dispatch = useDispatch<AppDispatch>()
-	const loading = useSelector((state: RootState) => state.checklist.loading)
+	const loadingAddTask = useSelector((state: RootState) => state.checklist.loadingAddTask)
+	const errorAddTask = useSelector((state: RootState) => state.checklist.errorAddTask)
 	const pagination = useSelector((state: RootState) => state.checklist.pagination)
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +35,7 @@ export default function AddTask({code}: {code: string}) {
 			setIsSuccess(true)
 			setTimeout(() => setIsSuccess(false), 3000)
 		} catch(error) {
-			console.log('Failed add data: ', error)
+			setError({isError: true, message: error })
 		}
 	}
 
@@ -43,12 +45,17 @@ export default function AddTask({code}: {code: string}) {
 					<div className="mr-4 w-full">
 						<input type="text" name="task" value={task} onChange={handleChange} placeholder="write your ide.." className="text-amber-700 px-2 rounded-l-2xl pl-4 text-stone-700 focus:outline-amber-400 h-6 w-full" />
 					</div>
-					<button className="px-3 py-1 md:px-4 md:py-2 ml-2 text-white bg-amber-700 text-xs md:text-sm hover:text-amber-300 rounded-2xl uppercase disabled:opacity-50 disabled:pointer-events-none" disabled={loading}>{loading ? 'loading..' : 'add'}</button>
+					<button className="px-3 py-1 md:px-4 md:py-2 ml-2 text-white bg-amber-700 text-xs md:text-sm hover:text-amber-300 rounded-2xl uppercase disabled:opacity-50 disabled:pointer-events-none" disabled={loadingAddTask}>{loadingAddTask ? 'loading..' : 'add'}</button>
 				</div>
 				{isSuccess && (
 					<div className="opacity-75 text-center w-full bg-yellow-400 relative">
 						<div className="absolute blcok -right-0 w-8 bg-stone-400 cursor-pointer hover:bg-black" onClick={() => setIsSuccess(false)}>x</div>
-						<small className="text-lime-700">*success add new task!</small>
+						{error.isError && (
+							<small className="text-red-700">*{error.message}</small>
+						)}
+						{isSuccess && (
+							<small className="text-lime-700">*success add new task!</small>
+						)}
 					</div>
 				)}
 			</form>

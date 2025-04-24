@@ -181,7 +181,10 @@ const checklistSlice = createSlice({
 		tasks: [] as Task[],
 		selectedTask: null as Task | null,
 		loading: false,
+		loadingChecklist: false,
+		loadingAddTask: false,
 		error: null as string | null,
+		errorAddTask: null as string | null,
 		pagination: {} as PaginationProps
 	},
 	reducers: {
@@ -190,7 +193,10 @@ const checklistSlice = createSlice({
 			state.tasks = []
 			state.selectedTask = null
 			state.loading = false
+			state.loadingChecklist = false
+			state.loadingAddTask = false
 			state.error = null
+			state.errorAddTask = null
 			state.pagination = {
 				currentPage: 1,
 				perPage: 10,
@@ -202,38 +208,38 @@ const checklistSlice = createSlice({
 	extraReducers: (builder) => {
 		builder
 			.addCase(fetchChecklist.pending, (state) => {
-				state.loading = true
+				state.loadingChecklist = true
 				state.error = null
 			})
 			.addCase(fetchChecklist.fulfilled, (state, action) => {
 				state.data = action.payload
-				state.loading = false
+				state.loadingChecklist = false
 			})
 			.addCase(fetchChecklist.rejected, (state, action) => {
-				state.loading = false
+				state.loadingChecklist = false
 				state.error = action.error.message || 'Fetch failed'
 			})
 			.addCase(updateChecklistField.fulfilled, (state, action) => {
 				if(state.data) {
 					state.data = action.payload
 				}
-				state.loading = false
+				state.loadingChecklist = false
 			})
 			.addCase(updateChecklistField.rejected, (state, action) => {
-				state.loading = false
+				state.loadingChecklist = false
 				state.error = action.error.message ?? 'Unknown error'
 			})
 			.addCase(deleteChecklist.pending, (state) => {
-				state.loading = true
+				state.loadingChecklist = true
 				state.error = null
 			})
 			.addCase(deleteChecklist.fulfilled, (state) => {
 				state.data = null
-				state.loading = false
+				state.loadingChecklist = false
 			})
 			.addCase(deleteChecklist.rejected, (state, action) => {
 				state.error = action.error.message || 'Update failed'
-				state.loading = false
+				state.loadingChecklist = false
 			})
 			.addCase(getTask.pending, (state) => {
 				state.loading = true
@@ -261,15 +267,15 @@ const checklistSlice = createSlice({
 				state.loading = false
 			})
 			.addCase(addTask.pending, (state) => {
-				state.loading = true
-				state.error = null
+				state.loadingAddTask = true
+				state.errorAddTask = null
 			})
 			.addCase(addTask.fulfilled, (state) => {
-				state.loading = false
+				state.loadingAddTask = false
 			})
 			.addCase(addTask.rejected, (state, action) => {
-				state.error = action.error.message || 'terjadi kesalahan.'
-				state.loading = false
+				state.errorAddTask = action.errorAddTask.message || 'terjadi kesalahan.'
+				state.loadingAddTask = false
 			})
 			.addCase(updateTask.pending, (state) => {
 				state.loading = true

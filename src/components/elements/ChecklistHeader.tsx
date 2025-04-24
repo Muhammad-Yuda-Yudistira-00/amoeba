@@ -8,7 +8,6 @@ import {useEffect } from 'react'
 export default function ChecklistHeader({code}: {code: string}) {
 	const dispatch = useDispatch<AppDispatch>()
 	const checklistData = useSelector((state: RootState) => state.checklist.data)
-	const loading = useSelector((state: RootState) => state.checklist.loading)
 	const error = useSelector((state: RootState) => state.checklist.error)
 
 	useEffect(() => {
@@ -25,8 +24,7 @@ export default function ChecklistHeader({code}: {code: string}) {
 		dispatch(updateChecklistField({code, field: 'description', value: newDescription}))
 	}
 
-	if(loading) return <p className="text-blue-700 text-2xl">Loading..</p>
-	if(error) return <p className="text-blue-700 text-2xl">Error: {error}</p>
+	// if(error) return <p className="text-blue-700 text-2xl">Error: {error}</p>
 
 	return(
 		<div className="pb-3 md:pb-8 px-4">
