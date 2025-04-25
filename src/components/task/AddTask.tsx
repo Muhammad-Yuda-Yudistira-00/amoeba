@@ -7,6 +7,7 @@ import {addTask, getTasks} from '@/redux/slices/checklistSlice'
 export default function AddTask({code}: {code: string}) {
 	const [task, setTask] = useState<string>("")
 	const [isSuccess, setIsSuccess] = useState<boolean>(false)
+	const [error, setError] = useState<Error | null>(null)
 	const dispatch = useDispatch<AppDispatch>()
 	const loadingAddTask = useSelector((state: RootState) => state.checklist.loadingAddTask)
 	// const errorAddTask = useSelector((state: RootState) => state.checklist.errorAddTask)
@@ -32,9 +33,12 @@ export default function AddTask({code}: {code: string}) {
 
 			setTask('')
 			setIsSuccess(true)
+			setError(null)
 			setTimeout(() => setIsSuccess(false), 3000)
 		} catch(error) {
-			console.info(error)
+			setError(error as Error)
+			setIsSuccess(false)
+
 		}
 	}
 
@@ -46,12 +50,20 @@ export default function AddTask({code}: {code: string}) {
 					</div>
 					<button className="px-3 py-1 md:px-4 md:py-2 ml-2 text-white bg-amber-700 text-xs md:text-sm hover:text-amber-300 rounded-2xl uppercase disabled:opacity-50 disabled:pointer-events-none" disabled={loadingAddTask}>{loadingAddTask ? 'loading..' : 'add'}</button>
 				</div>
-				{isSuccess && (
-					<div className="opacity-75 text-center w-full bg-yellow-400 relative">
-						<div className="absolute blcok -right-0 w-8 bg-stone-400 cursor-pointer hover:bg-black" onClick={() => setIsSuccess(false)}>x</div>
-							<small className="text-lime-700">*success add new task!</small>
-					</div>
-				)}
+				<div className="opacity-75 text-center w-full bg-yellow-400 relative">
+					{(isSuccess || error) && (
+						<>
+						<div className="absolute blcok -right-0 w-8 bg-stone-400 cursor-pointer hover:bg-black" onClick={() => {
+							setIsSuccess(false)
+							setError(null)
+						}}>x</div>
+						{isSuccess && (<small className="text-lime-700">*success add new task!</small>)}
+						{error && (
+							<small className="text-red-700">*{error.message}</small>
+						)}
+						</>
+					)}
+				</div>
 			</form>
 		)
 }

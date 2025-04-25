@@ -12,10 +12,16 @@ import {sortableKeyboardCoordinates} from '@dnd-kit/sortable'
 import {useDispatch, useSelector} from 'react-redux'
 import {AppDispatch, RootState} from '@/redux/store'
 import {updateOrderTask, getTasks} from '@/redux/slices/checklistSlice'
+import {useEffect} from 'react'
 
 export default function ChecklistClient({code, activePage = 1}: {code: string, activePage?: number}){
 	const dispatch = useDispatch<AppDispatch>()
 	const tasksRedux = useSelector((state: RootState) => state.checklist.tasks)
+	const pagination = useSelector((state: RootState) => state.checklist.pagination)
+
+	useEffect(() => {
+		dispatch(getTasks({code, currentPage: activePage}))
+	}, [])
 
 	const getTaskPos = (id: number): number => tasksRedux.findIndex(taskRedux => taskRedux.id === id)
 
@@ -56,6 +62,7 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 				<div className="flex flex-col justify-around md:justify-between items-center h-full px-2">
 					<div className="flex flex-col items-center gap-3">
 						<ChecklistHeader code={code} />
+						<small className="bg-blue-200 px-3 py-2 text-stone-700 font-medium shadow-inner rounded text-base">{pagination ? pagination.totalItems : '0'} tasks</small>
 						<div className="w-full">
 							<DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd} sensors={sensors} >
 								<ListTask code={code} activePage={activePage} />
