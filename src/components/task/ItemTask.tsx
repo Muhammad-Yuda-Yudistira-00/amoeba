@@ -40,19 +40,19 @@ const ItemTask = ({
 	const handleBlur2 = async (e: React.FocusEvent<Element>, taskId: number, level?: number) => {
 		const title = (e.currentTarget as HTMLElement).innerText
 
-		dispatch(updateTask({code, taskId, field: 'title', value: title, level}))
+		await dispatch(updateTask({code, taskId, field: 'title', value: title, level}))
 	}
 
-	const handleStatus = () => {
+	const handleStatus = async () => {
 		const updatedStatus = task.status === 'done' ? 'in_progress' : 'done'
 
-		dispatch(updateTask({code, taskId: task.id, field: 'status', value: updatedStatus, level: task.level}))
+		await dispatch(updateTask({code, taskId: task.id, field: 'status', value: updatedStatus, level: task.level}))
 
 		const followingSubTask = tasks.filter(t => t.order > task.order) 
 
 		for(const t of followingSubTask) {
 			if(t.level > task.level) {
-				dispatch(updateTask({code, taskId: t.id, field: 'status', value: updatedStatus, level: t.level}))
+				await dispatch(updateTask({code, taskId: t.id, field: 'status', value: updatedStatus, level: t.level}))
 			} else {
 				break
 			}
@@ -64,9 +64,18 @@ const ItemTask = ({
 		if(confirmed) {
 			await dispatch(deleteTask({code, taskId: task.id}))
 
+			const followingSubTask = tasks.filter(t => t.order > task.order)
+
+			for(const t of followingSubTask) {
+				if(t.level > task.level) {
+					await dispatch(deleteTask({code, taskId: t.id}))
+				} else {
+					break
+				}
+			}
+
 			const estimatedTotal = pagination.totalItems - 1
 			const newTotalPages = Math.max(1, Math.ceil(estimatedTotal / pagination.perPage))
-
 			const targetPage = pagination.currentPage > newTotalPages ? newTotalPages : pagination.currentPage
 
 			await dispatch(getTasks({code, currentPage: targetPage}))
