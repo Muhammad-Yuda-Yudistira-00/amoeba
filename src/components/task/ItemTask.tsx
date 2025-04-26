@@ -29,6 +29,7 @@ const ItemTask = ({
 	const [isOpenInput, setIsOpenInput] = useState<boolean>(false)
 	const dispatch = useDispatch<AppDispatch>()
 	const pagination = useSelector((state: RootState) => state.checklist.pagination)
+	const tasks = useSelector((state: RootState) => state.checklist.tasks)
 
 	const style = {
 		transition,
@@ -46,6 +47,16 @@ const ItemTask = ({
 		const updatedStatus = task.status === 'done' ? 'in_progress' : 'done'
 
 		dispatch(updateTask({code, taskId: task.id, field: 'status', value: updatedStatus, level: task.level}))
+
+		const followingSubTask = tasks.filter(t => t.order > task.order) 
+
+		for(const t of followingSubTask) {
+			if(t.level > task.level) {
+				dispatch(updateTask({code, taskId: t.id, field: 'status', value: updatedStatus, level: t.level}))
+			} else {
+				break
+			}
+		} 
 	}
 
 	const handleDelete = async () => {
