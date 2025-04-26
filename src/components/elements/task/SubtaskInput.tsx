@@ -10,6 +10,7 @@ export default function SubtaskInput({code,task,inputSubTask,isOpenInput,setIsOp
 	const dispatch = useDispatch<AppDispatch>()
 	const pagination = useSelector((state: RootState) => state.checklist.pagination)
 	const loading = useSelector((state: RootState) => state.checklist.loading)
+	const tasks = useSelector((state: RootState) => state.checklist.tasks)
 
 	const subTaskTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSubTask(e.currentTarget.value)
@@ -20,13 +21,26 @@ export default function SubtaskInput({code,task,inputSubTask,isOpenInput,setIsOp
 
 		if(!subTask) return
 
-		const newOrder = task.order + 1
+		const followingTasks = tasks.filter(t => t.order > task.order)
+
+		let insertAfterOrder = task.order
+
+		for(const t of followingTasks) {
+			if(t.level > task.level) {
+				insertAfterOrder = Math.max(insertAfterOrder, t.order)
+			} else {
+				break
+			}
+		}
+
+		const newOrder = insertAfterOrder + 1
 		const newTotalPages = Math.ceil(newOrder / pagination.perPage)
 
 		const newTask = await dispatch(addTask({code, title: subTask, level: task.level === 2 ? 3 : 2, order: newOrder}))
-		console.log("new task: ", newTask.payload.data)
+
 		const id = newTask.payload.data.id
-		await dispatch(updateOrderTask({code, taskId: id, order: task.order + 1, level: task.level + 1}))
+		await dispatch(updateOrderTask({code, taskId: id, order: newOrder, level: task.level + 1}))
+
 		await dispatch(getTasks({code, currentPage: newTotalPages}))
 
 		if(!loading) {
