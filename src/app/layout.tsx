@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+// import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script"
@@ -15,32 +15,32 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const appName = process.env.NEXT_PUBLIC_APP_NAME;
-const appDesc = `Explore ${appName} – a free online checklist tool with stunning design! Create simple Checklists effortlessly, powered by beautiful tools that boost productivity with flair. Start now!`;
-const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+// const appName = process.env.NEXT_PUBLIC_APP_NAME;
+// const appDesc = process.env.NEXT_PUBLIC_APP_DESC;
+// const appUrl = process.env.NEXT_PUBLIC_APP_URL;
 
-export const metadata: Metadata = {
-  title: appName,
-  description: appDesc,
-  openGraph: {
-    title: appName,
-    description: appDesc,
-    url: appUrl,
-    siteName: appName,
-    images: [
-      {
-        url: `${appUrl}/sample/sample-web.jpg`,
-        width: 1200,
-        height: 630
-      }
-    ],
-    type: "website"
-  },
-  robots: "index, follow",
-  alternates: {
-    canonical: appUrl
-  }
-};
+// export const metadata: Metadata = {
+//   title: appName,
+//   description: appDesc,
+//   openGraph: {
+//     title: appName,
+//     description: appDesc,
+//     url: appUrl,
+//     siteName: appName,
+//     images: [
+//       {
+//         url: `${appUrl}/sample/sample-web.jpg`,
+//         width: 1200,
+//         height: 630
+//       }
+//     ],
+//     type: "website"
+//   },
+//   robots: "index, follow",
+//   alternates: {
+//     canonical: appUrl
+//   }
+// };
 
 export default function RootLayout({
   children,

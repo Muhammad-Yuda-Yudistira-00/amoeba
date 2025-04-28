@@ -1,41 +1,43 @@
-"use client"
-
-import {useRouter} from "next/navigation"
-import {useState} from "react"
 import ContainerHome from '@/components/fragments/ContainerHome'
+// import {metadata} from "next"
+import CreateChecklistButton from '@/components/fragments/checklist/CreateChecklistButton'
 
 const appName = process.env.NEXT_PUBLIC_APP_NAME
-const apiweb = process.env.NEXT_PUBLIC_API_WEB
-const apikey = process.env.NEXT_PUBLIC_API_KEY
+const appDesc = process.env.NEXT_PUBLIC_APP_DESC
+// const appUrl = process.env.NEXT_PUBLIC_APP_URL
+
+// export const metadata = {
+//   title: `${appName} | Homapage`,
+//   description: appDesc,
+//   openGraph: {
+//     title: `${appName} | Homepage`,
+//     description: appDesc,
+//     url: appUrl,
+//     siteName: appName,
+//     images: [
+//       {
+//         url: `${appUrl}/sample/sample-web.jpg`,
+//         width: 1200,
+//         height: 630
+//       }
+//     ],
+//     type: 'website'
+//   },
+//   robots: 'index, follow',
+//   alternates: {
+//     canonical: appUrl
+//   }
+// }
 
 export default function Home() {
-  const [loading, setLoading] = useState(false)
-  const router = useRouter()
-
-  function handleClick() {
-    setLoading(true)
-    fetch(`${apiweb}/checklist`, {
-      method: "POST",
-      headers: {
-        "Conten-Type": "application/json",
-        "x-api-key": apikey!
-      }
-    }).then(res => res.json())
-    .then(data => {
-      router.push("/checklist/" + data.data.code)
-    })
-  }
-
   return (
     <ContainerHome>
       <div className="text-center">
         <h1 className="text-7xl md:text-9xl font-loversQuarrel pb-10 bg-black/20"><span className="text-lime-400">{appName}</span> is simple <span className="text-orange-600">checklist</span></h1>
-        <small className="opacity-90 md:opacity-85 font-extralight bg-white text-black py-2 rounded-sm px-2 text-sm md:text-xl">Checklist maker tools, free, simple, easy to use, beautiful looks, fun, like the checkli (popular checklist)</small>
+        <small className="opacity-90 md:opacity-85 font-extralight bg-white text-black py-2 rounded-sm px-2 text-sm md:text-xl">{appDesc}</small>
       </div>
       <div>
-        <button onClick={handleClick} disabled={loading} className="bg-stone-400 px-4 py-2 border-8 hover:scale-110 hover:px-8 hover:rotate-12 hover:-translate-x-2 hover:bg-orange-500 uppercase transition-all duration-500 text-xs md:text-lg">
-          {loading ? "Loading.." : "create"}
-        </button>
+        <CreateChecklistButton />
       </div>
     </ContainerHome>
   );

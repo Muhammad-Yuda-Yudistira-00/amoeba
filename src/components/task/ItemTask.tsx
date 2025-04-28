@@ -116,7 +116,7 @@ const ItemTask = ({
 				>
 					<li 
 						data-key={task.id} 
-						className={`text-blue-700 text-2xl md:text-5xl pt-0 md:pt-2 px-1 md:px-4 decoration-amber-300 decoration-4 decoration-wavy w-full ${task.status === "done" ? "line-through" : ""} font-loversQuarrel selection:bg-amber-200`} 
+						className={`text-blue-700 text-2xl md:text-5xl pt-0 md:pt-2 px-1 md:px-4 decoration-red-700 decoration-4 decoration-solid w-full ${task.status === "done" ? "line-through" : ""} font-loversQuarrel selection:bg-amber-200`} 
 						contentEditable 
 						suppressContentEditableWarning={true}
 						onBlur={(e) => handleBlur2(e, task.id, task.level)} 
