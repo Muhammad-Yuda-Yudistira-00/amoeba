@@ -13,7 +13,22 @@ export const fetchChecklist = createAsyncThunk(
 				'x-api-key': API_KEY || ''
 			}
 		})
-		if(!response) throw new Error('Get checklist failed.')
+		if(!response.ok) throw new Error('Get checklist failed.')
+		return response.json()
+	}
+)
+
+export const addChecklist = createAsyncThunk(
+	'checklist/addChecklist',
+	async () => {
+		const response = await fetch(`${API_URL}/checklist`, {
+			method: "POST",
+		  headers: {
+		    "Content-Type": "application/json",
+		    "x-api-key": API_KEY!
+		  }
+		})
+		if(!response.ok) throw new Error('Create checklist failed.')
 		return response.json()
 	}
 )
@@ -27,7 +42,7 @@ export const deleteChecklist = createAsyncThunk(
 				'x-api-key': API_KEY || ''
 			}
 		})
-		if(!response) throw new Error('Delete checklist failed.')
+		if(!response.ok) throw new Error('Delete checklist failed.')
 		return response.json()
 	}
 )
@@ -185,7 +200,8 @@ const checklistSlice = createSlice({
 		loadingAddTask: false,
 		error: null as string | null,
 		errorAddTask: null as string | null,
-		pagination: {} as PaginationProps
+		pagination: {} as PaginationProps,
+		success: false as boolean
 	},
 	reducers: {
 		clearChecklist: (state) => {
@@ -203,6 +219,7 @@ const checklistSlice = createSlice({
 				totalPages: 1,
 				totalItems: 0
 			}
+			state.success = false
 		}
 	},
 	extraReducers: (builder) => {
@@ -216,6 +233,19 @@ const checklistSlice = createSlice({
 				state.loadingChecklist = false
 			})
 			.addCase(fetchChecklist.rejected, (state, action) => {
+				state.loadingChecklist = false
+				state.error = action.error.message || 'Fetch failed'
+			})
+			.addCase(addChecklist.pending, (state) => {
+				state.loadingChecklist = true
+				state.error = null
+			})
+			.addCase(addChecklist.fulfilled, (state, action) => {
+				// state.data = action.payload.data
+				state.success = true
+				state.loadingChecklist = false
+			})
+			.addCase(addChecklist.rejected, (state, action) => {
 				state.loadingChecklist = false
 				state.error = action.error.message || 'Fetch failed'
 			})

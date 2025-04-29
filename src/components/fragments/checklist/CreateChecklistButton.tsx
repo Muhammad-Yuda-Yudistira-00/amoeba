@@ -1,27 +1,44 @@
 "use client"
 
-import {useState} from 'react'
+// import {useState} from 'react'
 import {useRouter} from 'next/navigation'
+import {useDispatch, useSelector} from 'react-redux'
+import {RootState, AppDispatch} from '@/redux/store'
+import {addChecklist} from '@/redux/slices/checklistSlice'
+// import {unwrap} from '@reduxjs/toolkit'
 
 const apiweb = process.env.NEXT_PUBLIC_API_WEB
 const apikey = process.env.NEXT_PUBLIC_API_KEY
 
 export default function CreateChecklistButton () {
-	const [loading, setLoading] = useState(false)
+	// const [loading, setLoading] = useState(false)
 	const router = useRouter()
+	const dispatch = useDispatch<AppDispatch>()
+	const success = useSelector((state: RootState) => state.checklist.success)
+	// const checklist = useSelector((state: RootState) => state.checklist.data)
+	const loading = useSelector((state: RootState) => state.checklist.loadingChecklist)
 
-	function handleClick() {
-		setLoading(true)
-		fetch(`${apiweb}/checklist`, {
-		  method: "POST",
-		  headers: {
-		    "Conten-Type": "application/json",
-		    "x-api-key": apikey!
-		  }
-		}).then(res => res.json())
-		.then(data => {
-		  router.push("/checklist/" + data.data.code)
-		})
+	async function handleClick() {
+		// setLoading(true)
+		try {
+			const result = await dispatch(addChecklist())
+			console.log({result})
+			if(result) {
+				router.push(`/checklist/${result.payload.data.code}`)
+			}
+		} catch(err) {
+			console.log(err)
+		}
+		// fetch(`${apiweb}/checklist`, {
+		//   method: "POST",
+		//   headers: {
+		//     "Conten-Type": "application/json",
+		//     "x-api-key": apikey!
+		//   }
+		// }).then(res => res.json())
+		// .then(data => {
+		//   router.push("/checklist/" + data.data.code)
+		// })
 	}
 
 	return(
