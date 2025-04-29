@@ -15,30 +15,17 @@ export default function CreateChecklistButton () {
 	const router = useRouter()
 	const dispatch = useDispatch<AppDispatch>()
 	const success = useSelector((state: RootState) => state.checklist.success)
-	// const checklist = useSelector((state: RootState) => state.checklist.data)
 	const loading = useSelector((state: RootState) => state.checklist.loadingChecklist)
 
 	async function handleClick() {
-		// setLoading(true)
 		try {
 			const result = await dispatch(addChecklist())
-			console.log({result})
 			if(result) {
 				router.push(`/checklist/${result.payload.data.code}`)
 			}
 		} catch(err) {
 			console.log(err)
 		}
-		// fetch(`${apiweb}/checklist`, {
-		//   method: "POST",
-		//   headers: {
-		//     "Conten-Type": "application/json",
-		//     "x-api-key": apikey!
-		//   }
-		// }).then(res => res.json())
-		// .then(data => {
-		//   router.push("/checklist/" + data.data.code)
-		// })
 	}
 
 	return(

@@ -20,7 +20,7 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 	const pagination = useSelector((state: RootState) => state.checklist.pagination)
 
 	useEffect(() => {
-		dispatch(getTasks({code, currentPage: activePage}))
+		dispatch(getTasks({code, currentPage: pagination.currentPage}))
 	}, [])
 
 	const getTaskPos = (id: number): number => tasksRedux.findIndex(taskRedux => taskRedux.id === id)

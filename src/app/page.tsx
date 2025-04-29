@@ -4,30 +4,30 @@ import CreateChecklistButton from '@/components/fragments/checklist/CreateCheckl
 
 const appName = process.env.NEXT_PUBLIC_APP_NAME
 const appDesc = process.env.NEXT_PUBLIC_APP_DESC
-// const appUrl = process.env.NEXT_PUBLIC_APP_URL
+const appUrl = process.env.NEXT_PUBLIC_APP_URL
 
-// export const metadata = {
-//   title: `${appName} | Homapage`,
-//   description: appDesc,
-//   openGraph: {
-//     title: `${appName} | Homepage`,
-//     description: appDesc,
-//     url: appUrl,
-//     siteName: appName,
-//     images: [
-//       {
-//         url: `${appUrl}/sample/sample-web.jpg`,
-//         width: 1200,
-//         height: 630
-//       }
-//     ],
-//     type: 'website'
-//   },
-//   robots: 'index, follow',
-//   alternates: {
-//     canonical: appUrl
-//   }
-// }
+export const metadata = {
+  title: `${appName} | Homapage`,
+  description: appDesc,
+  openGraph: {
+    title: `${appName} | Homepage`,
+    description: appDesc,
+    url: appUrl,
+    siteName: appName,
+    images: [
+      {
+        url: `${appUrl}/sample/sample-web.jpg`,
+        width: 1200,
+        height: 630
+      }
+    ],
+    type: 'website'
+  },
+  robots: 'index, follow',
+  alternates: {
+    canonical: appUrl
+  }
+}
 
 export default function Home() {
   return (

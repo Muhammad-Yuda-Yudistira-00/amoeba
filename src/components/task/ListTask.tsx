@@ -13,35 +13,9 @@ export default function ListTask({code, activePage}: {code:string, activePage: n
 	const loading = useSelector((state: RootState) => state.checklist.loading)
 	const pagination = useSelector((state: RootState) => state.checklist.pagination)
 
-	// useEffect(() => {
-	// 		dispatch(getTasks({code, currentPage: activePage}))
-	// }, [code, dispatch, activePage])
-
 	useEffect(() => {
-		const updateTaskOrders = async () => {
-			if(tasks) {
-				let isReordered = false
-				
-				for(let index = 0; index <= tasks.length; index++) {
-					const task = tasks[index]
-					if(task.order !== index + 1) {
-						const newOrder = index + 1
-						await dispatch(updateOrderTask({ code, taskId: task.id, order: newOrder, level: task.level }))
-						console.log('order fix:', newOrder, task.title)
-						isReordered = true
-					}
-				}
-				if(isReordered) {
-					await dispatch(getTasks({code, currentPage: activePage}))
-				}
-			} else {
-				dispatch(getTasks({code, currentPage: activePage}))
-
-			}
-		}
-
-		updateTaskOrders()
-	}, [tasks, code, dispatch, activePage])
+			dispatch(getTasks({code, currentPage: activePage}))
+	}, [code, dispatch, activePage])
 
 	if(loading) {
 		return <h1 className="capitalize text-center w-full font-loversQuarrel text-black text-5xl">Loading..</h1>

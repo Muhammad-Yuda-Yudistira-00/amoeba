@@ -241,7 +241,6 @@ const checklistSlice = createSlice({
 				state.error = null
 			})
 			.addCase(addChecklist.fulfilled, (state, action) => {
-				// state.data = action.payload.data
 				state.success = true
 				state.loadingChecklist = false
 			})
