@@ -29,6 +29,7 @@ export default function AddTask({code}: {code: string}) {
 
 			const estimatedTotal = pagination.totalItems + 1
 			const newTotalPages = Math.ceil(estimatedTotal / pagination.perPage)
+
 			await dispatch(getTasks({code, currentPage: newTotalPages}))
 
 			setTask('')

@@ -198,10 +198,10 @@ const checklistSlice = createSlice({
 		loading: false,
 		loadingChecklist: false,
 		loadingAddTask: false,
+		loadingTasks: false,
 		error: null as string | null,
 		errorAddTask: null as string | null,
 		pagination: {} as PaginationProps,
-		success: false as boolean
 	},
 	reducers: {
 		clearChecklist: (state) => {
@@ -211,6 +211,7 @@ const checklistSlice = createSlice({
 			state.loading = false
 			state.loadingChecklist = false
 			state.loadingAddTask = false
+			state.loadingTasks = false
 			state.error = null
 			state.errorAddTask = null
 			state.pagination = {
@@ -219,7 +220,6 @@ const checklistSlice = createSlice({
 				totalPages: 1,
 				totalItems: 0
 			}
-			state.success = false
 		}
 	},
 	extraReducers: (builder) => {
@@ -240,8 +240,7 @@ const checklistSlice = createSlice({
 				state.loadingChecklist = true
 				state.error = null
 			})
-			.addCase(addChecklist.fulfilled, (state, action) => {
-				state.success = true
+			.addCase(addChecklist.fulfilled, (state) => {
 				state.loadingChecklist = false
 			})
 			.addCase(addChecklist.rejected, (state, action) => {
@@ -283,17 +282,17 @@ const checklistSlice = createSlice({
 				state.loading = false
 			})
 			.addCase(getTasks.pending, (state) => {
-				state.loading = true
+				state.loadingTasks = true
 				state.error = null
 			})
 			.addCase(getTasks.fulfilled, (state, action) => {
 				state.tasks = Array.isArray(action.payload.data) ? action.payload.data : []
 				state.pagination = action.payload.pagination
-				state.loading = false
+				state.loadingTasks = false
 			})
 			.addCase(getTasks.rejected, (state, action) => {
 				state.error = action.error.message || 'Failed get tasks'
-				state.loading = false
+				state.loadingTasks = false
 			})
 			.addCase(addTask.pending, (state) => {
 				state.loadingAddTask = true
@@ -337,9 +336,8 @@ const checklistSlice = createSlice({
 				state.error = null
 			})
 			.addCase(deleteTask.fulfilled, (state, action) => {
-				const deletedTask = action.payload
-				console.log({deletedTask})
-				state.tasks = state.tasks.filter(task => task.id !== deletedTask)
+				const taskId = action.payload
+				state.tasks = state.tasks.filter(task => task.id !== taskId)
 			})
 			.addCase(deleteTask.rejected, (state, action) => {
 				state.loading = false

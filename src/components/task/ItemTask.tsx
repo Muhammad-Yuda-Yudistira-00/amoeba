@@ -50,6 +50,7 @@ const ItemTask = ({
 
 		const followingSubTask = tasks.filter(t => t.order > task.order) 
 
+		// for checked all children in this parent
 		for(const t of followingSubTask) {
 			if(t.level > task.level) {
 				await dispatch(updateTask({code, taskId: t.id, field: 'status', value: updatedStatus, level: t.level}))
@@ -78,7 +79,9 @@ const ItemTask = ({
 			const newTotalPages = Math.max(1, Math.ceil(estimatedTotal / pagination.perPage))
 			const targetPage = pagination.currentPage > newTotalPages ? newTotalPages : pagination.currentPage
 
-			await dispatch(getTasks({code, currentPage: targetPage}))
+			if(pagination.totalItems > 10) {
+				await dispatch(getTasks({code, currentPage: targetPage}))
+			}
 		}
 	}
 

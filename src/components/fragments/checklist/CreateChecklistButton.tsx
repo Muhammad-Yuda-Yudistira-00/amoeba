@@ -5,16 +5,10 @@ import {useRouter} from 'next/navigation'
 import {useDispatch, useSelector} from 'react-redux'
 import {RootState, AppDispatch} from '@/redux/store'
 import {addChecklist} from '@/redux/slices/checklistSlice'
-// import {unwrap} from '@reduxjs/toolkit'
-
-const apiweb = process.env.NEXT_PUBLIC_API_WEB
-const apikey = process.env.NEXT_PUBLIC_API_KEY
 
 export default function CreateChecklistButton () {
-	// const [loading, setLoading] = useState(false)
 	const router = useRouter()
 	const dispatch = useDispatch<AppDispatch>()
-	const success = useSelector((state: RootState) => state.checklist.success)
 	const loading = useSelector((state: RootState) => state.checklist.loadingChecklist)
 
 	async function handleClick() {
