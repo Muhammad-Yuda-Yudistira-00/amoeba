@@ -125,15 +125,10 @@ export const addTask = createAsyncThunk(
 
 export const updateTask = createAsyncThunk(
 	'checklist/updateTask',
-	async ({code, taskId, field, value, level = 1}: {code: string, taskId: number, field: 'title' | 'status' | 'level', value: string | number, level?: number}) => {
+	async ({code, taskId, field, value}: {code: string, taskId: number, field: 'title' | 'status' | 'level', value: string | number}) => {
 		const updatedData = new URLSearchParams()
 
-		if(field === 'level') {
-			updatedData.append(field, value.toString())
-		} else {
-			updatedData.append(field, value.toString())
-			updatedData.append('level', level.toString())
-		}
+		updatedData.append(field, value.toString())
 
 		const response = await fetch(`${API_URL}/checklist/${code}/task/${taskId}`, {
 			method: 'PATCH',
@@ -152,10 +147,9 @@ export const updateTask = createAsyncThunk(
 
 export const updateOrderTask = createAsyncThunk(
 	'checklist/updateRoderTask',
-	async ({code, taskId, order, level}: {code: string, taskId: number, order: number, level: number}) => {
+	async ({code, taskId, order}: {code: string, taskId: number, order: number}) => {
 		const newOrder = new URLSearchParams()
 		newOrder.append('order', order.toString())
-		newOrder.append('level', level.toString())
 
 		const response = await fetch(`${API_URL}/checklist/${code}/task/${taskId}`, {
 			method: 'PATCH',

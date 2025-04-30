@@ -16,27 +16,23 @@ import {useEffect} from 'react'
 
 export default function ChecklistClient({code, activePage = 1}: {code: string, activePage?: number}){
 	const dispatch = useDispatch<AppDispatch>()
-	const tasksRedux = useSelector((state: RootState) => state.checklist.tasks)
+	const tasks = useSelector((state: RootState) => state.checklist.tasks)
 	const pagination = useSelector((state: RootState) => state.checklist.pagination)
 
 	useEffect(() => {
 		dispatch(getTasks({code, currentPage: pagination.currentPage}))
-	}, [])
-
-	const getTaskPos = (id: number): number => tasksRedux.findIndex(taskRedux => taskRedux.id === id)
+	}, [code, pagination.currentPage, dispatch])
 
 	const handleDragEnd = async (event: DragEndEvent) => {
 		const {active, over} = event
 
 		if(!over || active.id === over.id) return
 
-		// const originalPos = getTaskPos(Number(active.id))
-		const newPos = getTaskPos(Number(over.id))
+		const movedTask = tasks.find(task => task.id === active.id)
+		const targetTask = tasks.find(task => task.id === over.id)
+		if(!movedTask || !targetTask) return
 
-		const movedTask = tasksRedux.find(task => task.id === active.id)
-		if(!movedTask) return
-
-		await dispatch(updateOrderTask({code, taskId: Number(active.id), order: newPos + 1, level: movedTask.level}))
+		await dispatch(updateOrderTask({code, taskId: Number(movedTask.id), order: targetTask.order}))
 		await dispatch(getTasks({code, currentPage: activePage}))
 	}
 

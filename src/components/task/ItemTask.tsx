@@ -37,23 +37,23 @@ const ItemTask = ({
 		marginLeft: `${task.level * 40 - 40}px` 
 	}
 
-	const handleBlur2 = async (e: React.FocusEvent<Element>, taskId: number, level?: number) => {
+	const handleBlur2 = async (e: React.FocusEvent<Element>, taskId: number) => {
 		const title = (e.currentTarget as HTMLElement).innerText
 
-		await dispatch(updateTask({code, taskId, field: 'title', value: title, level}))
+		await dispatch(updateTask({code, taskId, field: 'title', value: title}))
 	}
 
 	const handleStatus = async () => {
 		const updatedStatus = task.status === 'done' ? 'in_progress' : 'done'
 
-		await dispatch(updateTask({code, taskId: task.id, field: 'status', value: updatedStatus, level: task.level}))
+		await dispatch(updateTask({code, taskId: task.id, field: 'status', value: updatedStatus}))
 
 		const followingSubTask = tasks.filter(t => t.order > task.order) 
 
 		// for checked all children in this parent
 		for(const t of followingSubTask) {
 			if(t.level > task.level) {
-				await dispatch(updateTask({code, taskId: t.id, field: 'status', value: updatedStatus, level: t.level}))
+				await dispatch(updateTask({code, taskId: t.id, field: 'status', value: updatedStatus}))
 			} else {
 				break
 			}
@@ -79,9 +79,7 @@ const ItemTask = ({
 			const newTotalPages = Math.max(1, Math.ceil(estimatedTotal / pagination.perPage))
 			const targetPage = pagination.currentPage > newTotalPages ? newTotalPages : pagination.currentPage
 
-			if(pagination.totalItems > 10) {
-				await dispatch(getTasks({code, currentPage: targetPage}))
-			}
+			await dispatch(getTasks({code, currentPage: targetPage}))
 		}
 	}
 
@@ -122,7 +120,7 @@ const ItemTask = ({
 						className={`text-blue-700 text-2xl md:text-5xl pt-0 md:pt-2 px-1 md:px-4 decoration-red-700 decoration-4 decoration-solid w-full ${task.status === "done" ? "line-through" : ""} font-loversQuarrel selection:bg-amber-200`} 
 						contentEditable 
 						suppressContentEditableWarning={true}
-						onBlur={(e) => handleBlur2(e, task.id, task.level)} 
+						onBlur={(e) => handleBlur2(e, task.id)} 
 						onPointerDown={e => e.stopPropagation()} 
 						onKeyDown={e => {
 							if(e.key === " ") {
