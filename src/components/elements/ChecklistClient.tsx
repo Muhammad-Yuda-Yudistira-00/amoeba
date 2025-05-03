@@ -54,7 +54,7 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 					<Pagination code={code} />
 				</div>
 			</div>
-			<div className="flex flex-col w-full items-center min-h-screen bg-orange-300 py-2 pt-4 px-0 md:px-8 md:w-4/5 py-10 bg-[url('/themes/background/city-3.jpg')] bg-cover bg-bottom bg-blend-screen">
+			<div className="flex flex-col w-full items-center min-h-screen bg-orange-300 py-2 pt-4 px-0 md:px-8 md:w-4/5 py-10 bg-[url('/themes/background/city-3.webp')] bg-cover bg-bottom bg-blend-screen">
 				<div className="flex flex-col justify-around md:justify-between items-center h-full px-2">
 					<div className="flex flex-col items-center gap-3">
 						<ChecklistHeader code={code} />

@@ -4,7 +4,7 @@ export default function Music () {
 			<div className="flex justify-center items-center h-full py-8">
 	            <p className="text-7xl font-extrabold text-sky-400 font-horsePuke">play music</p>
 	          </div>
-			<iframe style={{ borderRadius: "12px" }} src="https://open.spotify.com/embed/playlist/4T75fQJbyBh8xXBVi1Hv4K?utm_source=generator" width="100%" height="152" frameBorder="0" allowFullScreen={false} allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+			<iframe style={{ borderRadius: "12px" }} src="https://open.spotify.com/embed/playlist/773eEQuamxTPEv3JMBcdq9?utm_source=generator" width="100%" height="152" frameBorder="0" allowFullScreen={false} allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 		</div>
 	)
 }

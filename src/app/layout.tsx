@@ -67,7 +67,7 @@ export default function RootLayout({
       >
         <ReduxProvider>
           {children}
-          <div className="relative w-full h-80 m-auto text-center z-30 bg-[url('/themes/patterns/metallic-holographic.jpg')] py-24 bg-cover bg-red-700 bg-blend-color-burn">
+          <div className="relative w-full h-80 m-auto text-center z-30 bg-[url('/themes/patterns/metallic-holographic.webp')] py-24 bg-cover bg-red-700 bg-blend-color-burn">
             <Music />
           </div>
         </ReduxProvider>
