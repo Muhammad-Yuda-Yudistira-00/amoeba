@@ -23,18 +23,6 @@ export default function RootLayout({
   return (
     <html lang="id" className="">
       <head>
-
-        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-30774F78SL"></Script>
-        <Script id="google-analytics">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-30774F78SL');
-          `}
-        </Script>
-
         <meta name="apple-mobile-web-app-title" content="AmoeBALIst" />
         {/* Logo / brand for favicon */}
         <link rel="apple-touch-icon-precomposed" sizes="57x57" href="apple-touch-icon-57x57.png" />
@@ -65,6 +53,22 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white scrollbar-thin scrollbar-thumb-red-500 scrollbar-track-gray-200`}
       >
+        {/* google analytics */}
+        {process.env.NEXT_PUBLIC_NODE_ENV === 'production' && (
+          <>
+          <Script async src="https://www.googletagmanager.com/gtag/js?id=G-30774F78SL" strategy="lazyOnload"></Script>
+          <Script id="google-analytics" strategy="lazyOnload">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-30774F78SL');
+            `}
+          </Script>
+          </>
+        )}
+
         <ReduxProvider>
           {children}
           <div className="relative w-full h-80 m-auto text-center z-30 bg-[url('/themes/patterns/metallic-holographic.webp')] py-24 bg-cover bg-red-700 bg-blend-color-burn">
