@@ -318,8 +318,33 @@ const checklistSlice = createSlice({
 				state.loading = true
 				state.error = null
 			})
-			.addCase(updateOrderTask.fulfilled, (state) => {
+			.addCase(updateOrderTask.fulfilled, (state, action) => {
+				const updatedTask = action.payload.data
 				state.loading = false
+
+				const currentTask = state.tasks.find(task => task.id === updatedTask.id)
+				if(!currentTask) return
+
+				const oldOrder = currentTask.order
+				const newOrder = updatedTask.order
+
+				currentTask.order = newOrder
+
+				state.tasks.forEach(task => {
+					if(task.id !== updatedTask.id) {
+						if(newOrder > oldOrder) {
+							if(task.order > oldOrder && task.order <= newOrder) {
+								task.order -= 1
+							}
+						} else if(newOrder < oldOrder) {
+							if(task.order < oldOrder && task.order >= newOrder) {
+								task.order += 1
+							}
+						}
+					}
+				})
+
+				state.tasks.sort((a, b) => a.order - b.order)
 			})
 			.addCase(updateOrderTask.rejected, (state, action) => {
 				state.loading = false

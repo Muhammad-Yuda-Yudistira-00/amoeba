@@ -33,7 +33,7 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 		if(!movedTask || !targetTask) return
 
 		await dispatch(updateOrderTask({code, taskId: Number(movedTask.id), order: targetTask.order}))
-		await dispatch(getTasks({code, currentPage: activePage}))
+		// await dispatch(getTasks({code, currentPage: activePage}))
 	}
 
 	const sensors = useSensors(
@@ -55,10 +55,10 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 				</div>
 			</div>
 			<div className="flex flex-col w-full items-center min-h-screen bg-orange-300 py-2 pt-4 px-0 md:px-8 md:w-4/5 py-10 bg-[url('/themes/background/city-3.webp')] bg-cover bg-bottom bg-blend-screen">
-				<div className="flex flex-col justify-around md:justify-between items-center h-full px-2">
+				<div className="flex flex-col justify-around md:justify-between items-center h-full px-2 min-h-40">
 					<div className="flex flex-col items-center gap-3">
 						<ChecklistHeader code={code} />
-						<small className="bg-blue-200 px-3 py-2 text-stone-700 font-medium shadow-inner rounded text-base">{pagination ? pagination.totalItems : '0'} tasks</small>
+						<small className="bg-blue-200 px-3 py-2 text-stone-700 font-medium shadow-inner rounded text-base min-w-32 text-center">{pagination ? pagination.totalItems : '0'} tasks</small>
 						<div className="w-full">
 							<DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd} sensors={sensors} >
 								<ListTask code={code} activePage={activePage} />
