@@ -67,6 +67,7 @@ const ItemTask = ({
 
 			const followingSubTask = tasks.filter(t => t.order > task.order)
 
+			// for delete all children in this parent
 			for(const t of followingSubTask) {
 				if(t.level > task.level) {
 					await dispatch(deleteTask({code, taskId: t.id}))
@@ -74,6 +75,14 @@ const ItemTask = ({
 					break
 				}
 			}
+
+			// if(pagination.totalItems > 10 && pagination.totalPages > 1) {
+			// 	const estimatedTotal = pagination.totalItems - 1
+			// 	const newTotalPages = Math.max(1, Math.ceil(estimatedTotal / pagination.perPage))
+			// 	const targetPage = pagination.currentPage > newTotalPages ? newTotalPages : pagination.currentPage
+
+			// 	await dispatch(getTasks({code, currentPage: targetPage}))
+			// }
 
 			const estimatedTotal = pagination.totalItems - 1
 			const newTotalPages = Math.max(1, Math.ceil(estimatedTotal / pagination.perPage))

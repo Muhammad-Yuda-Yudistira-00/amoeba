@@ -32,8 +32,19 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 		const targetTask = tasks.find(task => task.id === over.id)
 		if(!movedTask || !targetTask) return
 
-		await dispatch(updateOrderTask({code, taskId: Number(movedTask.id), order: targetTask.order}))
-		// await dispatch(getTasks({code, currentPage: activePage}))
+		dispatch({
+			type: updateOrderTask.fulfilled.type,
+			payload: {
+				data: { id: movedTask.id, order: targetTask.order },
+			}
+		})
+
+		try{
+			await dispatch(updateOrderTask({code, taskId: Number(movedTask.id), order: targetTask.order}))
+			// await dispatch(getTasks({code, currentPage: activePage}))
+		} catch(error) {
+			await dispatch(getTasks({code, currentPage: activePage}))
+		}
 	}
 
 	const sensors = useSensors(
