@@ -100,7 +100,7 @@ export const getTasks = createAsyncThunk(
 
 export const addTask = createAsyncThunk(
 	'checklist/addTask',
-	async ({code, title, level, order}: {code: string, title: string, level: number, order?: number}) => {
+	async ({code, title, level, order, currentPage}: {code: string, title: string, level: number, order?: number, currentPage: number}) => {
 		const newTask = new URLSearchParams()
 		newTask.append('title', title)
 		newTask.append('level', level.toString())
@@ -119,7 +119,13 @@ export const addTask = createAsyncThunk(
 
 		if(!response.ok) throw new Error('Failed add task.')
 
-		return response.json()
+		const updatedTasks = await fetch(`${API_URL}/checklist/${code}/task?page=${currentPage}`, {
+			headers: {
+				'x-api-key': API_KEY ?? ''
+			}
+		})
+
+		return updatedTasks.json()
 	}
 )
 
@@ -292,7 +298,9 @@ const checklistSlice = createSlice({
 				state.loadingAddTask = true
 				state.errorAddTask = null
 			})
-			.addCase(addTask.fulfilled, (state) => {
+			.addCase(addTask.fulfilled, (state, action) => {
+				state.tasks = action.payload.data
+				state.pagination = action.payload.pagination
 				state.loadingAddTask = false
 			})
 			.addCase(addTask.rejected, (state, action) => {

@@ -2,7 +2,7 @@ import {useState} from "react"
 import {AppDispatch, RootState} from '@/redux/store'
 import {useDispatch, useSelector} from 'react-redux'
 import {addTask, getTasks} from '@/redux/slices/checklistSlice'
-// import {unwrap} from '@reduxjs/toolkit'
+import {useRouter} from 'next/navigation'
 
 export default function AddTask({code}: {code: string}) {
 	const [task, setTask] = useState<string>("")
@@ -10,8 +10,8 @@ export default function AddTask({code}: {code: string}) {
 	const [error, setError] = useState<Error | null>(null)
 	const dispatch = useDispatch<AppDispatch>()
 	const loadingAddTask = useSelector((state: RootState) => state.checklist.loadingAddTask)
-	// const errorAddTask = useSelector((state: RootState) => state.checklist.errorAddTask)
 	const pagination = useSelector((state: RootState) => state.checklist.pagination)
+	const router = useRouter()
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setTask(e.currentTarget.value)
@@ -25,12 +25,17 @@ export default function AddTask({code}: {code: string}) {
 		setIsSuccess(false)
 
 		try {
-			await dispatch(addTask({code, title: task, level: 1})).unwrap()
+			const result = await dispatch(addTask({code, title: task, level: 1, currentPage: pagination.currentPage}))
+			console.log({result})
 
-			const estimatedTotal = pagination.totalItems + 1
-			const newTotalPages = Math.ceil(estimatedTotal / pagination.perPage)
+			if(pagination.currentPage !== result.payload.pagination.totalPages) {
+				router.push(`/checklist/${code}?page=${result.payload.pagination.totalPages}`)
+			}
 
-			await dispatch(getTasks({code, currentPage: newTotalPages}))
+			// const estimatedTotal = pagination.totalItems + 1
+			// const newTotalPages = Math.ceil(estimatedTotal / pagination.perPage)
+
+			// await dispatch(getTasks({code, currentPage: newTotalPages}))
 
 			setTask('')
 			setIsSuccess(true)

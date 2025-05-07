@@ -41,7 +41,6 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 
 		try{
 			await dispatch(updateOrderTask({code, taskId: Number(movedTask.id), order: targetTask.order}))
-			// await dispatch(getTasks({code, currentPage: activePage}))
 		} catch(error) {
 			await dispatch(getTasks({code, currentPage: activePage}))
 		}
