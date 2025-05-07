@@ -2,8 +2,9 @@ import {useState} from 'react'
 import {CircleX} from "lucide-react"
 import {useDispatch, useSelector} from 'react-redux'
 import {AppDispatch, RootState} from '@/redux/store'
-import {addTask, getTasks} from '@/redux/slices/checklistSlice'
+import {addTask} from '@/redux/slices/checklistSlice'
 import Task from '@/types/Task'
+import {useRouter} from 'next/navigation'
 
 export default function SubtaskInput({code,task,inputSubTask,isOpenInput,setIsOpenInput}:{code:string,task:Task,inputSubTask:number|null,isOpenInput:boolean,setIsOpenInput:React.Dispatch<React.SetStateAction<boolean>>}) {
 	const [subTask, setSubTask] = useState<string>("")
@@ -11,6 +12,7 @@ export default function SubtaskInput({code,task,inputSubTask,isOpenInput,setIsOp
 	const pagination = useSelector((state: RootState) => state.checklist.pagination)
 	const loading = useSelector((state: RootState) => state.checklist.loading)
 	const tasks = useSelector((state: RootState) => state.checklist.tasks)
+	const router = useRouter()
 
 	const subTaskTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSubTask(e.currentTarget.value)
@@ -36,13 +38,15 @@ export default function SubtaskInput({code,task,inputSubTask,isOpenInput,setIsOp
 		const newOrder = insertAfterOrder + 1
 		const newTotalPages = Math.ceil(newOrder / pagination.perPage)
 
-		await dispatch(addTask({code, title: subTask, level: task.level === 2 ? 3 : 2, order: newOrder}))
-
-		await dispatch(getTasks({code, currentPage: newTotalPages}))
+		await dispatch(addTask({code, title: subTask, level: task.level === 2 ? 3 : 2, order: newOrder, currentPage: pagination.currentPage}))
 
 		if(!loading) {
 			setSubTask('')
 			setIsOpenInput(false)
+		}
+
+		if(tasks.length === pagination.perPage && pagination.currentPage !== newTotalPages) {
+			router.push(`/checklist/${code}?page=${newTotalPages}`)
 		}
 	}
 

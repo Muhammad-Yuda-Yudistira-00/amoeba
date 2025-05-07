@@ -76,19 +76,13 @@ const ItemTask = ({
 				}
 			}
 
-			if(pagination.totalItems > 10 && pagination.totalPages > 1) {
+			if(pagination.totalItems > pagination.perPage && pagination.totalPages > 1) {
 				const estimatedTotal = pagination.totalItems - 1
 				const newTotalPages = Math.max(1, Math.ceil(estimatedTotal / pagination.perPage))
 				const targetPage = pagination.currentPage > newTotalPages ? newTotalPages : pagination.currentPage
 
 				await dispatch(getTasks({code, currentPage: targetPage}))
 			}
-
-			// const estimatedTotal = pagination.totalItems - 1
-			// const newTotalPages = Math.max(1, Math.ceil(estimatedTotal / pagination.perPage))
-			// const targetPage = pagination.currentPage > newTotalPages ? newTotalPages : pagination.currentPage
-
-			// await dispatch(getTasks({code, currentPage: targetPage}))
 		}
 	}
 
