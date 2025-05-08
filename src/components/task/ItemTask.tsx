@@ -8,7 +8,8 @@ import SubtaskInput from '@/components/elements/task/SubtaskInput'
 import TaskMenu from '@/components/elements/task/TaskMenu'
 import {useDispatch, useSelector} from 'react-redux'
 import {AppDispatch, RootState} from '@/redux/store'
-import {updateTask, deleteTask, getTasks} from '@/redux/slices/checklistSlice'
+import {updateTask, deleteTask} from '@/redux/slices/checklistSlice'
+import {useRouter} from 'next/navigation'
 
 const ItemTask = ({
 	task, 
@@ -17,19 +18,22 @@ const ItemTask = ({
 	setOpenTask,
 	inputSubTask,
 	setInputSubTask,
+	activePage
 	}:{
 		task: Task,
 		code: string, 
 		openTask: number | null,
 		setOpenTask: React.Dispatch<React.SetStateAction<number | null>>,
 		inputSubTask: number | null,
-		setInputSubTask: React.Dispatch<React.SetStateAction<number | null>>
+		setInputSubTask: React.Dispatch<React.SetStateAction<number | null>>,
+		activePage: number
 	}) => {
 	const {attributes, listeners, setNodeRef, transform, transition} = useSortable({id: task.id})
 	const [isOpenInput, setIsOpenInput] = useState<boolean>(false)
 	const dispatch = useDispatch<AppDispatch>()
 	const pagination = useSelector((state: RootState) => state.checklist.pagination)
 	const tasks = useSelector((state: RootState) => state.checklist.tasks)
+	const router = useRouter()
 
 	const style = {
 		transition,
@@ -63,7 +67,7 @@ const ItemTask = ({
 	const handleDelete = async () => {
 		const confirmed = await showAlert('task')
 		if(confirmed) {
-			await dispatch(deleteTask({code, taskId: task.id}))
+			const result = await dispatch(deleteTask({code, taskId: task.id, currentPage: pagination.currentPage}))
 
 			const followingSubTask = tasks.filter(t => t.order > task.order)
 
@@ -76,12 +80,8 @@ const ItemTask = ({
 				}
 			}
 
-			if(pagination.totalItems > pagination.perPage && pagination.totalPages > 1) {
-				const estimatedTotal = pagination.totalItems - 1
-				const newTotalPages = Math.max(1, Math.ceil(estimatedTotal / pagination.perPage))
-				const targetPage = pagination.currentPage > newTotalPages ? newTotalPages : pagination.currentPage
-
-				await dispatch(getTasks({code, currentPage: targetPage}))
+			if(result.payload.data.length === 0 && activePage > 1) {
+				router.push(`/checklist/${code}?page=${activePage - 1}`)
 			}
 		}
 	}

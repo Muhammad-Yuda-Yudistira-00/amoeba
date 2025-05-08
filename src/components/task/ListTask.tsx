@@ -23,7 +23,7 @@ export default function ListTask({code, activePage}: {code:string, activePage: n
 			<ul className="px-0">
 				<SortableContext items={tasks} strategy={verticalListSortingStrategy} >
 					{tasks && tasks.map(task => (
-							<ItemTask key={task.id} task={task} code={code} openTask={openTask} setOpenTask={setOpenTask} inputSubTask={inputSubTask} setInputSubTask={setInputSubTask} />
+							<ItemTask key={task.id} task={task} code={code} openTask={openTask} setOpenTask={setOpenTask} inputSubTask={inputSubTask} setInputSubTask={setInputSubTask} activePage={activePage} />
 					))}
 				</SortableContext>
 			</ul>

@@ -20,8 +20,8 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 	const pagination = useSelector((state: RootState) => state.checklist.pagination)
 
 	useEffect(() => {
-		dispatch(getTasks({code, currentPage: pagination.currentPage}))
-	}, [code, pagination.currentPage, dispatch])
+		dispatch(getTasks({code, currentPage: activePage}))
+	}, [code, activePage, dispatch])
 
 	const handleDragEnd = async (event: DragEndEvent) => {
 		const {active, over} = event
@@ -43,7 +43,7 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 			await dispatch(updateOrderTask({code, taskId: Number(movedTask.id), order: targetTask.order}))
 		} catch(error) {
 			console.error(error)
-			await dispatch(getTasks({code, currentPage: activePage}))
+			await dispatch(getTasks({code, currentPage: pagination.currentPage}))
 		}
 	}
 

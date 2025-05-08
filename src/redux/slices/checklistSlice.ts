@@ -174,7 +174,7 @@ export const updateOrderTask = createAsyncThunk(
 
 export const deleteTask = createAsyncThunk(
 	'checklist/deleteTask',
-	async ({code, taskId}: {code: string, taskId: number}) => {
+	async ({code, taskId, currentPage}: {code: string, taskId: number, currentPage?: number}) => {
 		const response = await fetch(`${API_URL}/checklist/${code}/task/${taskId}`, {
 			method: 'DELETE',
 			headers: {
@@ -185,7 +185,16 @@ export const deleteTask = createAsyncThunk(
 
 		if(!response.ok) throw new Error('Failed delete task.')
 
-		return taskId
+		// return taskId
+		if(currentPage) {
+			const updatedTasks = await fetch(`${API_URL}/checklist/${code}/task?page=${currentPage}`, {
+				headers: {
+					'x-api-key': API_KEY ?? ''
+				}
+			})
+			return updatedTasks.json()
+		}
+		return 
 	}
 )
 
@@ -363,8 +372,8 @@ const checklistSlice = createSlice({
 				state.error = null
 			})
 			.addCase(deleteTask.fulfilled, (state, action) => {
-				const taskId = action.payload
-				state.tasks = state.tasks.filter(task => task.id !== taskId)
+				state.tasks = action.payload.data
+				state.pagination = action.payload.pagination
 			})
 			.addCase(deleteTask.rejected, (state, action) => {
 				state.loading = false
