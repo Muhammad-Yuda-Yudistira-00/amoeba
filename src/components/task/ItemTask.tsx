@@ -50,18 +50,46 @@ const ItemTask = ({
 	const handleStatus = async () => {
 		const updatedStatus = task.status === 'done' ? 'in_progress' : 'done'
 
-		await dispatch(updateTask({code, taskId: task.id, field: 'status', value: updatedStatus}))
+		const result = await dispatch(updateTask({code, taskId: task.id, field: 'status', value: updatedStatus}))
 
-		const followingSubTask = tasks.filter(t => t.order > task.order) 
+		if(result.payload.status && result.payload.statusCode === 200) {
+			// CHECK HAVE CHILDRENS & CHENGE IF HAVE IN THE PARENT 
+			if(task.level !== 3) {
+				const followingSubTask = tasks.filter(t => t.order > task.order) 
 
-		// for checked all children in this parent
-		for(const t of followingSubTask) {
-			if(t.level > task.level) {
-				await dispatch(updateTask({code, taskId: t.id, field: 'status', value: updatedStatus}))
-			} else {
-				break
+				for(const t of followingSubTask) {
+					if(t.level > task.level) {
+						await dispatch(updateTask({code, taskId: t.id, field: 'status', value: updatedStatus}))
+					} else {
+						break
+					}
+				}
 			}
-		} 
+
+			// CHECK PARENT & CHANGE IF ALL SIBLINGS WAS DONE IN THIS SUBTASK
+			if(task.level > 1) {
+				const potensialParents = tasks.filter(t => t.order < task.order && t.level === task.level -1)
+				const parent = potensialParents.reduce((prev, current) => prev.order > current.order ? prev : current, {})
+
+				const nextParentOrEnd = tasks.find(t => t.level === parent.level && t.order > parent.order && t.order > task.order)?.order || infinity
+
+				const siblings = tasks.filter(t => t.level === task.level && t.order > parent.order && t.order < nextParentOrEnd && t.id !== task.id)
+
+				const allSiblingsDone = siblings.every(s => s.status === "done")
+
+				console.log({siblings})
+				console.log({parent})
+				console.log({allSiblingsDone})
+				console.log({updatedStatus})
+
+				if(allSiblingsDone && updatedStatus === 'done') {
+					dispatch(updateTask({code, taskId: parent.id, field: 'status', value: 'done'}))
+				} else {
+					dispatch(updateTask({code, taskId: parent.id, field: 'status', value: 'in_progress'}))
+				}
+			}
+
+		}
 	}
 
 	const handleDelete = async () => {
