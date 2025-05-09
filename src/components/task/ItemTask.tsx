@@ -69,23 +69,20 @@ const ItemTask = ({
 			// CHECK PARENT & CHANGE IF ALL SIBLINGS WAS DONE IN THIS SUBTASK
 			if(task.level > 1) {
 				const potensialParents = tasks.filter(t => t.order < task.order && t.level === task.level -1)
-				const parent = potensialParents.reduce((prev, current) => prev.order > current.order ? prev : current, {})
+				const parent = potensialParents.length > 0 ? potensialParents.reduce((prev, current) => prev.order > current.order ? prev : current) : null
 
-				const nextParentOrEnd = tasks.find(t => t.level === parent.level && t.order > parent.order && t.order > task.order)?.order || infinity
+				if(parent) {
+					const nextParentOrEnd = tasks.find(t => t.level === parent.level && t.order > parent.order && t.order > task.order)?.order || Infinity
 
-				const siblings = tasks.filter(t => t.level === task.level && t.order > parent.order && t.order < nextParentOrEnd && t.id !== task.id)
+					const siblings = tasks.filter(t => t.level === task.level && t.order > parent.order && t.order < nextParentOrEnd && t.id !== task.id)
 
-				const allSiblingsDone = siblings.every(s => s.status === "done")
+					const allSiblingsDone = siblings.every(s => s.status === "done")
 
-				console.log({siblings})
-				console.log({parent})
-				console.log({allSiblingsDone})
-				console.log({updatedStatus})
-
-				if(allSiblingsDone && updatedStatus === 'done') {
-					dispatch(updateTask({code, taskId: parent.id, field: 'status', value: 'done'}))
-				} else {
-					dispatch(updateTask({code, taskId: parent.id, field: 'status', value: 'in_progress'}))
+					if(allSiblingsDone && updatedStatus === 'done') {
+						dispatch(updateTask({code, taskId: parent.id, field: 'status', value: 'done'}))
+					} else {
+						dispatch(updateTask({code, taskId: parent.id, field: 'status', value: 'in_progress'}))
+					}
 				}
 			}
 
@@ -98,17 +95,19 @@ const ItemTask = ({
 			const result = await dispatch(deleteTask({code, taskId: task.id, currentPage: pagination.currentPage}))
 
 			const followingSubTask = tasks.filter(t => t.order > task.order)
+			console.log({followingSubTask})
 
 			// for delete all children in this parent
 			for(const t of followingSubTask) {
 				if(t.level > task.level) {
-					await dispatch(deleteTask({code, taskId: t.id}))
+					await dispatch(deleteTask({code, taskId: t.id, currentPage: pagination.currentPage}))
 				} else {
 					break
 				}
 			}
 
-			if(result.payload.data.length === 0 && activePage > 1) {
+			// redirect to before page if task empty for page else page 1
+			if(result.payload.data && result.payload.data.length === 0 && activePage > 1) {
 				router.push(`/checklist/${code}?page=${activePage - 1}`)
 			}
 		}

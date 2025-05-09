@@ -174,7 +174,7 @@ export const updateOrderTask = createAsyncThunk(
 
 export const deleteTask = createAsyncThunk(
 	'checklist/deleteTask',
-	async ({code, taskId, currentPage}: {code: string, taskId: number, currentPage?: number}) => {
+	async ({code, taskId, currentPage}: {code: string, taskId: number, currentPage: number}) => {
 		const response = await fetch(`${API_URL}/checklist/${code}/task/${taskId}`, {
 			method: 'DELETE',
 			headers: {
