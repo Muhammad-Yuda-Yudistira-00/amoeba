@@ -95,7 +95,6 @@ const ItemTask = ({
 			const result = await dispatch(deleteTask({code, taskId: task.id, currentPage: pagination.currentPage}))
 
 			const followingSubTask = tasks.filter(t => t.order > task.order)
-			console.log({followingSubTask})
 
 			// for delete all children in this parent
 			for(const t of followingSubTask) {

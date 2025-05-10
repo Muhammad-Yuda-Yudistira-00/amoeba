@@ -26,6 +26,20 @@ export default async function ChecklistPage({params, searchParams}: PageProps) {
 
 		if(!res.ok) throw new Error('Failed to fetch: ' + res.status)
 
+	// untuk mencegah page kosong selain page 1, tapi ga bisa mungkin keberatan dan jaringan lemot
+	// 	const resTasks = await fetch(`${apiweb}/checklist/${code}/tasks`, {
+	// 		headers: apikey ? {
+	// 			'x-api-key': apikey
+	// 		} : {},
+	// 		cache: 'no-store'
+	// 	})
+
+	// 	if(!resTasks.ok) throw new Error(`Failed to fetch: ${resTasks.message}`)
+
+	// 	const tasks = await resTasks.json()
+	// console.log("daa: ", tasks)
+	// 	// if(tasks.data.length === 0) return notFound()
+
 	} catch(err) {
 		console.error('check checklist: ', err)
 		return notFound()

@@ -13,17 +13,18 @@ import {useDispatch, useSelector} from 'react-redux'
 import {AppDispatch, RootState} from '@/redux/store'
 import {updateOrderTask, getTasks} from '@/redux/slices/checklistSlice'
 import {useEffect} from 'react'
-import {useRouter} from 'next/navigation'
+// import {useRouter} from 'next/navigation'
 
 export default function ChecklistClient({code, activePage = 1}: {code: string, activePage?: number}){
 	const dispatch = useDispatch<AppDispatch>()
 	const tasks = useSelector((state: RootState) => state.checklist.tasks)
 	const pagination = useSelector((state: RootState) => state.checklist.pagination)
-	const router = useRouter()
+	// const router = useRouter()
 
-	if(pagination.currentPage > 1 && pagination.totalItems > 0 && tasks.length === 0) {
-		router.replace('/checklist/404')
-	}
+	// kode redirect ini menngganggu redirect delete task ketika hanya ada 1 task tersisa
+	// if(pagination.currentPage > 1 && pagination.totalItems > 0 && tasks.length === 0) {
+	// 	router.replace('/checklist/404')
+	// }
 
 	useEffect(() => {
 		dispatch(getTasks({code, currentPage: activePage}))
