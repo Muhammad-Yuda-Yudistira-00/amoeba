@@ -67,20 +67,20 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 
 	return (
 		<div className="flex flex-row-reverse w-screen h-full justify-between md:justify-end mb-12">
-			<div className="text-center py-4 flex flex-col items-center border-x-2 bg-stone-700 md:bg-stone-700 w-auto">
+			<div className="text-center py-4 flex flex-col items-center border-x-2 bg-gradient-to-b from-black via-white to-stone-700 md:bg-stone-700 w-auto">
 				<span className="[writing-mode:vertical-rl] border-b-2 pb-8">
 					<h3 className="text-xs md:text-lg text-stone-300">Pagination</h3>
 				</span>
-				<div>
+				<div className="w-full">
 					<Pagination code={code} />
 				</div>
 			</div>
-			<div className="flex flex-col w-full items-center min-h-screen bg-orange-300 py-2 pt-4 px-0 md:px-8 md:w-4/5 py-10 bg-[url('/themes/background/city-3.webp')] bg-cover bg-bottom bg-blend-screen">
+			<div className="flex flex-col w-full items-center min-h-screen bg-stone-400  pb-2 px-0 md:px-4 md:w-4/5 bg-fixed bg-center bg-cover bg-[url('/themes/background/main-bg.jpg')]">
 				<div className="flex flex-col justify-around md:justify-between items-center h-full px-2 min-h-40">
 					<div className="flex flex-col items-center gap-3">
 						<ChecklistHeader code={code} />
-						<small className="bg-blue-200 px-3 py-2 text-stone-700 font-medium shadow-inner rounded text-base min-w-32 text-center">{pagination ? pagination.totalItems : '0'} tasks</small>
-						<div className="w-full">
+						<small className="bg-white px-1 py-1 text-stone-700 font-light text-sm rounded text-base min-w-24 text-center">{pagination ? pagination.totalItems : '0'} tasks</small>
+						<div className="box-border">
 							<DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd} sensors={sensors} >
 								<ListTask code={code} activePage={activePage} />
 							</DndContext>
@@ -93,7 +93,7 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 							<Donation />
 						</div>
 					</div>
-					<div className="h-2/12 text-center md:min-w-96 w-[90%] md:w-2/3 bg-gradient-to-r from-white/10 via-amber-200 to-stone-700 mt-0 md:mt-4 mb-8 border-2 shadow-2xl">
+					<div className="h-2/12 text-center md:min-w-96 w-[90%] md:w-2/3 bg-gradient-to-r from-white/10 via-stone-400 to-stone-700 mt-0 md:mt-4 mb-8 border-2 shadow-2xl">
 						<Footer code={code} />
 					</div>
 				</div>

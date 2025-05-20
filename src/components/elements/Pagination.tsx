@@ -6,13 +6,13 @@ export default function Pagination({code}: {code: string}) {
 	const pagination = useSelector((state: RootState) => state.checklist.pagination)
 
 	return (
-		<ul className="pt-4">
+		<ul className="pt-4 text-white divide-y-2 bg-[#1a1a1a] w-full">
 			{pagination.totalPages > 0 ? Array.from({length: pagination.totalPages}, (_, i) => (
 				<li key={i}>
-					<Link href={`/checklist/${code}?page=${i+1}`} className={`hover:brightness-50 font-bold ${pagination.currentPage === i + 1 ? 'text-amber-300 pointer-events-none text-sm md:text-lg' : ''}`}>{i + 1}</Link>
+					<Link href={`/checklist/${code}?page=${i+1}`} className={`hover:text-[#00ffcc] font-bold ${pagination.currentPage === i + 1 ? 'text-[#00ffcc] pointer-events-none text-sm md:text-lg dividen' : ''}`}>{i + 1}</Link>
 				</li>
 			)) : <li key={1}>
-					<Link href={`/checklist/${code}?page=${1}`} className={`hover:brightness-50 font-bold text-amber-300 pointer-events-none text-xs md:text-lg`}>1</Link>
+					<Link href={`/checklist/${code}?page=${1}`} className={`hover:text-[#00ffcc] font-bold text-[#00ffcc] pointer-events-none text-xs md:text-lg dividen`}>1</Link>
 				</li>}
 		</ul>
 	)

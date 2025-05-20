@@ -56,7 +56,7 @@ export default function SubtaskInput({code,task,inputSubTask,isOpenInput,setIsOp
 					type="text" 
 					value={subTask}
 					placeholder="add new sub-task.." 
-					className="bg-amber-200 focus:outline-red-700 w-[85%] px-2" 
+					className="bg-stone-700 focus:outline-white w-[85%] px-2 text-white font-bold border-white shadow-white" 
 					onChange={(e) => subTaskTitle(e)} 
 					onPointerDown={e => e.stopPropagation()} 
 					onKeyDown={(e) => {
@@ -75,13 +75,13 @@ export default function SubtaskInput({code,task,inputSubTask,isOpenInput,setIsOp
 			/>
 			<CircleX 
 				size={25}
-				className="hover:text-red-700" 
+				className="hover:text-red-700 hover:fill-stone-700 hover:stroke-black fill-black stroke-white" 
 				onPointerDown={e => e.stopPropagation()}
 				onClick={() => {
 					setIsOpenInput(prev => !prev)
 				}}
 			/>
-			<button disabled={loading} className={`bg-amber-200 px-3 border-2 border-red-700 uppercase font-semibold text-sm hover:bg-red-700 hover:text-stone-300`}>{loading? 'Loading..' : 'Add'}</button>
+			<button disabled={loading} className={`bg-stone-700 px-3 text-white uppercase font-semibold text-sm hover:bg-black hover:text-stone-300`}>{loading? 'Loading..' : 'Add'}</button>
 		</form>	
 	)
 }

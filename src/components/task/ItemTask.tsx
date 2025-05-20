@@ -120,17 +120,17 @@ const ItemTask = ({
 			{...listeners}
 			style={style}
 		>
-			<div className={`flex gap-1 md:gap-4 items-center border-b-2 border-stone-400 w-full`}>
+			<div className={`flex gap-1 md:gap-2 items-center justify-start w-[92%]`}>
 				<button 
 					type="button" 
-					className="hidden md:inline-block hover:bg-yellow-300 group md:h-12" 
+					className="hidden md:inline-block hover:bg-white group md:h-12" 
 					onClick={async () => await handleDelete()}
 					onPointerDown={e => e.stopPropagation()}
 				>
-					<Trash2 className="stroke-stone-700 group-hover:stroke-stone-600 w-3 md:w-5 h-3 md:h-5" />
+					<Trash2 className="stroke-white group-hover:stroke-black w-3 md:w-5 h-3 md:h-5" />
 				</button>
 				<div className="hover:bg-stone-700 w-[20px] h-[20px] group md:h-12 flex items-center">
-					<Move className="stroke-stone-700 group-hover:stroke-stone-100 w-3 md:w-5 h-3 md:h-5" style={{ touchAction: "none" }} />
+					<Move className="stroke-white group-hover:stroke-stone-100 w-3 md:w-5 h-3 md:h-5" style={{ touchAction: "none" }} />
 				</div>
 				<TaskMenu code={code} task={task} openTask={openTask} setOpenTask={setOpenTask} setInputSubTask={setInputSubTask} setIsOpenInput={setIsOpenInput} onDelete={handleDelete} />
 				<input 
@@ -142,11 +142,11 @@ const ItemTask = ({
 					className="accent-stone-700 w-3 h-3 md:w-5 md:h-5" 
 				/>
 				<div
-					className="w-full"
+					className="w-full min-w-96 bg-gradient-to-t from-stone-700 to-black rounded-r-2xl border-black border-4 flex items-center leading-7"
 				>
 					<li 
 						data-key={task.id} 
-						className={`text-blue-700 text-2xl md:text-5xl pt-0 md:pt-2 px-1 md:px-4 decoration-red-700 decoration-4 decoration-solid w-full ${task.status === "done" ? "line-through" : ""} font-loversQuarrel selection:bg-amber-200`} 
+						className={`pt-0 md:pt-2 px-1 md:px-4 w-full`} 
 						contentEditable 
 						suppressContentEditableWarning={true}
 						onBlur={(e) => handleBlur2(e, task.id)} 
@@ -158,7 +158,9 @@ const ItemTask = ({
 							}
 						}}
 						data-dnd-kit-no-drag >
-							{task.title}
+							<p className={`text-white text-2xl md:text-sm font-black selection:bg-amber-200 tracking-wider decoration-white decoration-4 decoration-solid ${task.status === "done" ? "line-through" : ""}`}>
+								{task.title}
+							</p>
 					</li>
 				</div>
 			</div>

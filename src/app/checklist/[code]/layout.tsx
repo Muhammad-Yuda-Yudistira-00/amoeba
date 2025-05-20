@@ -16,7 +16,7 @@ interface ChecklistSidebarProps {
 export default function HomeSidebar({children}: ChecklistSidebarProps) {
 	return(
 		<>
-		<div className="flex flex-col md:flex-row-reverse bg-amber-200 min-h-screen overflow-y-auto bg-[url('/themes/patterns/mosaic.webp')] bg-blend-luminosity">
+		<div className="flex flex-col md:flex-row-reverse bg-stone-700 min-h-screen overflow-y-auto">
 				<Sidebar />
 				<div className="w-5/6 z-10 max-h-screen md:max-h-[100%]">
 					{children}

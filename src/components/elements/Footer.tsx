@@ -20,7 +20,7 @@ const Footer: React.FC<FooterProps> = ({code}) => {
 	return(
 		<footer className="py-2 px-2">
 			<div>
-				<p className="text-sm md:text-lg text-stone-800 font-kingthingsXstitch">Your checklist active still in <span className="text-xs md:text-base">{checklistData ? timeToHuman(checklistData?.data.expiredAt) : "-"} / 31</span> days.</p>
+				<p className="text-sm md:text-lg text-black font-kingthingsXstitch">Your checklist active still in <span className="text-xs md:text-base">{checklistData ? timeToHuman(checklistData?.data.expiredAt) : "-"} / 31</span> days.</p>
 			</div>
 			<div>
 				<ExpireButton code={code} />

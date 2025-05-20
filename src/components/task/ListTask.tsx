@@ -4,6 +4,7 @@ import {useState, useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {AppDispatch, RootState} from '@/redux/store'
 import {getTasks} from '@/redux/slices/checklistSlice'
+import {startSnowConfetti} from '@/libs/canvas-confetti-js/snow'
 
 export default function ListTask({code, activePage}: {code:string, activePage: number}) {
 	const [openTask, setOpenTask] = useState<number | null>(null)
@@ -14,7 +15,12 @@ export default function ListTask({code, activePage}: {code:string, activePage: n
 	const pagination = useSelector((state: RootState) => state.checklist.pagination)
 
 	useEffect(() => {
-			dispatch(getTasks({code, currentPage: activePage}))
+		const stopConfetti = startSnowConfetti()
+		dispatch(getTasks({code, currentPage: activePage}))
+
+		return () => {
+			stopConfetti()
+		}
 	}, [code, dispatch, activePage])
 
 	if(!loadingTasks && pagination.totalItems > 0) {

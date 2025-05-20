@@ -44,22 +44,22 @@ export default function AddTask({code}: {code: string}) {
 
 	return (
 			<form onSubmit={handleSubmit}>
-				<div className="flex items-center bg-yellow-300 px-4 py-2">
+				<div className="flex items-center bg-black px-4 py-2">
 					<div className="mr-4 w-full">
-						<input type="text" name="task" value={task} onChange={handleChange} placeholder="write your ide.." className="text-amber-700 px-2 rounded-l-2xl pl-4 text-stone-700 focus:outline-amber-400 h-6 w-full" />
+						<input type="text" name="task" value={task} onChange={handleChange} placeholder="write your ide.." className="px-2 font-bold rounded-l-2xl pl-4 text-white focus:outline-yellow-600 focus:ring-yellow-600 focus:border-yellow-600 h-6 w-full bg-stone-700" />
 					</div>
-					<button className="px-3 py-1 md:px-4 md:py-2 ml-2 text-white bg-amber-700 text-xs md:text-sm hover:text-amber-300 rounded-2xl uppercase disabled:opacity-50 disabled:pointer-events-none" disabled={loadingAddTask}>{loadingAddTask ? 'loading..' : 'add'}</button>
+					<button className="px-3 py-1 md:px-4 ml-2 text-white bg-stone-700 text-xs md:text-sm rounded-2xl uppercase disabled:opacity-50 disabled:pointer-events-none" disabled={loadingAddTask}>{loadingAddTask ? 'loading..' : 'add'}</button>
 				</div>
-				<div className="opacity-75 text-center w-full bg-yellow-400 relative">
+				<div className="opacity-75 text-center w-full bg-lime-400 relative">
 					{(isSuccess || error) && (
 						<>
-						<div className="absolute blcok -right-0 w-8 bg-stone-400 cursor-pointer hover:bg-black" onClick={() => {
+						<div className="absolute blcok -right-0 w-8 bg-stone-700 cursor-pointer hover:bg-black" onClick={() => {
 							setIsSuccess(false)
 							setError(null)
 						}}>x</div>
 						{isSuccess && (<small className="text-lime-700">*success add new task!</small>)}
 						{error && (
-							<small className="text-red-700">*{error.message}</small>
+							<small className="text-lime-900 tracking-wide font-bold">*{error.message}</small>
 						)}
 						</>
 					)}
