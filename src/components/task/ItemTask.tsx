@@ -159,7 +159,7 @@ const ItemTask = ({
 							}
 						}}
 						data-dnd-kit-no-drag >
-							<p className={`text-white text-xs md:text-sm font-black selection:bg-amber-200 tracking-wider decoration-white decoration-4 decoration-solid ${task.status === "done" ? "line-through" : ""}`}>
+							<p className={`text-white text-xs md:text-sm font-black selection:bg-[#00ffcc] tracking-wider decoration-white decoration-4 decoration-solid ${task.status === "done" ? "line-through" : ""}`}>
 								{task.title}
 							</p>
 					</li>

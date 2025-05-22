@@ -51,7 +51,7 @@ export default function SubtaskInput({code,task,inputSubTask,isOpenInput,setIsOp
 	}
 
 	return (
-		<form action="" method="POST" onSubmit={(e) => addSubTask(e)} className={`text-stone-700 pt-2 flex justify-between gap-2 ${inputSubTask === task.id && isOpenInput? 'block' : 'hidden'}`}>
+		<form action="" method="POST" onSubmit={(e) => addSubTask(e)} className={`text-stone-700 pt-2 flex justify-center gap-2 ${inputSubTask === task.id && isOpenInput? 'block' : 'hidden'}`}>
 			<input 
 					type="text" 
 					value={subTask}

@@ -1,6 +1,7 @@
 import ContainerHome from '@/components/fragments/ContainerHome'
 // import {metadata} from "next"
 import CreateChecklistButton from '@/components/fragments/checklist/CreateChecklistButton'
+import DocNeeded from '@/components/elements/documentation/DocNeeded'
 
 const appName = process.env.NEXT_PUBLIC_APP_NAME
 const appDesc = process.env.NEXT_PUBLIC_APP_DESC
@@ -44,9 +45,11 @@ export default function Home() {
         </div>
       </div>
       <div className="px-2 text-center">
-        <small className="text-yellow-400 bg-red-700 px-2">*This created for alternative simple checklist, specially checkli, i want to improve UI (web styling) to be beautiful looks and very very simple then checkli. made simple and past to access, not confused users.</small>
+        <small className="text-yellow-400 bg-red-700 px-2 pb-1">*This created for alternative simple checklist, specially checkli, i want to improve UI (web styling) to be beautiful looks and very very simple then checkli. made simple and past to access, not confused users.</small>
       </div>
     </div>
+
+    <DocNeeded />
     </ContainerHome>
   );
 }
