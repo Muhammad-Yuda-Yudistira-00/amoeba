@@ -37,7 +37,7 @@ export default function ListTask({code, activePage}: {code:string, activePage: n
 			)
 	} else if(!loadingTasks && pagination.totalItems === 0) {
 		return (
-			<h1 className="capitalize text-center w-full font-loversQuarrel text-black text-5xl">task empty</h1>
+			<h1 className="capitalize text-center w-full font-loversQuarrel text-white pt-6 text-4xl md:text-5xl">task empty</h1>
 			)
 	}
 }
