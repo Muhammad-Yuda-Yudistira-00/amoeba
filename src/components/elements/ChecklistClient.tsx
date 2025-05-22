@@ -76,16 +76,16 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 				</div>
 			</div>
 			<div className="flex flex-col w-full items-center min-h-screen bg-stone-700  pb-2 px-0 md:px-4 md:w-4/5 bg-fixed bg-center bg-cover bg-[url('/themes/background/main-bg.jpg')]">
-				<div className="flex flex-col justify-around md:justify-between items-center h-full px-2 min-h-40">
-					<div className="flex flex-col items-center gap-3">
+				<div className="flex flex-col justify-around md:justify-between items-center w-full px-2 min-h-40">
+					<div className="flex flex-col md:items-center gap-2 md:gap-3">
 						<ChecklistHeader code={code} />
-						<small className="bg-white px-1 py-1 text-stone-700 font-light text-sm rounded text-base min-w-24 text-center">{pagination ? pagination.totalItems : '0'} tasks</small>
+						<small className="bg-white px-1 py-1 text-stone-700 font-light text-xs md:text-sm rounded text-base w-fit m-auto min-w-16 md:min-w-24 text-center">{pagination ? pagination.totalItems : '0'} tasks</small>
 						<div className="box-border">
 							<DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd} sensors={sensors} >
 								<ListTask code={code} activePage={activePage} />
 							</DndContext>
 						</div>
-						<div className="pt-8">
+						<div className="md:pt-8 pt-4">
 							<AddTask code={code} />
 						</div>
 						<div>
@@ -93,7 +93,7 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 							<Donation />
 						</div>
 					</div>
-					<div className="h-2/12 text-center md:min-w-96 w-[90%] md:w-2/3 bg-gradient-to-r from-white/10 via-stone-400 to-stone-700 mt-0 md:mt-4 mb-8 border-2 shadow-2xl">
+					<div className="h-2/12 text-center md:min-w-96 w-[90%] md:w-2/3 bg-gradient-to-r from-white/10 via-stone-400 to-stone-700 mt-4 md:mt-4 mb-8 border-2 shadow-2xl">
 						<Footer code={code} />
 					</div>
 				</div>

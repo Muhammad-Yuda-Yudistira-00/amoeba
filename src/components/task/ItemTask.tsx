@@ -34,11 +34,12 @@ const ItemTask = ({
 	const pagination = useSelector((state: RootState) => state.checklist.pagination)
 	const tasks = useSelector((state: RootState) => state.checklist.tasks)
 	const router = useRouter()
+	const isMobile = window.innerWidth <= 768
 
 	const style = {
 		transition,
 		transform: CSS.Transform.toString(transform),
-		marginLeft: `${task.level * 40 - 40}px` 
+		marginLeft: isMobile ? `${task.level * 15 - 40}px` : `${task.level * 40 - 40}px`
 	}
 
 	const handleBlur2 = async (e: React.FocusEvent<Element>, taskId: number) => {
@@ -114,13 +115,13 @@ const ItemTask = ({
 
 	return(
 		<div 
-			className={`flex flex-col justify-between w-full px-2 md:px-0`}
+			className={`flex flex-col justify-between w-full px-2 md:px-0 pb-1 md:py-0`}
 			ref={setNodeRef} 
 			{...attributes} 
 			{...listeners}
 			style={style}
 		>
-			<div className={`flex gap-1 md:gap-2 items-center justify-start w-[92%]`}>
+			<div className={`flex gap-1 md:gap-2 items-center justify-start w-[100%] md:w-[92%] pl-3 md:pl-0`}>
 				<button 
 					type="button" 
 					className="hidden md:inline-block hover:bg-white group md:h-12" 
@@ -142,7 +143,7 @@ const ItemTask = ({
 					className="accent-stone-700 w-3 h-3 md:w-5 md:h-5" 
 				/>
 				<div
-					className="w-full min-w-96 bg-gradient-to-t from-stone-700 to-black rounded-r-2xl border-black border-4 flex items-center leading-7"
+					className="w-full md:min-w-96 bg-gradient-to-t from-stone-700 to-black rounded-r-2xl border-black border-4 flex items-center leading-7"
 				>
 					<li 
 						data-key={task.id} 
@@ -158,7 +159,7 @@ const ItemTask = ({
 							}
 						}}
 						data-dnd-kit-no-drag >
-							<p className={`text-white text-2xl md:text-sm font-black selection:bg-amber-200 tracking-wider decoration-white decoration-4 decoration-solid ${task.status === "done" ? "line-through" : ""}`}>
+							<p className={`text-white text-xs md:text-sm font-black selection:bg-amber-200 tracking-wider decoration-white decoration-4 decoration-solid ${task.status === "done" ? "line-through" : ""}`}>
 								{task.title}
 							</p>
 					</li>
