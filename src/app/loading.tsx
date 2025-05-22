@@ -3,9 +3,7 @@ import ContainerHome from '@/components/fragments/ContainerHome'
 export default function Loading() {
 	return (
 		<ContainerHome>
-	      <div className="text-center">
-	        <h1 className="text-2xl capitalize">loading..</h1>
-	      </div>
+	      <h1 className="text-stone-400 text-2xl">Loading..</h1>
 	    </ContainerHome>
 	)
 }
