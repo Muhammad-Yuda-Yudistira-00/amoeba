@@ -10,6 +10,7 @@ export default function TaskMenu ({code, task, openTask, setOpenTask, setInputSu
 	const dispatch = useDispatch<AppDispatch>()
 
 	const handleMenuTask = () => {
+		console.info('clicked task menu')
 		setOpenTask(task.id)
 		setIsOpen(isOpen => !isOpen)
 	}
@@ -36,6 +37,9 @@ export default function TaskMenu ({code, task, openTask, setOpenTask, setInputSu
 				className="bg-black py-1 w-4 h-4 md:w-5 md:h-5 stroke-white border-2" 
 				onClick={handleMenuTask} 
 				onPointerDown={e => e.stopPropagation()}
+				onTouchStart={() => {
+					handleMenuTask()
+				}}
 			/>
 			<ul className={`bg-black text-sm w-32 z-40 border-2 text-white ${openTask === task.id && isOpen ? 'absolute' : 'hidden'} left-12 top-0 p-2 px-4 opacity-80`}>
 				{task.level !== 3 && 
@@ -43,6 +47,7 @@ export default function TaskMenu ({code, task, openTask, setOpenTask, setInputSu
 						<li 
 							className="hover:text-stone-300 border-b-2 border-dotted mb-1" 
 							onPointerDown={e => e.stopPropagation()} 
+							onTouchStart={() => showInputSubTask()}
 							onClick={showInputSubTask}
 						>
 							+ new subtask
@@ -50,6 +55,7 @@ export default function TaskMenu ({code, task, openTask, setOpenTask, setInputSu
 						<li 
 							className="hover:text-stone-300 border-b-2 border-dotted mb-1"
 							onPointerDown={e => e.stopPropagation()}
+							onTouchStart={() => turnLevel('down')}
 							onClick={() => turnLevel('down')}
 						>
 							&gt; subtask
@@ -59,6 +65,7 @@ export default function TaskMenu ({code, task, openTask, setOpenTask, setInputSu
 				<li 
 					className={`hover:text-stone-300 border-b-2 border-dotted mb-1 ${task.level === 1 ? 'hidden' : ''}`}
 					onPointerDown={e => e.stopPropagation()}
+					onTouchStart={() => turnLevel('up')}
 					onClick={() => turnLevel('up')}
 				>
 					&lt; unsubtask
@@ -66,6 +73,7 @@ export default function TaskMenu ({code, task, openTask, setOpenTask, setInputSu
 				<li 
 					className="hover:text-blue-300 border-b-2 border-dotted mb-1 md:hidden"
 					onPointerDown={e => e.stopPropagation()}
+					onTouchStart={async () => await onDelete()}
 					onClick={async () => await onDelete()}
 				>
 					<Trash2 size={10} className="stroke-white inline-block" /> delete

@@ -49,6 +49,7 @@ const ItemTask = ({
 	}
 
 	const handleStatus = async () => {
+		console.info('clicked')
 		const updatedStatus = task.status === 'done' ? 'in_progress' : 'done'
 
 		const result = await dispatch(updateTask({code, taskId: task.id, field: 'status', value: updatedStatus}))
@@ -115,7 +116,7 @@ const ItemTask = ({
 
 	return(
 		<div 
-			className={`flex flex-col justify-between w-full px-2 md:px-0 pb-1 md:py-0`}
+			className={`flex flex-col justify-between items-start w-full px-2 md:px-0 pb-1 md:py-0`}
 			ref={setNodeRef} 
 			{...attributes} 
 			{...listeners}
@@ -139,8 +140,14 @@ const ItemTask = ({
 					name="status" 
 					checked={task.status === "done"} 
 					onChange={handleStatus} 
-					onPointerDown={e => e.stopPropagation()}
-					className="accent-stone-700 w-3 h-3 md:w-5 md:h-5" 
+					onPointerDown={e => {
+						e.stopPropagation()
+						e.preventDefault()
+					}}
+					onTouchStart={() => {
+						handleStatus()
+					}}
+					className="accent-stone-700 w-5 h-5 md:w-5 md:h-5" 
 				/>
 				<div
 					className="w-full md:min-w-96 bg-gradient-to-t from-stone-700 to-black rounded-r-2xl border-black border-4 flex items-center leading-7"
