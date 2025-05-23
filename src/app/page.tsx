@@ -18,7 +18,7 @@ export const metadata = {
     siteName: appName,
     images: [
       {
-        url: `${appUrl}/sample/thumbnail-medsos-sharing.jpg`,
+        url: `${appUrl}/sample/thumbnail.jpg`,
         width: 1200,
         height: 630
       }

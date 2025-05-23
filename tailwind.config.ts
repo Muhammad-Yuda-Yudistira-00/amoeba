@@ -14,9 +14,7 @@ export default {
         foreground: "var(--foreground)",
       },
       fontFamily: {
-        mutlu: ['Mutlu', 'sans-serif'],
         loversQuarrel: ['LoversQuarrel', 'sans-serif'],
-        kingthingsXxtitch: ['KingthingsXxtitch', 'sans-serif'],
         horsePuke: ['HorsePuke', 'sans-serif']
       }
     },
