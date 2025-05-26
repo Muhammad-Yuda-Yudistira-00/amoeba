@@ -10,7 +10,7 @@ export default function SubtaskInput({code,task,inputSubTask,isOpenInput,setIsOp
 	const [subTask, setSubTask] = useState<string>("")
 	const dispatch = useDispatch<AppDispatch>()
 	const pagination = useSelector((state: RootState) => state.checklist.pagination)
-	const loading = useSelector((state: RootState) => state.checklist.loading)
+	const loading = useSelector((state: RootState) => state.checklist.loadingAddSubtask)
 	const tasks = useSelector((state: RootState) => state.checklist.tasks)
 	const router = useRouter()
 

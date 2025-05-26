@@ -207,6 +207,7 @@ const checklistSlice = createSlice({
 		loading: false,
 		loadingChecklist: false,
 		loadingAddTask: false,
+		loadingAddSubtask: false,
 		loadingTasks: false,
 		error: null as string | null,
 		errorAddTask: null as string | null,
@@ -220,6 +221,7 @@ const checklistSlice = createSlice({
 			state.loading = false
 			state.loadingChecklist = false
 			state.loadingAddTask = false
+			state.loadingAddSubtask = false
 			state.loadingTasks = false
 			state.error = null
 			state.errorAddTask = null
@@ -303,18 +305,38 @@ const checklistSlice = createSlice({
 				state.error = action.error.message || 'Failed get tasks'
 				state.loadingTasks = false
 			})
-			.addCase(addTask.pending, (state) => {
-				state.loadingAddTask = true
+			.addCase(addTask.pending, (state, action) => {
+				const level = action.meta.arg?.level 
+
 				state.errorAddTask = null
+				if(level === 1) {
+					state.loadingAddTask = true
+				} else {
+					state.loadingAddSubtask = true
+				}
 			})
 			.addCase(addTask.fulfilled, (state, action) => {
+				const level = action.meta.arg?.level 
+
 				state.tasks = action.payload.data
 				state.pagination = action.payload.pagination
-				state.loadingAddTask = false
+
+				if(level === 1) {
+					state.loadingAddTask = false
+				} else {
+					state.loadingAddSubtask = false
+				}
 			})
 			.addCase(addTask.rejected, (state, action) => {
+				const level = action.meta.arg?.level
+				
 				state.errorAddTask = action.error.message || 'terjadi kesalahan.'
-				state.loadingAddTask = false
+
+				if(level === 1) {
+					state.loadingAddTask = false
+				} else {
+					state.loadingAddSubtask = false
+				}
 			})
 			.addCase(updateTask.pending, (state) => {
 				state.loading = true
