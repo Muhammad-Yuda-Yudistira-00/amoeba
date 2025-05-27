@@ -6,8 +6,8 @@ export function showAlert(label: string): Promise<boolean> {
 		text: "You won't be able to revert this!",
 		icon: "warning",
 		showCancelButton: true,
-		confirmButtonColor: "#fce897",
-		cancelButtonColor: "#b6520b",
+		confirmButtonColor: "#ccc",
+		cancelButtonColor: "#000",
 		confirmButtonText: "Yes, delete it!",
 		customClass: {
 			confirmButton: "text-confirm-button",
