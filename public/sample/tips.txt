@@ -1,0 +1,29 @@
+Tips bikin project
+
+ketahui ada 3 jenis task management, yaitu: cardlist, checklist, notes.
+- cardlist -> kompleks (agile with kanban / scrum)
+- checklist -> sederhana
+- notes -> basic
+
+TAHAPAN
+profesional / tim besar
+step 1
+cardlist: tim bisnis / semua anggota bikin task utama.
+step 2
+checklist: 1 cardlist jika terlalu kompleks bisa dipecah jadi subtask dan biasanya 1 cardlist dikerjakan 1 orang atau lebih.
+step 3
+notes: detail, keterangan, penjelasan yang tidak dimuat di cardlist / checklist dapat dicatat disini. 
+
+menengah / tim sedang
+step 1
+checklist: tim bisnis / semua anggota bikin task utama.
+step 2
+checklist / notes: 1 checklist dapat dipecah oleh 1 atau lebih anggota yang mengerjakan task tersebut.
+step 3
+notes: detail, keterangan, penjelasan yang tidak dimuat di checklist dapat dicatat disini.
+
+solo / tim kecil 
+step 1
+checklist / notes: semua anggota bikin task utama & subtask disini.
+step 2
+notes: detail, keterangan, penjelasan yang tidak dimuat di checklist dapat dicatat disini.
