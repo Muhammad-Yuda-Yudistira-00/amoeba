@@ -10,11 +10,11 @@ const appDesc = process.env.NEXT_PUBLIC_APP_DESC
 const appUrl = process.env.NEXT_PUBLIC_APP_URL
 
 export const metadata = {
-  title: `Checklist Check List Maker Free, Task Manager & No Sign Up | ${appName}`,
+  title: `Checklist Check List Maker Free, Task Manager / Todolist | ${appName}`,
   description: appDesc,
   author: `${appName} Team.`,
   openGraph: {
-    title: `Checklist Check List Maker Free, Task Manager & No Sign Up | ${appName}`,
+    title: `Checklist Check List Maker Free, Task Manager / Todolist | ${appName}`,
     description: appDesc,
     url: appUrl,
     siteName: appName,
