@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: `Checklist Check List Maker Free, Task Manager / Todolist | ${appName}`,
   description: appDesc,
   applicationName: appName,
-  author: `{name: 'Muhammad Yuda Yudistira', url: 'https://my-profile-ten-kohl.vercel.app/'}`,
+  authors: [{name: 'Muhammad Yuda Yudistira', url: 'https://my-profile-ten-kohl.vercel.app/'}],
   creator: `${appName} Team.`,
   keywords: ['Checklist', 'Todolist', 'Task Manager'],
   openGraph: {
