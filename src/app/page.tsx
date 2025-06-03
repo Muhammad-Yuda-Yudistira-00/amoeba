@@ -1,5 +1,5 @@
 import ContainerHome from '@/components/fragments/ContainerHome'
-// import {metadata} from "next"
+import type {Metadata} from "next"
 import CreateChecklistButton from '@/components/fragments/checklist/CreateChecklistButton'
 import DocNeeded from '@/components/elements/documentation/DocNeeded'
 import Roadmap from '@/components/elements/documentation/Roadmap'
@@ -9,10 +9,13 @@ const appName = process.env.NEXT_PUBLIC_APP_NAME
 const appDesc = process.env.NEXT_PUBLIC_APP_DESC
 const appUrl = process.env.NEXT_PUBLIC_APP_URL
 
-export const metadata = {
+export const metadata: Metadata = {
   title: `Checklist Check List Maker Free, Task Manager / Todolist | ${appName}`,
   description: appDesc,
-  author: `${appName} Team.`,
+  applicationName: appName,
+  author: `{name: 'Muhammad Yuda Yudistira', url: 'https://my-profile-ten-kohl.vercel.app/'}`,
+  creator: `${appName} Team.`,
+  keywords: ['Checklist', 'Todolist', 'Task Manager'],
   openGraph: {
     title: `Checklist Check List Maker Free, Task Manager / Todolist | ${appName}`,
     description: appDesc,
