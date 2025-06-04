@@ -17,7 +17,9 @@ export const startSnowConfetti = () => {
         x: Math.random(),
         y: Math.random() * skew - 0.2,
       },
-      colors: ["#fff"],
+      colors: [
+      '#71a3c1'
+    ],
       shapes: ["square"],
       gravity: randomInRange(0.1, 0.3),
       scalar: randomInRange(0.4, 1),
