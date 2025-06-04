@@ -3,7 +3,7 @@ import type {Metadata} from 'next'
 
 
 export const metadata: Metadata = {
-	title: `${process.env.NEXT_PUBLIC_APP_NAME} | Checklist`,
+	title: `Your checklist | ${process.env.NEXT_PUBLIC_APP_NAME}`,
 	robots: 'noindex, nofollow'
 }
 

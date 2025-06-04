@@ -4,6 +4,11 @@ import "./globals.css";
 import Script from "next/script"
 import Music from "@/components/elements/Music"
 import ReduxProvider from '@/app/providers'
+import type {Metadata} from "next"
+
+const appName = process.env.NEXT_PUBLIC_APP_NAME
+const appDesc = process.env.NEXT_PUBLIC_APP_DESC
+const appUrl = process.env.NEXT_PUBLIC_APP_URL
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,6 +19,33 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+export const metadata: Metadata = {
+  title: `Checklist Check List Maker Free, Task Manager / Todolist | ${appName}`,
+  description: appDesc,
+  applicationName: appName,
+  authors: [{name: 'Muhammad Yuda Yudistira', url: 'https://my-profile-ten-kohl.vercel.app/'}],
+  creator: `${appName} Team.`,
+  keywords: ['Checklist', 'Todolist', 'Task Manager'],
+  openGraph: {
+    title: `Checklist Check List Maker Free, Task Manager / Todolist | ${appName}`,
+    description: appDesc,
+    url: appUrl,
+    siteName: appName,
+    images: [
+      {
+        url: `${appUrl}/sample/thumbnail.jpg`,
+        width: 1200,
+        height: 630
+      }
+    ],
+    type: 'website'
+  },
+  robots: 'index, follow',
+  alternates: {
+    canonical: appUrl
+  }
+}
 
 export default function RootLayout({
   children,

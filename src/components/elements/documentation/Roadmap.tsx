@@ -20,9 +20,12 @@ export default function Roadmap() {
         <TimelinePoint icon={HiOutlineClipboard}/>
         <TimelineContent>
           <TimelineTime className="capitalize">For team</TimelineTime>
-          <TimelineTitle className="uppercase">First todolist (cardlist)</TimelineTitle>
-          <TimelineBody style={{fontFamily: "Poppins"}}>
-            <p>For agile (management project) with kanban or scrum. professional or big company start from here.</p> 
+          <TimelineTitle className="uppercase">step 1 (cardlist)</TimelineTitle>
+          <TimelineBody style={{fontFamily: "Poppins"}} className="max-w-2xl">
+            <p>
+              Process: create main task by team, start from here for big team, -+10 members.
+            </p>
+            <p className="pt-2">Methode: agile with kanban (simple) or scrum (complex).</p> 
             <div className="pt-2">
               app: 
               <a href="https://www.atlassian.com/software/jira" target="_blank" className="external-link"> jira</a>, 
@@ -36,9 +39,11 @@ export default function Roadmap() {
         <TimelinePoint icon={HiOutlineClipboardList} />
         <TimelineContent>
           <TimelineTime className="capitalize">For person</TimelineTime>
-          <TimelineTitle className="uppercase">Second todolist (checklist)</TimelineTitle>
-          <TimelineBody style={{fontFamily: "Poppins"}}>
-            Every person had task from card task can break it down to be checklist tasks here. or for individu and simple project can start from here.
+          <TimelineTitle className="uppercase">step 2 (checklist)</TimelineTitle>
+          <TimelineBody style={{fontFamily: "Poppins"}} className="max-w-2xl">
+            <p>
+              Process: break down each main task by person, start from here for mid team, -+5 members
+            </p>
             <div className="pt-2">
               app: 
               <a href="https://www.checkli.com" target="_blank" className="external-link"> checkli</a>, 
@@ -50,10 +55,17 @@ export default function Roadmap() {
       <TimelineItem>
         <TimelinePoint icon={HiOutlineClipboardCheck} />
         <TimelineContent>
-          <TimelineTime className="capitalize">finish</TimelineTime>
-          <TimelineTitle className="uppercase">Tracking cardlist by leader, checklist by person.</TimelineTitle>
-          <TimelineBody style={{fontFamily: "Poppins"}}>
-            Check them in daily, weekly, monthly, yearly, or combine all for looks the progress.
+          <TimelineTime className="capitalize">For person</TimelineTime>
+          <TimelineTitle className="uppercase">Step 3 (notes)</TimelineTitle>
+          <TimelineBody style={{fontFamily: "Poppins"}} className="max-w-2xl">
+            <p>
+              Process: write details, alerts, examples, task delays, additions that are not listed here. start from here for little team, -+1 members.
+            </p>
+            <div className="pt-2">
+              app: 
+              <a href="https://keep.google.com/" target="_blank" className="external-link"> google keep</a>, 
+               dll.
+            </div>
           </TimelineBody>
         </TimelineContent>
       </TimelineItem>
