@@ -5,6 +5,8 @@ import Task, {PaginationProps} from '@/types/Task'
 const API_URL = process.env.NEXT_PUBLIC_API_WEB
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY
 
+const perPage = 15
+
 export const fetchChecklist = createAsyncThunk(
 	'checklist/fetch',
 	async (code: string) => {
@@ -86,7 +88,7 @@ export const getTask = createAsyncThunk(
 export const getTasks = createAsyncThunk(
 	'checklist/getTasks',
 	async ({code, currentPage}: {code: string, currentPage: number}) => {
-		const response = await fetch(`${API_URL}/checklist/${code}/task?page=${currentPage}`, {
+		const response = await fetch(`${API_URL}/checklist/${code}/task?page=${currentPage}&per_page=${perPage}`, {
 			headers: {
 				'x-api-key': API_KEY ?? ''
 			}
@@ -119,7 +121,7 @@ export const addTask = createAsyncThunk(
 
 		if(!response.ok) throw new Error('Failed add task.')
 
-		const updatedTasks = await fetch(`${API_URL}/checklist/${code}/task?page=${currentPage}`, {
+		const updatedTasks = await fetch(`${API_URL}/checklist/${code}/task?page=${currentPage}&per_page=${perPage}`, {
 			headers: {
 				'x-api-key': API_KEY ?? ''
 			}
@@ -187,7 +189,7 @@ export const deleteTask = createAsyncThunk(
 
 		// return taskId
 		if(currentPage) {
-			const updatedTasks = await fetch(`${API_URL}/checklist/${code}/task?page=${currentPage}`, {
+			const updatedTasks = await fetch(`${API_URL}/checklist/${code}/task?page=${currentPage}&per_page=${perPage}`, {
 				headers: {
 					'x-api-key': API_KEY ?? ''
 				}

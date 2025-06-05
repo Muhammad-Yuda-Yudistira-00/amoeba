@@ -42,6 +42,33 @@ const ItemTask = ({
 		marginLeft: isMobile ? `${task.level * 15 - 40}px` : `${task.level * 40 - 40}px`
 	}
 
+	const getGradientByLevel = (level: number) => {
+		switch(level) {
+		case 2:
+			return "from-yellow-700 to-black"
+		case 3:
+			return "from-yellow-700 to-yellow-700"
+		}
+	}
+
+	const hasSubtask = (taskId: number): boolean => {
+		const currentTask = tasks.find(task => task.id === taskId)
+
+		if(!currentTask) return false
+
+		const currentIndex = tasks.findIndex(task => task.id === taskId)
+
+		for(let i = currentIndex + 1; i < tasks.length; i++) {
+			if(tasks[i].level <= currentTask.level) break
+			if(tasks[i].level > currentTask.level) return true
+		}
+
+		return false
+	}
+
+	const isTaskWithSubtask = task.level === 1 && hasSubtask(task.id)
+
+
 	const handleBlur2 = async (e: React.FocusEvent<Element>, taskId: number) => {
 		const title = (e.currentTarget as HTMLElement).innerText
 
@@ -150,7 +177,7 @@ const ItemTask = ({
 					className="accent-stone-700 w-5 h-5 md:w-5 md:h-5" 
 				/>
 				<div
-					className="w-full md:min-w-96 bg-gradient-to-t from-stone-700 to-black rounded-r-2xl border-black border-4 flex items-center leading-7"
+					className={`w-full md:min-w-96 bg-gradient-to-t ${isTaskWithSubtask ? 'from-stone-700 to-black text-white' : 'from-black to-black text-white'} ${getGradientByLevel(task.level)} rounded-r-2xl border-black border-4 flex items-center leading-7`}
 				>
 					<li 
 						data-key={task.id} 
@@ -166,7 +193,7 @@ const ItemTask = ({
 							}
 						}}
 						data-dnd-kit-no-drag >
-							<p className={`text-white text-xs md:text-sm font-black selection:bg-[#00ffcc] tracking-wider decoration-white decoration-4 decoration-solid ${task.status === "done" ? "line-through" : ""}`}>
+							<p className={`text-xs md:text-sm font-black selection:bg-[#00ffcc] tracking-wider decoration-white decoration-2 decoration-solid ${task.status === "done" ? "line-through" : ""}`}>
 								{task.title}
 							</p>
 					</li>

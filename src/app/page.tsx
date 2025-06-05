@@ -21,7 +21,7 @@ export default function Home() {
       <div className="flex flex-col gap-6 md:gap-12 pt-8">
         <div className="text-center md:px-10">
           <h1 className="text-5xl font-extrabold dark:text-white uppercase">Checklipst<small className="ms-2 font-semibold text-gray-500 dark:text-gray-400 lowercase"> task manager or todolist</small></h1>
-          <div className="m-auto w-full pt-14 flex justify-center h-full">
+          <div className="m-auto w-full pt-14 flex justify-center h-full px-4">
             <Roadmap />
           </div>
         </div>
