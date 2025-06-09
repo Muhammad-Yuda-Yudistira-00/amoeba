@@ -50,16 +50,16 @@ export default function AddTask({code}: {code: string}) {
 					</div>
 					<button className="px-3 py-1 md:px-4 ml-2 text-white bg-stone-700 text-xs md:text-sm rounded-2xl uppercase disabled:opacity-50 disabled:pointer-events-none" disabled={loadingAddTask}>{loadingAddTask ? 'loading..' : 'add'}</button>
 				</div>
-				<div className="opacity-75 text-center w-full bg-lime-400 relative">
+				<div className={`text-center w-full ${error && error.message ? 'bg-red-700' : 'bg-lime-600'} relative`}>
 					{(isSuccess || error) && (
 						<>
-						<div className="absolute blcok -right-0 w-8 bg-stone-700 cursor-pointer hover:bg-black" onClick={() => {
+						<div className="absolute blcok -right-0 w-8 bg-stone-700 cursor-pointer hover:bg-stone-900" onClick={() => {
 							setIsSuccess(false)
 							setError(null)
 						}}>x</div>
-						{isSuccess && (<small className="text-lime-700">*success add new task!</small>)}
+						{isSuccess && (<small className="text-white">*success add new task!</small>)}
 						{error && (
-							<small className="text-lime-900 tracking-wide font-bold">*{error.message}</small>
+							<small className="text-white tracking-wide font-bold">*{error.message}</small>
 						)}
 						</>
 					)}
