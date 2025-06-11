@@ -168,7 +168,7 @@ export const updateTask = createAsyncThunk(
 )
 
 export const updateOrderTask = createAsyncThunk(
-	'checklist/updateRoderTask',
+	'checklist/updateOrderTask',
 	async ({code, taskId, order}: {code: string, taskId: number, order: number}) => {
 		const newOrder = new URLSearchParams()
 		newOrder.append('order', order.toString())

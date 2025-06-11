@@ -91,6 +91,9 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 					<div className="h-2/12 text-center md:min-w-96 w-[90%] md:w-2/3 bg-gradient-to-r from-white/10 via-stone-400 to-stone-700 mt-4 md:mt-4 mb-8 border-2 shadow-2xl">
 						<Footer code={code} />
 					</div>
+					<div>
+						<p className="text-yellow-700 bg-stone-300 px-2">Created by <a href="https://my-profile-ten-kohl.vercel.app/" target="_blank" className="hover:text-stone-700 hover:underline font-bold text-sm">Zombie x Human</a>, <a href="https://github.com/titik444" target="_blank" className="hover:text-stone-700 hover:underline font-bold text-sm">Titik</a> in 2025</p>
+					</div>
 				</div>
 			</div>
 		</div>
