@@ -12,23 +12,17 @@ import {sortableKeyboardCoordinates} from '@dnd-kit/sortable'
 import {useDispatch, useSelector} from 'react-redux'
 import {AppDispatch, RootState} from '@/redux/store'
 import {updateOrderTask, getTasks} from '@/redux/slices/checklistSlice'
-import {useEffect, useState} from 'react'
+import {useEffect} from 'react'
 
 export default function ChecklistClient({code, activePage = 1}: {code: string, activePage?: number}){
 	const dispatch = useDispatch<AppDispatch>()
 	const tasks = useSelector((state: RootState) => state.checklist.tasks)
 	const pagination = useSelector((state: RootState) => state.checklist.pagination)
-	const [countDone, setCountDone] = useState(0)
+	const meta = useSelector((state: RootState) => state.checklist.meta)
 
 	useEffect(() => {
 		dispatch(getTasks({code, currentPage: activePage}))
 	}, [code, activePage, dispatch])
-
-	useEffect(() => {
-		const count = tasks.filter(task => task.status === 'done').length
-		setCountDone(count)
-		console.log({count})
-	}, [tasks])
 
 	const handleDragEnd = async (event: DragEndEvent) => {
 		const {active, over} = event
@@ -49,7 +43,6 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 		try{
 			await dispatch(updateOrderTask({code, taskId: Number(movedTask.id), order: targetTask.order}))
 			// Check apakah dia punya children
-
 			// ubah ordernya berurutan
 		} catch(error) {
 			console.error(error)
@@ -80,7 +73,7 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 					<div className="flex flex-col md:items-center gap-2 md:gap-3">
 						<ChecklistHeader code={code} />
 						<small className="bg-white px-1 py-1 text-stone-700 font-light text-xs md:text-sm rounded text-base w-fit m-auto min-w-16 md:min-w-24 text-center">
-							{countDone} / {pagination ? pagination.totalItems : '0'} ({pagination?.totalItems ? Math.round((countDone /pagination.totalItems) * 100) : 0}%)
+							{meta.totalDone} / {pagination ? pagination.totalItems : '0'} ({pagination?.totalItems ? Math.round((meta.totalDone /pagination.totalItems) * 100) : 0}%)
 						</small>
 						<div className="box-border">
 							<DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd} sensors={sensors} >

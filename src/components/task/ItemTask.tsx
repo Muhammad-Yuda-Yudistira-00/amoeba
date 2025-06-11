@@ -76,10 +76,9 @@ const ItemTask = ({
 	}
 
 	const handleStatus = async () => {
-		console.info('clicked')
 		const updatedStatus = task.status === 'done' ? 'in_progress' : 'done'
 
-		const result = await dispatch(updateTask({code, taskId: task.id, field: 'status', value: updatedStatus}))
+		const result = await dispatch(updateTask({code, taskId: task.id, field: 'status', value: updatedStatus, currentPage: pagination.currentPage}))
 
 		if(result.payload.status && result.payload.statusCode === 200) {
 			// CHECK HAVE CHILDRENS & CHENGE IF HAVE IN THE PARENT 
@@ -88,7 +87,7 @@ const ItemTask = ({
 
 				for(const t of followingSubTask) {
 					if(t.level > task.level) {
-						await dispatch(updateTask({code, taskId: t.id, field: 'status', value: updatedStatus}))
+						await dispatch(updateTask({code, taskId: t.id, field: 'status', value: updatedStatus, currentPage: pagination.currentPage}))
 					} else {
 						break
 					}
@@ -108,9 +107,9 @@ const ItemTask = ({
 					const allSiblingsDone = siblings.every(s => s.status === "done")
 
 					if(allSiblingsDone && updatedStatus === 'done') {
-						dispatch(updateTask({code, taskId: parent.id, field: 'status', value: 'done'}))
+						dispatch(updateTask({code, taskId: parent.id, field: 'status', value: 'done', currentPage: pagination.currentPage}))
 					} else {
-						dispatch(updateTask({code, taskId: parent.id, field: 'status', value: 'in_progress'}))
+						dispatch(updateTask({code, taskId: parent.id, field: 'status', value: 'in_progress', currentPage: pagination.currentPage}))
 					}
 				}
 			}
@@ -181,7 +180,7 @@ const ItemTask = ({
 				>
 					<li 
 						data-key={task.id} 
-						className={`pt-0 md:pt-2 px-1 md:px-4 w-full`} 
+						className={`py-0 md:py-1 pl-1 md:pl-4 w-full h-full flex justify-between items-center gap-4`} 
 						contentEditable 
 						suppressContentEditableWarning={true}
 						onBlur={(e) => handleBlur2(e, task.id)} 
@@ -196,6 +195,9 @@ const ItemTask = ({
 							<p className={`text-xs md:text-sm font-black selection:bg-[#00ffcc] tracking-wider decoration-white decoration-2 decoration-solid ${task.status === "done" ? "line-through" : ""}`}>
 								{task.title}
 							</p>
+							{task.type === 'daily' && (
+								<span className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-400 dark:text-black border-2 border-black">routine</span>
+							)}
 					</li>
 				</div>
 			</div>

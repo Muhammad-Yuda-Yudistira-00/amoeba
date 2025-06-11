@@ -1,6 +1,6 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import Checklist from '@/types/Checklist'
-import Task, {PaginationProps} from '@/types/Task'
+import Task, {PaginationProps, MetaProps} from '@/types/Task'
 
 const API_URL = process.env.NEXT_PUBLIC_API_WEB
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY
@@ -133,7 +133,7 @@ export const addTask = createAsyncThunk(
 
 export const updateTask = createAsyncThunk(
 	'checklist/updateTask',
-	async ({code, taskId, field, value}: {code: string, taskId: number, field: 'title' | 'status' | 'level', value: string | number}) => {
+	async ({code, taskId, field, value, currentPage = null}: {code: string, taskId: number, field: 'title' | 'status' | 'level' | 'type', value: string | number, currentPage?: number | null}) => {
 		const updatedData = new URLSearchParams()
 
 		updatedData.append(field, value.toString())
@@ -149,7 +149,21 @@ export const updateTask = createAsyncThunk(
 
 		if(!response.ok) throw new Error('Failed update task.')
 
-		return response.json()
+		if(field === 'status') {
+			const updatedTasks = await fetch(`${API_URL}/checklist/${code}/task?page=${currentPage}&per_page=${perPage}`, {
+			headers: {
+				'x-api-key': API_KEY ?? ''
+			}
+		})
+
+		const data = await updatedTasks.json()
+		const updatedData = await response.json()
+
+		return [data, updatedData]
+
+		} else {
+			return await response.json()
+		}
 	}
 )
 
@@ -214,6 +228,7 @@ const checklistSlice = createSlice({
 		error: null as string | null,
 		errorAddTask: null as string | null,
 		pagination: {} as PaginationProps,
+		meta: {} as MetaProps,
 	},
 	reducers: {
 		clearChecklist: (state) => {
@@ -232,6 +247,10 @@ const checklistSlice = createSlice({
 				perPage: 10,
 				totalPages: 1,
 				totalItems: 0
+			}
+			state.meta = {
+				totalInProgress: 0,
+				totalDone: 0
 			}
 		}
 	},
@@ -301,6 +320,7 @@ const checklistSlice = createSlice({
 			.addCase(getTasks.fulfilled, (state, action) => {
 				state.tasks = Array.isArray(action.payload.data) ? action.payload.data : []
 				state.pagination = action.payload.pagination
+				state.meta = action.payload.meta
 				state.loadingTasks = false
 			})
 			.addCase(getTasks.rejected, (state, action) => {
@@ -322,6 +342,7 @@ const checklistSlice = createSlice({
 
 				state.tasks = action.payload.data
 				state.pagination = action.payload.pagination
+				state.meta = action.payload.meta
 
 				if(level === 1) {
 					state.loadingAddTask = false
@@ -345,7 +366,14 @@ const checklistSlice = createSlice({
 				state.error = null
 			})
 			.addCase(updateTask.fulfilled, (state, action) => {
-				const updatedTask = action.payload.data
+				let updatedTask;
+				// kondisi array / object
+				if(Array.isArray(action.payload)) {
+					updatedTask = action.payload[1].data
+					state.meta = action.payload[0].meta
+				} else {
+					updatedTask = action.payload.data
+				}
 				state.tasks = state.tasks.map(task => {
 					return task.id === updatedTask.id ? updatedTask : task
 				})
@@ -398,6 +426,7 @@ const checklistSlice = createSlice({
 			.addCase(deleteTask.fulfilled, (state, action) => {
 				state.tasks = action.payload.data
 				state.pagination = action.payload.pagination
+				state.meta = action.payload.meta
 			})
 			.addCase(deleteTask.rejected, (state, action) => {
 				state.loading = false

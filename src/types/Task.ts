@@ -4,6 +4,7 @@ type Task = {
 	title: string;
 	status: string;
 	level: number;
+	type: string
 }
 
 export type PaginationProps = {
@@ -11,6 +12,11 @@ export type PaginationProps = {
 	perPage: number;
 	totalPages: number;
 	totalItems: number;
+}
+
+export type MetaProps = {
+	totalInProgress: number;
+	totalDone: number;
 }
 
 export default Task

@@ -30,6 +30,13 @@ export default function TaskMenu ({code, task, openTask, setOpenTask, setInputSu
 		setIsOpen(false)
 	}
 
+	const changeType = () => {
+		const newType = task.type === 'regular' ? 'daily' : 'regular'
+		dispatch(updateTask({code, taskId: task.id, field: 'type', value: newType}))
+
+		setIsOpen(false)
+	}
+
 	return (
 		<div className="relative">
 			<EllipsisVertical  
@@ -44,6 +51,14 @@ export default function TaskMenu ({code, task, openTask, setOpenTask, setInputSu
 			<ul className={`bg-black text-sm w-32 z-40 border-2 text-white ${openTask === task.id && isOpen ? 'absolute' : 'hidden'} left-12 top-0 p-2 px-4 opacity-80`}>
 				{task.level !== 3 && 
 					<>
+						<li 
+							className="hover:text-stone-300 border-b-2 border-dotted mb-1" 
+							onPointerDown={e => e.stopPropagation()} 
+							onTouchStart={() => showInputSubTask()}
+							onClick={changeType}
+						>
+							to be routine
+						</li>
 						<li 
 							className="hover:text-stone-300 border-b-2 border-dotted mb-1" 
 							onPointerDown={e => e.stopPropagation()} 
