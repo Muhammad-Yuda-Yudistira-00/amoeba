@@ -12,12 +12,12 @@ export default function About() {
 
   return (
     <>
-      <Link href="" onClick={() => setOpenModal(true)} className="underline hover:text-white text-stone-400">About</Link>
+      <Link href="" onClick={() => setOpenModal(true)} className="underline hover:text-white text-stone-300">About</Link>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
-        <ModalHeader style={{fontFamily: "Poppins"}}>About</ModalHeader>
-        <ModalBody className="bg-orange-400">
+        <ModalHeader style={{fontFamily: "Poppins"}} className="">About</ModalHeader>
+        <ModalBody className="bg-orange-400 border-dashed border-4 border-white">
           <div className="space-y-6">
-            <p className="text-base leading-relaxed text-gray-500 dark:text-black opacity-70">
+            <p className="text-base leading-relaxed text-white dark:text-black opacity-70">
               {appDesc}
             </p>
           </div>
