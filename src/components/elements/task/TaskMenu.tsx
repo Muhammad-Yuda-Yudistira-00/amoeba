@@ -41,18 +41,18 @@ export default function TaskMenu ({code, task, openTask, setOpenTask, setInputSu
 		<div className="relative">
 			<EllipsisVertical  
 				color="blue" 
-				className="bg-black py-1 w-4 h-4 md:w-5 md:h-5 stroke-white border-2" 
+				className="bg-indigo-700 py-1 w-4 h-4 md:w-5 md:h-5 stroke-white border-2" 
 				onClick={handleMenuTask} 
 				onPointerDown={e => e.stopPropagation()}
 				onTouchStart={() => {
 					handleMenuTask()
 				}}
 			/>
-			<ul className={`bg-black text-sm w-32 z-40 border-2 text-white ${openTask === task.id && isOpen ? 'absolute' : 'hidden'} left-12 top-0 p-2 px-4 opacity-80`}>
+			<ul className={`bg-red-700 text-sm w-32 z-40 border-2 text-white ${openTask === task.id && isOpen ? 'absolute' : 'hidden'} left-12 top-0 p-2 px-4 opacity-80`}>
 				{task.level !== 3 && 
 					<>
 						<li 
-							className="hover:text-stone-300 border-b-2 border-dotted mb-1" 
+							className="hover:text-indigo-400 border-b-2 border-dotted mb-1" 
 							onPointerDown={e => e.stopPropagation()} 
 							onTouchStart={() => showInputSubTask()}
 							onClick={changeType}
@@ -60,7 +60,7 @@ export default function TaskMenu ({code, task, openTask, setOpenTask, setInputSu
 							to be routine
 						</li>
 						<li 
-							className="hover:text-stone-300 border-b-2 border-dotted mb-1" 
+							className="hover:text-indigo-400 border-b-2 border-dotted mb-1" 
 							onPointerDown={e => e.stopPropagation()} 
 							onTouchStart={() => showInputSubTask()}
 							onClick={showInputSubTask}
@@ -68,7 +68,7 @@ export default function TaskMenu ({code, task, openTask, setOpenTask, setInputSu
 							+ new subtask
 						</li>
 						<li 
-							className="hover:text-stone-300 border-b-2 border-dotted mb-1"
+							className="hover:text-indigo-400 border-b-2 border-dotted mb-1"
 							onPointerDown={e => e.stopPropagation()}
 							onTouchStart={() => turnLevel('down')}
 							onClick={() => turnLevel('down')}
@@ -78,7 +78,7 @@ export default function TaskMenu ({code, task, openTask, setOpenTask, setInputSu
 					</>
 				}
 				<li 
-					className={`hover:text-stone-300 border-b-2 border-dotted mb-1 ${task.level === 1 ? 'hidden' : ''}`}
+					className={`hover:text-indigo-400 border-b-2 border-dotted mb-1 ${task.level === 1 ? 'hidden' : ''}`}
 					onPointerDown={e => e.stopPropagation()}
 					onTouchStart={() => turnLevel('up')}
 					onClick={() => turnLevel('up')}

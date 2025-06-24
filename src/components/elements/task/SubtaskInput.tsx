@@ -56,7 +56,7 @@ export default function SubtaskInput({code,task,inputSubTask,isOpenInput,setIsOp
 					type="text" 
 					value={subTask}
 					placeholder="add new sub-task.." 
-					className="bg-stone-700 focus:outline-white w-[70%] md:w-[80%] px-2 text-white font-bold border-white shadow-white text-xs md:text-sm" 
+					className="bg-white focus:outline-white w-[70%] md:w-[80%] px-2 text-indigo-700 font-bold border-indigo-700 shadow-white text-xs md:text-sm" 
 					onChange={(e) => subTaskTitle(e)} 
 					onPointerDown={e => e.stopPropagation()} 
 					onKeyDown={(e) => {
@@ -82,7 +82,7 @@ export default function SubtaskInput({code,task,inputSubTask,isOpenInput,setIsOp
 					setIsOpenInput(prev => !prev)
 				}}
 			/>
-			<button disabled={loading} className={`bg-stone-700 px-2 md:px-3 text-white uppercase font-semibold text-xs md:text-sm hover:bg-black hover:text-stone-300`}>{loading? 'Loading..' : 'Add'}</button>
+			<button disabled={loading} className={`bg-black px-2 md:px-3 text-white uppercase font-semibold text-xs md:text-sm border-2 hover:text-stone-300`}>{loading? 'Loading..' : 'Add'}</button>
 		</form>	
 	)
 }

@@ -42,13 +42,15 @@ const ItemTask = ({
 		marginLeft: isMobile ? `${task.level * 15 - 40}px` : `${task.level * 40 - 40}px`
 	}
 
-	const getGradientByLevel = (level: number) => {
-		switch(level) {
-		case 2:
-			return "from-yellow-700 to-black"
-		case 3:
-			return "from-yellow-700 to-yellow-700"
-		}
+	const styleLevel = {
+		backgroundColor: 
+			task.level === 2 ? "#a3a3a3" :
+			task.level === 3 ? "#31c48d" :
+			"#fff",
+		color: 
+			task.level === 2 ? "" :
+			task.level === 3 ? "" :
+			""
 	}
 
 	const hasSubtask = (taskId: number): boolean => {
@@ -155,10 +157,10 @@ const ItemTask = ({
 					onClick={async () => await handleDelete()}
 					onPointerDown={e => e.stopPropagation()}
 				>
-					<Trash2 className="stroke-white group-hover:stroke-black w-3 md:w-5 h-3 md:h-5" />
+					<Trash2 className="stroke-black fill-orange-600 group-hover:stroke-black w-3 md:w-5 h-3 md:h-5" />
 				</button>
 				<div className="hover:bg-stone-700 w-[20px] h-[20px] group md:h-12 flex items-center">
-					<Move className="stroke-white group-hover:stroke-stone-100 w-3 md:w-5 h-3 md:h-5" style={{ touchAction: "none" }} />
+					<Move className="stroke-indigo-700 fill-black group-hover:stroke-stone-100 w-3 md:w-5 h-3 md:h-5" style={{ touchAction: "none" }} />
 				</div>
 				<TaskMenu code={code} task={task} openTask={openTask} setOpenTask={setOpenTask} setInputSubTask={setInputSubTask} setIsOpenInput={setIsOpenInput} onDelete={handleDelete} />
 				<input 
@@ -176,11 +178,12 @@ const ItemTask = ({
 					className="accent-stone-700 w-5 h-5 md:w-5 md:h-5" 
 				/>
 				<div
-					className={`w-full md:min-w-96 bg-gradient-to-t ${isTaskWithSubtask ? 'from-stone-700 to-black text-white' : 'from-black to-black text-white'} ${getGradientByLevel(task.level)} rounded-r-2xl border-black border-4 flex items-center leading-7`}
+					className={`w-full md:min-w-96 ${isTaskWithSubtask && task.level === 1 ? 'bg-neutral-400' : 'bg-green-400'} border-black border-2 flex items-center leading-7`}
 				>
 					<li 
 						data-key={task.id} 
 						className={`py-0 md:py-1 pl-1 md:pl-4 w-full h-full flex justify-between items-center gap-4`} 
+						style = {styleLevel}
 						contentEditable 
 						suppressContentEditableWarning={true}
 						onBlur={(e) => handleBlur2(e, task.id)} 
@@ -196,7 +199,7 @@ const ItemTask = ({
 								{task.title}
 							</p>
 							{task.type === 'daily' && (
-								<span className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-400 dark:text-black border-2 border-black">routine</span>
+								<span className="bg-yellow-100 text-black text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-400 dark:text-black border-2 border-black">routine</span>
 							)}
 					</li>
 				</div>

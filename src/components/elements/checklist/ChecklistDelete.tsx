@@ -21,6 +21,6 @@ export default function ChecklistDelete({code}: {code: string}) {
 	}
 
 	return(
-		<small className="text-white m-auto text-center w-full inline-block">👊🏻💥 Break this task ??? <button type="button" onClick={handleDeleteChecklist} className="hover:bg-black hover:text-stone-400 font-bold">Click Here!!</button></small>
+		<small className="text-white m-auto text-center w-full inline-block">👊🏻💥 Break this task ??? <button type="button" onClick={handleDeleteChecklist} className="hover:bg-neutral-700 hover:text-stone-400 font-bold">Click Here!!</button></small>
 	)
 }

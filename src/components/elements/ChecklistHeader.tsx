@@ -31,15 +31,15 @@ export default function ChecklistHeader({code}: {code: string}) {
 				contentEditable="true" 
 				dangerouslySetInnerHTML={{ __html: checklistData?.data.title ?? "" }}
 				onBlur={(e) => handleTitle(e)} 
-				className="text-3xl md:text-8xl font-extrabold px-4 text-white text-center pb-4 md:pb-9"
+				className="text-3xl md:text-8xl font-extrabold px-4 text-indigo-700 text-center pb-4 md:pb-9"
 				style={{ fontFamily: "Playwrite DK Loopet"}} 
 			/>
-			<div className="bg-gradient-to-r bg-white text-center rounded-sm md:rounded-es-full md:rounded-se-full md:px-6 border-black border-b-2 border-r-2 md:border-b-4 md:border-r-4 opacity-90">
+			<div className="bg-indigo-400 text-center rounded-sm md:rounded-es-full md:rounded-se-full md:px-6 border-black border-b-2 border-r-2 md:border-b-4 md:border-r-4 opacity-90">
 				<small 
 					contentEditable="true" 
 					dangerouslySetInnerHTML={{ __html: checklistData?.data.description ? checklistData.data.description : 'Descript..' }} 
 					onBlur={(e) => handleDescription(e)} 
-					className="text-xs font-light md:text-lg px-2 md:px-4 py-0 md:py-2 text-stone-700" 
+					className="text-xs font-light md:text-lg px-2 md:px-4 py-0 md:py-2 text-black" 
 					style={{ fontFamily: "Poppins"}}
 				/>
 			</div>

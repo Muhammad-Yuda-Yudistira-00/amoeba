@@ -60,7 +60,7 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 
 	return (
 		<div className="flex flex-row-reverse w-screen h-full justify-between md:justify-end mb-12">
-			<div className="text-center py-4 flex flex-col items-center border-x-2 bg-gradient-to-b from-black via-white to-stone-700 md:bg-stone-700 w-auto">
+			<div className="text-center py-4 flex flex-col items-center border-x-2 bg-indigo-700 w-auto">
 				<span className="[writing-mode:vertical-rl] border-b-2 pb-8">
 					<h3 className="text-xs md:text-lg text-stone-300">Pagination</h3>
 				</span>
@@ -68,7 +68,7 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 					<Pagination code={code} />
 				</div>
 			</div>
-			<div className="flex flex-col w-full items-center min-h-screen bg-stone-700  pb-2 px-0 md:px-4 md:w-4/5 bg-fixed bg-center bg-cover bg-[url('/themes/background/main-bg.jpg')]">
+			<div className="flex flex-col w-full items-center min-h-screen bg-stone-700  pb-2 px-0 md:px-4 md:w-4/5 bg-fixed bg-center bg-cover bg-[url('/themes/background/library.jpg')]">
 				<div className="flex flex-col justify-around md:justify-between items-center w-full px-2 min-h-40">
 					<div className="flex flex-col md:items-center gap-2 md:gap-3">
 						<ChecklistHeader code={code} />
@@ -88,11 +88,11 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 							<Donation />
 						</div>
 					</div>
-					<div className="h-2/12 text-center md:min-w-96 w-[90%] md:w-2/3 bg-gradient-to-r from-white/10 via-stone-400 to-stone-700 mt-4 md:mt-4 mb-8 border-2 shadow-2xl">
+					<div className="h-2/12 text-center md:min-w-96 w-[90%] md:w-2/3 bg-gradient-to-r from-white/10 via-stone-400 to-stone-700 mt-4 md:mt-4 mb-8 border-2 border-white shadow-2xl">
 						<Footer code={code} />
 					</div>
 					<div>
-						<p className="text-yellow-700 bg-stone-300 px-2">Created by <a href="https://my-profile-ten-kohl.vercel.app/" target="_blank" className="hover:text-stone-700 hover:underline font-bold text-sm">Zombie x Human</a>, <a href="https://github.com/titik444" target="_blank" className="hover:text-stone-700 hover:underline font-bold text-sm">Titik</a> in 2025</p>
+						<p className="text-orange-900 bg-stone-300 px-2">Created by <a href="https://my-profile-ten-kohl.vercel.app/" target="_blank" className="hover:text-stone-700 hover:underline font-bold text-sm">Zombie x Human</a>, <a href="https://github.com/titik444" target="_blank" className="hover:text-stone-700 hover:underline font-bold text-sm">Titik</a> in 2025</p>
 					</div>
 				</div>
 			</div>

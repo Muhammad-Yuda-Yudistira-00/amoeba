@@ -7,7 +7,7 @@ export function showAlert(label: string): Promise<boolean> {
 		icon: "warning",
 		showCancelButton: true,
 		confirmButtonColor: "#ccc",
-		cancelButtonColor: "#000",
+		cancelButtonColor: "#5246ce",
 		confirmButtonText: "Yes, delete it!",
 		color: "#333",
 		customClass: {
@@ -20,7 +20,7 @@ export function showAlert(label: string): Promise<boolean> {
 				title: "Deleted!",
 				text: `Your ${label} has been deleted.`,
 				icon: "success",
-				confirmButtonColor: "#000",
+				confirmButtonColor: "#5246ce",
 				color: "#333",
 				customClass: {
 					confirmButton: "button-deleted",
