@@ -44,8 +44,9 @@ const ItemTask = ({
 
 	const styleLevel = {
 		backgroundColor: 
-			task.level === 2 ? "#a3a3a3" :
-			task.level === 3 ? "#31c48d" :
+			task.level === 1 ? "#83a1e8" :
+			task.level === 2 ? "#cecdcd" :
+			task.level === 3 ? "#fff" :
 			"#fff",
 		color: 
 			task.level === 2 ? "" :
@@ -195,7 +196,7 @@ const ItemTask = ({
 							}
 						}}
 						data-dnd-kit-no-drag >
-							<p className={`text-xs md:text-sm font-black selection:bg-[#00ffcc] tracking-wider decoration-white decoration-2 decoration-solid ${task.status === "done" ? "line-through" : ""}`}>
+							<p className={`text-xs md:text-sm font-medium selection:bg-[#00ffcc] tracking-wider decoration-white/60 decoration-4 decoration-wavy ${task.status === "done" ? "line-through" : ""}`}>
 								{task.title}
 							</p>
 							{task.type === 'daily' && (

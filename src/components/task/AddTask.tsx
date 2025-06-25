@@ -53,7 +53,7 @@ export default function AddTask({code}: {code: string}) {
 				<div className={`text-center w-full ${error && error.message ? 'bg-red-700' : 'bg-lime-600'} relative`}>
 					{(isSuccess || error) && (
 						<>
-						<div className="absolute blcok -right-0 w-8 bg-stone-700 cursor-pointer hover:bg-stone-900" onClick={() => {
+						<div className="absolute blcok -right-0 w-8 bg-lime-600 cursor-pointer hover:bg-lime-700" onClick={() => {
 							setIsSuccess(false)
 							setError(null)
 						}}>x</div>

@@ -48,7 +48,7 @@ export default function TaskMenu ({code, task, openTask, setOpenTask, setInputSu
 					handleMenuTask()
 				}}
 			/>
-			<ul className={`bg-red-700 text-sm w-32 z-40 border-2 text-white ${openTask === task.id && isOpen ? 'absolute' : 'hidden'} left-12 top-0 p-2 px-4 opacity-80`}>
+			<ul className={`bg-red-700 text-sm w-32 z-40 border-2 text-white ${openTask === task.id && isOpen ? 'absolute' : 'hidden'} left-8 top-0 p-2 px-4`}>
 				{task.level !== 3 && 
 					<>
 						<li 
@@ -57,7 +57,7 @@ export default function TaskMenu ({code, task, openTask, setOpenTask, setInputSu
 							onTouchStart={() => showInputSubTask()}
 							onClick={changeType}
 						>
-							to be routine
+							{task.type === 'daily' ? 'cancel routine' : 'to be routine'}
 						</li>
 						<li 
 							className="hover:text-indigo-400 border-b-2 border-dotted mb-1" 
@@ -86,7 +86,7 @@ export default function TaskMenu ({code, task, openTask, setOpenTask, setInputSu
 					&lt; unsubtask
 				</li>
 				<li 
-					className="hover:text-blue-300 border-b-2 border-dotted mb-1 md:hidden"
+					className="hover:text-indigo-400 border-b-2 border-dotted mb-1 md:hidden"
 					onPointerDown={e => e.stopPropagation()}
 					onTouchStart={async () => await onDelete()}
 					onClick={async () => await onDelete()}

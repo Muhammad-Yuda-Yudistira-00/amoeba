@@ -12,6 +12,8 @@ import {
 } from "flowbite-react";
 import { HiOutlineClipboardCheck, HiOutlineClipboard, HiOutlineClipboardList } from "react-icons/hi";
 
+const appName = process.env.NEXT_PUBLIC_APP_NAME
+
 
 export default function Roadmap() {
   return (
@@ -47,7 +49,7 @@ export default function Roadmap() {
             <div className="pt-2">
               app: 
               <a href="https://www.checkli.com" target="_blank" className="external-link hover:text-red-700"> checkli</a>, 
-              <span className="hover:text-red-700 underline cursor-not-allowed"> checklipst</span>, dll.
+              <span className="hover:text-red-700 underline cursor-not-allowed"> {appName}</span>, dll.
             </div> 
           </TimelineBody>
         </TimelineContent>

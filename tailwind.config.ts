@@ -17,7 +17,9 @@ export default {
       },
       fontFamily: {
         loversQuarrel: ['LoversQuarrel', 'sans-serif'],
-        horsePuke: ['HorsePuke', 'sans-serif']
+        horsePuke: ['HorsePuke', 'sans-serif'],
+        geist: "var(--font-geist-sans)",
+        geistMono: "var(--font-geist-mono)"
       }
     },
   },

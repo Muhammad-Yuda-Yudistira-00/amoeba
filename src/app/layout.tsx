@@ -1,10 +1,9 @@
-// import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Script from "next/script"
 import Music from "@/components/elements/Music"
 import ReduxProvider from '@/app/providers'
 import type {Metadata} from "next"
+import { Geist, Geist_Mono } from "next/font/google"
 
 const appName = process.env.NEXT_PUBLIC_APP_NAME
 const appDesc = process.env.NEXT_PUBLIC_APP_DESC
@@ -19,7 +18,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
 export const metadata: Metadata = {
   title: `Checklist Check List Maker Free, Task Manager / Todolist | ${appName}`,
   description: appDesc,

@@ -38,7 +38,7 @@ export default function Music() {
       {isVisible && (
         <iframe
           style={{ borderRadius: "12px" }}
-          src="https://open.spotify.com/embed/playlist/6hM3FDwbUv7arK4vlITHxW?utm_source=generator"
+          src="https://open.spotify.com/embed/playlist/0nAJQxdsK0ToL7vLLEWm45?utm_source=generator"
           width="100%"
           height="152"
           frameBorder="0"
