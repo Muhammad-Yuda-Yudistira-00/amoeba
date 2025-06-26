@@ -65,7 +65,7 @@ export default function TaskMenu ({code, task, openTask, setOpenTask, setInputSu
 							onTouchStart={() => showInputSubTask()}
 							onClick={showInputSubTask}
 						>
-							+ new subtask
+							add subtask
 						</li>
 						<li 
 							className="hover:text-indigo-400 border-b-2 border-dotted mb-1"
@@ -73,7 +73,7 @@ export default function TaskMenu ({code, task, openTask, setOpenTask, setInputSu
 							onTouchStart={() => turnLevel('down')}
 							onClick={() => turnLevel('down')}
 						>
-							&gt; subtask
+							&raquo; subtask
 						</li>
 					</>
 				}
@@ -83,7 +83,7 @@ export default function TaskMenu ({code, task, openTask, setOpenTask, setInputSu
 					onTouchStart={() => turnLevel('up')}
 					onClick={() => turnLevel('up')}
 				>
-					&lt; unsubtask
+					&laquo; unsubtask
 				</li>
 				<li 
 					className="hover:text-indigo-400 border-b-2 border-dotted mb-1 md:hidden"

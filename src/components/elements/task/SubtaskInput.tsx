@@ -75,14 +75,14 @@ export default function SubtaskInput({code,task,inputSubTask,isOpenInput,setIsOp
 			/>
 			<CircleX 
 				size={25}
-				className="hover:text-red-700 hover:fill-stone-700 hover:stroke-black fill-black stroke-white w-5 h-5 md:w-6 md:h-6"
+				className="hover:text-red-700 hover:fill-white hover:stroke-[red] fill-black stroke-white w-5 h-5 md:w-6 md:h-6"
 				onPointerDown={e => e.stopPropagation()}
 				onTouchStart={() => setIsOpenInput(prev => !prev)}
 				onClick={() => {
 					setIsOpenInput(prev => !prev)
 				}}
 			/>
-			<button disabled={loading} className={`bg-black px-2 md:px-3 text-white uppercase font-semibold text-xs md:text-sm border-2 hover:text-stone-300`}>{loading? 'Loading..' : 'Add'}</button>
+			<button disabled={loading} className={`bg-black px-2 md:px-3 text-white uppercase font-semibold text-xs md:text-sm border-2 hover:text-[red] hover:border-[red] hover:bg-white`}>{loading? 'Loading..' : 'Add'}</button>
 		</form>	
 	)
 }
