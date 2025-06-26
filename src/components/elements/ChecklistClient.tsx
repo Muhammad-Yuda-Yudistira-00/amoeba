@@ -61,7 +61,7 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 
 	return (
 		<div className="flex flex-row-reverse w-screen h-full justify-between md:justify-end mb-12">
-			<div className="text-center py-4 flex flex-col items-center border-x-2 bg-indigo-700 w-auto">
+			<div className="text-center py-4 flex flex-col items-center border-x-2 bg-indigo-700 w-auto selection:bg-orange-600">
 				<span className="[writing-mode:vertical-rl] border-b-2 pb-8">
 					<h3 className="text-xs md:text-lg text-stone-300">Pagination</h3>
 				</span>

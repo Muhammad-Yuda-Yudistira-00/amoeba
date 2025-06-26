@@ -43,10 +43,6 @@ html, body, a, button, select, input[type="checkbox"], [contenteditable="true"] 
   cursor: url(/themes/cursor/star-pink.ani), url(https://cur.cursors-4u.net/symbols/sym-3/sym265.png), auto !important;
 }
 
-/*body, a, button, select, checkbox [contenteditable="true"] {
-  cursor: url(/themes/cursors/male.ani), url(/themes/cursors/female.png), auto !important;
-}*/
-
 .text-confirm-button {
   color: #444;
 }

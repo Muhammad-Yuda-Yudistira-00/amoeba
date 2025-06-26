@@ -196,7 +196,7 @@ const ItemTask = ({
 							}
 						}}
 						data-dnd-kit-no-drag >
-							<p className={`text-xs md:text-sm font-medium selection:bg-[#00ffcc] tracking-wider decoration-white/60 decoration-4 decoration-wavy ${task.status === "done" ? "line-through" : ""}`}>
+							<p className={`text-xs md:text-sm font-medium tracking-wider decoration-white/60 decoration-4 decoration-wavy ${task.status === "done" ? "line-through" : ""}`}>
 								{task.title}
 							</p>
 							{task.type === 'daily' && (
