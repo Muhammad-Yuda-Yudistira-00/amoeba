@@ -25,10 +25,12 @@ export default function AddTask({code}: {code: string}) {
 		setIsSuccess(false)
 
 		try {
-			const result = await dispatch(addTask({code, title: task, level: 1, currentPage: pagination.currentPage}))
+			if(pagination) {
+				const result = await dispatch(addTask({code, title: task, level: 1, currentPage: pagination.currentPage}))
 
-			if(pagination.currentPage !== result.payload.pagination.totalPages) {
-				router.push(`/checklist/${code}?page=${result.payload.pagination.totalPages}`)
+				if(pagination.currentPage !== result.payload.pagination.totalPages) {
+					router.push(`/checklist/${code}?page=${result.payload.pagination.totalPages}`)
+				}
 			}
 
 			setTask('')
@@ -48,12 +50,12 @@ export default function AddTask({code}: {code: string}) {
 					<div className="md:mr-4 w-full">
 						<input type="text" name="task" value={task} onChange={handleChange} placeholder="write your ide.." className="px-2 font-bold text-sm pl-4 text-green-700 focus:outline-green-600 focus:ring-green-600 focus:border-green-600 h-5 md:h-6 w-full bg-white" />
 					</div>
-					<button className="px-3 py-1 md:px-4 ml-2 text-white bg-green-700 text-xs md:text-sm rounded-lg uppercase disabled:opacity-50 disabled:pointer-events-none" disabled={loadingAddTask}>{loadingAddTask ? 'loading..' : 'add'}</button>
+					<button className="px-3 py-1 md:px-4 ml-2 hover:text-white hover:bg-indigo-700 bg-white text-indigo-700 text-xs md:text-sm rounded-lg uppercase disabled:opacity-50 disabled:pointer-events-none" disabled={loadingAddTask}>{loadingAddTask ? 'loading..' : 'add'}</button>
 				</div>
 				<div className={`text-center w-full ${error && error.message ? 'bg-orange-900' : 'bg-indigo-700'} relative`}>
 					{(isSuccess || error) && (
 						<>
-						<div className="absolute blcok -right-0 w-8 bg-indigo-700 cursor-pointer hover:bg-yellow-300" onClick={() => {
+						<div className="absolute blcok -right-0 w-8 bg-transparent cursor-pointer hover:bg-yellow-300" onClick={() => {
 							setIsSuccess(false)
 							setError(null)
 						}}>x</div>

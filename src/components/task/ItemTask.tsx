@@ -35,6 +35,7 @@ const ItemTask = ({
 	const tasks = useSelector((state: RootState) => state.checklist.tasks)
 	const router = useRouter()
 	const isMobile = window.innerWidth <= 768
+	const [isHover, setIsHover] = useState(false);
 
 	const style = {
 		transition,
@@ -42,17 +43,36 @@ const ItemTask = ({
 		marginLeft: isMobile ? `${task.level * 15 - 40}px` : `${task.level * 40 - 40}px`
 	}
 
+
+
+	const getColor = (level: number) => {
+	  switch (level) {
+	    case 1:
+	      return "#83a1e8";
+	    case 2:
+	      return "#cecdcd";
+	    case 3:
+	      return "#fff";
+	    default:
+	      return "#fff";
+	  }
+	};
+
+	const getGradientColor = (level: number, isHover: boolean) => {
+	  const color = getColor(level);
+	  const lastColor = isHover ? "red" : color;
+	  return `linear-gradient(to right, ${color}, ${color}, ${lastColor})`;
+	};
+
 	const styleLevel = {
-		backgroundColor: 
-			task.level === 1 ? "#83a1e8" :
-			task.level === 2 ? "#cecdcd" :
-			task.level === 3 ? "#fff" :
-			"#fff",
-		color: 
-			task.level === 2 ? "" :
-			task.level === 3 ? "" :
-			""
+	  background: getGradientColor(task.level, false),
 	}
+
+	const styleLevelHover = {
+	  background: getGradientColor(task.level, true),
+	}
+
+
 
 	const hasSubtask = (taskId: number): boolean => {
 		const currentTask = tasks.find(task => task.id === taskId)
@@ -145,7 +165,7 @@ const ItemTask = ({
 
 	return(
 		<div 
-			className={`flex flex-col justify-between items-start w-full px-2 md:px-0 pb-1 md:py-0`}
+			className={`flex flex-col justify-between items-start w-full px-2 md:px-0 md:py-0`}
 			ref={setNodeRef} 
 			{...attributes} 
 			{...listeners}
@@ -184,7 +204,9 @@ const ItemTask = ({
 					<li 
 						data-key={task.id} 
 						className={`py-0 md:py-1 pl-1 md:pl-4 w-full h-full flex justify-between items-center gap-4`} 
-						style = {styleLevel}
+						style = {isHover ? styleLevelHover : styleLevel}
+						onMouseOver={() => setIsHover(true)}
+  						onMouseOut={() => setIsHover(false)}
 						contentEditable 
 						suppressContentEditableWarning={true}
 						onBlur={(e) => handleBlur2(e, task.id)} 

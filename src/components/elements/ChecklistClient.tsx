@@ -100,7 +100,7 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 					</div>
 				</div>
 				{/*<Link href="#">Credit</Link>*/}
-				<Link href="/credit" className="pt-4 uppercase text-white hover:text-neutral-200 hover:underline">Credit</Link>
+				<Link href="/credit" className="pt-4 uppercase text-white hover:text-neutral-200 hover:underline decoration-[red] decoration-2">Credit</Link>
 			</div>
 		</div>
 	)
