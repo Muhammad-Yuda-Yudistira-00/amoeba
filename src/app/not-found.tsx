@@ -3,6 +3,8 @@
 import ContainerHome from '@/components/fragments/ContainerHome'
 import {useRouter} from 'next/navigation'
 
+const appName = process.env.NEXT_PUBLIC_APP_NAME
+
 
 const NotFound = () => {
 	const router = useRouter()
@@ -16,7 +18,7 @@ const NotFound = () => {
 				<h1 className="capitalize cursor-pointer underline" onClick={handleClick}>~~BACK~~</h1>
 			</div>
 	      <p className="text-stone-400">Page not found</p>
-	      <small className="text-stone-500">by checklipst</small>
+	      <small className="text-stone-500">by {appName}</small>
 	    </ContainerHome>
 	)
 }

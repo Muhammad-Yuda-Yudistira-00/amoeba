@@ -19,22 +19,22 @@ export default function CreditPage() {
 	}
 
 	return (
-		<div className="min-h-screen w-full text-center py-8">
-			<h1 className="text-4xl pb-6">Credit</h1>
-			<dl className="w-[30%] text-left m-auto divide-y-2">
+		<div className="min-h-screen w-full text-center py-6 md:py-12 dark:bg-indigo-800">
+			<h1 className="text-4xl uppercase pb-12 md:pb-8">Credit</h1>
+			<dl className="w-[90%] md:w-[30%] text-left m-auto divide-y-2">
 				{contributors.map((contributor, index) => (
 					<div className="pt-2" key={index}>
 						<dt className="text-lg">
-							<a href={contributor.link} target="_blank" className="hover:text-blue-400">{contributor.name}</a>
+							<a href={contributor.link} target="_blank" className="hover:text-blue-500 dark:hover:text-blue-400">{contributor.name}</a>
 						</dt>
-						<dd className="text-neutral-700">
+						<dd className="text-pink-600 dark:text-pink-300">
 							{contributor.role}
 						</dd>
 					</div>
 				))}
 			</dl>
-			<div className="pt-8">
-				<Link href="" className="hover:text-red-700 underline" onClick={handleBack}>&laquo; back</Link>
+			<div className="pt-8 md:pt-16">
+				<Link href="" className="hover:text-red-700 hover:underline decoration-black dark:hover:text-black" onClick={handleBack}>&laquo; back</Link>
 			</div>
 		</div>
 	)
