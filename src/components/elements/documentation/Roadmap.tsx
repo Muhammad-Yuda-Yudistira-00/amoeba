@@ -57,9 +57,9 @@ export default function Roadmap() {
       <TimelineItem>
         <TimelinePoint icon={HiOutlineClipboardCheck} />
         <TimelineContent>
-          <TimelineTime className="capitalize md:dark:text-red-800  bg-black/60 px-1 md:px-0 md:bg-transparent dark:text-neutral-400 text-red-800">For person</TimelineTime>
+          <TimelineTime className="capitalize md:dark:text-red-800  bg-black/60 px-1 md:px-0 md:bg-transparent dark:text-neutral-200 text-white md:text-red-800">For person</TimelineTime>
           <TimelineTitle className="uppercase bg-green-400/20 ml-2 dark:text-neutral-800">Step 3 (notes)</TimelineTitle>
-          <TimelineBody style={{fontFamily: "Poppins"}} className="max-w-2xl bg-green-400/20 ml-2 dark:text-green-700 text-green-700">
+          <TimelineBody style={{fontFamily: "Poppins"}} className="max-w-2xl bg-green-400/40 md:bg-green-400/20 ml-2 text-neutral-900 dark:text-neutral-900 md:dark:text-green-700 md:text-green-700">
             <p>
               Process: write details, alerts, examples, task delays, additions that are not listed here. start from here for little team, -+1 members.
             </p>

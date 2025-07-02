@@ -222,7 +222,7 @@ const ItemTask = ({
 								{task.title}
 							</p>
 							{task.type === 'daily' && (
-								<span className="bg-yellow-100 text-black text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-400 dark:text-black border-2 border-black">routine</span>
+								<span className="bg-yellow-100 text-black text-xs font-light md:font-medium me-0 md:me-2 px-1 md:px-2.5 py-0 md:py-0.5 rounded-l-full md:rounded-full dark:bg-yellow-200 md:dark:bg-yellow-400 dark:text-black border-0 md:border-2 border-black">routine</span>
 							)}
 					</li>
 				</div>

@@ -55,14 +55,6 @@ export default function TaskMenu ({code, task, openTask, setOpenTask, setInputSu
 							className="hover:text-indigo-400 border-b-2 border-dotted mb-1" 
 							onPointerDown={e => e.stopPropagation()} 
 							onTouchStart={() => showInputSubTask()}
-							onClick={changeType}
-						>
-							{task.type === 'daily' ? 'cancel routine' : 'to be routine'}
-						</li>
-						<li 
-							className="hover:text-indigo-400 border-b-2 border-dotted mb-1" 
-							onPointerDown={e => e.stopPropagation()} 
-							onTouchStart={() => showInputSubTask()}
 							onClick={showInputSubTask}
 						>
 							add subtask
@@ -84,6 +76,14 @@ export default function TaskMenu ({code, task, openTask, setOpenTask, setInputSu
 					onClick={() => turnLevel('up')}
 				>
 					&laquo; unsubtask
+				</li>
+				<li 
+					className="hover:text-indigo-400 border-b-2 border-dotted mb-1" 
+					onPointerDown={e => e.stopPropagation()} 
+					onTouchStart={() => changeType()}
+					onClick={changeType}
+				>
+					{task.type === 'daily' ? 'cancel routine' : 'to be routine'}
 				</li>
 				<li 
 					className="hover:text-indigo-400 border-b-2 border-dotted mb-1 md:hidden"
