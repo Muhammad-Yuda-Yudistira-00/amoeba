@@ -14,7 +14,7 @@ export default function Sidebar() {
 			</Link>
 			<div className="h-[180px] md:h-full w-full md:flex md:justify-center">
 				<Image src="/themes/background/shoes-girl.jpg" alt="logo" width={180} height={180} title="Touch Me !!" priority className="fixed md:block left-0 md:left-auto md:bg-transparent" />
-				<small className="pt-60 text-white text-xs text-center">
+				<small className="pl-52 md:pl-0 md:pt-60 text-white text-xs text-center">
 					Image by <a href="https://pixabay.com/id/users/saydung-18713596/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=6255516" target="_blank" className="hover:text-orange-400 text-neutral-300">Piyapong Saydaung</a> from <a href="https://pixabay.com/id//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=6255516" className="hover:text-green-400 text-green-300" target="_blank">Pixabay</a>
 				</small>
 			</div>

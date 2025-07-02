@@ -70,7 +70,7 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 				</div>
 			</div>
 			<div className="flex flex-col w-full items-center min-h-screen bg-stone-700  pb-2 px-0 md:px-4 md:w-4/5 bg-fixed bg-no-repeat bg-[url('/themes/background/background.jpg')] relative">
-				<span className="absolute top-2 right-6 text-indigo-800 bg-white/40 px-2 font-light">
+				<span className="md:absolute mb-4 md:mb-0 top-2 right-6 text-indigo-800 bg-white/40 px-2 font-light text-xs self-end">
 					Image by <a href="https://pixabay.com/id/users/michelle_pitzel-165491/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4011900" target="_blank" className="text-black hover:text-indigo-700">Michelle Pitzel</a> from <a href="https://pixabay.com/id//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4011900" target="_blank" className="hover:text-green-700">Pixabay</a>
 				</span>
 				<div className="flex flex-col justify-around md:justify-between items-center w-full px-2 min-h-40">
