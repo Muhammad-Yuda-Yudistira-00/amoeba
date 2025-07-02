@@ -19,14 +19,14 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 export const metadata: Metadata = {
-  title: `Checklist Check List Maker Free, Task Manager / Todolist | ${appName}`,
+  title: `${appName} Check List Maker Free, Task Manager / Todolist | ${appName}`,
   description: appDesc,
   applicationName: appName,
   authors: [{name: 'Muhammad Yuda Yudistira', url: 'https://my-profile-ten-kohl.vercel.app/'}],
   creator: `${appName} Team.`,
   keywords: ['Checklist', 'Todolist', 'Task Manager'],
   openGraph: {
-    title: `Checklist Check List Maker Free, Task Manager / Todolist | ${appName}`,
+    title: `${appName} Check List Maker Free, Task Manager / Todolist | ${appName}`,
     description: appDesc,
     url: appUrl,
     siteName: appName,
