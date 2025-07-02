@@ -57,7 +57,7 @@ export default function Roadmap() {
       <TimelineItem>
         <TimelinePoint icon={HiOutlineClipboardCheck} />
         <TimelineContent>
-          <TimelineTime className="capitalize dark:text-red-800 text-red-800">For person</TimelineTime>
+          <TimelineTime className="capitalize md:dark:text-red-800  bg-black/60 px-1 md:px-0 md:bg-transparent dark:text-neutral-400 text-red-800">For person</TimelineTime>
           <TimelineTitle className="uppercase bg-green-400/20 ml-2 dark:text-neutral-800">Step 3 (notes)</TimelineTitle>
           <TimelineBody style={{fontFamily: "Poppins"}} className="max-w-2xl bg-green-400/20 ml-2 dark:text-green-700 text-green-700">
             <p>
