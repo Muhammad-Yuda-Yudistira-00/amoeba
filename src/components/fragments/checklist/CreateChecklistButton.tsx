@@ -23,7 +23,7 @@ export default function CreateChecklistButton () {
 	}
 
 	return(
-		<button onClick={handleClick} disabled={loading} className="text-white bg-[#1a1a1a] px-2 md:px-4 py-1 md:py-2 border-4 md:border-8 hover:scale-110 hover:px-8 hover:rotate-12 hover:-translate-x-2 hover:bg-white hover:text-stone-900 hover:border-dashed uppercase transition-all duration-500 text-xs md:text-lg" style={{fontFamily: "Poppins"}}>
+		<button onClick={handleClick} disabled={loading} className="text-white bg-[#1a1a1a] px-4 py-2 border-4 md:border-8 hover:scale-110 hover:px-8 hover:rotate-12 hover:-translate-x-2 hover:bg-white hover:text-stone-900 hover:border-dashed uppercase transition-all duration-500 text-lg" style={{fontFamily: "Poppins"}}>
           {loading ? "Loading.." : "create"}
         </button>
 	)
