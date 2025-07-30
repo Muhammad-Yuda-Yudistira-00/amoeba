@@ -14,6 +14,8 @@ import {AppDispatch, RootState} from '@/redux/store'
 import {updateOrderTask, getTasks} from '@/redux/slices/checklistSlice'
 import {useEffect} from 'react'
 import Link from 'next/link'
+import {programmers} from '@/data/programmers'
+
 
 export default function ChecklistClient({code, activePage = 1}: {code: string, activePage?: number}){
 	const dispatch = useDispatch<AppDispatch>()
@@ -96,7 +98,13 @@ export default function ChecklistClient({code, activePage = 1}: {code: string, a
 						<Footer code={code} />
 					</div>
 					<div>
-						<p className="text-orange-900 bg-stone-300 px-2">Created by <a href="https://my-profile-ten-kohl.vercel.app/" target="_blank" className="hover:text-stone-700 hover:underline font-bold text-sm">Zombie x Human</a>, <a href="https://github.com/titik444" target="_blank" className="hover:text-stone-700 hover:underline font-bold text-sm">Titik</a> in 2025</p>
+						<p className="text-orange-900 bg-stone-300 px-2">
+							Created by 
+							{programmers.map((programmer, index) => (
+								<a key={index} href={programmer.site} target="_blank" className="hover:text-stone-700 hover:underline font-bold text-sm"> {programmer.name},</a>
+							))}
+							{" "}in 2025
+						</p>
 					</div>
 				</div>
 				{/*<Link href="#">Credit</Link>*/}

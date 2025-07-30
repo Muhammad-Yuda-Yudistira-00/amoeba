@@ -2,10 +2,11 @@
 
 import Link from "next/link"
 import {useRouter} from "next/navigation"
+import {programmers} from '@/data/programmers'
 
 const contributors = [
-	{name: "Zombie x Human", role: "Created UI", link: 'https://my-profile-ten-kohl.vercel.app/'},
-	{name: "Titik", role: "Created data", link: "https://github.com/titik444"},
+	{name: programmers[0].name, role: "Created UI", link: programmers[0].site},
+	{name: programmers[1].name, role: "Created data", link: programmers[1].site},
 	{name: "Michelle Pitzel from pixabay", role: "free image from pixabay, for background in cheklist", link: 'https://pixabay.com/id/users/michelle_pitzel-165491/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4011900'},
 	{name: " Piyapong Saydaung from pixabay", role: "Free image from pixabay, for sidebar in top", link: 'https://pixabay.com/id/users/saydung-18713596/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=6255516'},
 	{name: "Cursor 4u", role: "Free cursor from cursor 4u, for main cursor", link: 'https://www.cursors-4u.com'},

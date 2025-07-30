@@ -1,6 +1,7 @@
 import "./globals.css";
 import Script from "next/script"
 import Music from "@/components/elements/Music"
+import Advertise from "@/components/elements/layout/Advertise"
 import ReduxProvider from '@/app/providers'
 import type {Metadata} from "next"
 import { Geist, Geist_Mono } from "next/font/google"
@@ -86,7 +87,7 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Charm:wght@400;700&family=Playwrite+DK+Loopet:wght@100..400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white scrollbar-thin scrollbar-thumb-red-500 scrollbar-track-gray-200 selection:bg-indigo-700 selection:text-white`}
+        className={`${geistSans.variable} ${geistMono.variable} relative antialiased bg-white scrollbar-thin scrollbar-thumb-red-500 scrollbar-track-gray-200 selection:bg-indigo-700 selection:text-white`}
       >
         {/* google analytics */}
         {process.env.NEXT_PUBLIC_NODE_ENV === 'production' && (
@@ -105,8 +106,9 @@ export default function RootLayout({
         )}
 
         <ReduxProvider>
+          <Advertise />
           {children}
-          <div className="relative w-full h-80 m-auto text-center z-30 pb-24 pt-0 bg-gradient-to-t from-[#1a1a1a] to-stone-700">
+          <div className="relative w-full h-80 m-auto text-center z-30 pb-24 bg-gradient-to-t from-[#1a1a1a] to-stone-700">
             <Music />
           </div>
         </ReduxProvider>
